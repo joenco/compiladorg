@@ -1,7 +1,7 @@
 INICIAR
   Definir punto1 como Punto:
-  punto1 coordenada x asignar 1:
-  punto1 coordenada y asignar 2:
+  a coordenada x del punto1 asignar 1:
+  a coordenada y del punto1 asignar 1:
   Dibujar punto1:
 FINALIZAR
 
