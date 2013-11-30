@@ -14,7 +14,7 @@ tokens = (
    'Asignacion',
    'Propiedad',
    'Signo',
-   'Final',
+   'Delimitador',
    'Fin',
    'Accion',
    'Reservado',
@@ -30,10 +30,10 @@ t_Identificador = r'[a-z]+[\d]+'
 t_Asignacion = r'asignar'
 t_Propiedad = r'coordenada'
 t_Signo = r'(\+)|(\-)'
-t_Final = r'\:'
+t_Delimitador = r'\:'
 t_Fin = r'FINALIZAR'
 t_Accion = r'(Definir)|(Colorear)|(Dibujar)|(Rotar)|(MoverX)|(MoverY)|(MoverZ)|(Escalar)|(Trasladar)[\s]'
-t_Reservado = r'(como)|(en)|(de)|(hasta)|(repetir)|(veces)|(grados)[\s]'
+t_Reservado = r'((como)|(en)|(de)|(hasta)|(repetir)|(veces)|(grados)|(a))[\s]'
 t_Atributo = r'(alto)|(ancho)|(largo)|(base)|(radio)|(x)|(y)[\s]'
 t_Tipo = r'(Punto)|(Recta)|(SemiRecta)|(Segmento)|(Curva)|(Circulo)|(Cuadrado)|(Rectangulo)|(Triangulo)|(Cono)|(Esfera)|(Elipse)'
 t_Color = r'([rR]ojo)|([aA]zul)|([aA]marillo)|([vV]erde)|([mM]orado)|([gG]ris)|([nN]egro)'
