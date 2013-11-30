@@ -1,6 +1,0 @@
-INICIAR 
-  Definir plano1 como plano:
-  plano1 dimension x asignar 10:
-  plano1 dimension y asignar 10:
-  Dibujar plano1:
-FINALIZAR

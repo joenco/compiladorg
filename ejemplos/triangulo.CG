@@ -1,16 +1,24 @@
 INICIAR
-  Definir punto1 como punto:
-  Definir punto2 como punto:
-  Definir punto3 como punto:
-  Definir triangulo1 como trinagulo:
-  punto1 coordenada x asignar 1:
-  punto1 coordenada y asignar 1:
-  punto2 coordenada x asignar 2:
-  punto2 coordenada y asignar 2:
-  punto3 coordenada x asignar 3:
-  punto3 coordenada y asignar 1:
-  triangulo1 vertice a asignar punto1:
-  triangulo1 vertice b asignar punto2:
-  triangulo1 vertice c asignar punto3:  
+  Definir punto1 como Punto:
+  a coordenada x de punto1 asignar 1:
+  a coordenada y de punto1 asignar 1:
+
+  Definir punto2 como Punto:
+  a coordenada x de punto2 asignar 2:
+  a coordenada y de punto2 asignar 2:
+
+  Definir punto3 como Punto:
+  a coordenada x de punto3 asignar 3:
+  a coordenada y de punto3 asignar 1:
+
+  Definir triangulo1 como Triangulo:
+  a vertice A de triangulo1 asignar punto1:
+  a vertice B de triangulo1 asignar punto2:
+  a vertice C de triangulo1 asignar punto3:  
+  Rotar triangulo1 hasta 45 grados:
+  Trasladar en x triangulo1 hasta -3 unidades:
+  Trasladar en y triangulo1 hasta 3 unidades:  
+  Colorear triangulo1 de azul:
+  Escalar triangulo1 +5 veces:
   Dibujar triangulo1:
 FINALIZAR

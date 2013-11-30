@@ -1,20 +1,25 @@
 INICIAR
-  Definir punto1 como punto:
-  Definir punto2 como punto:
-  Definir punto3 como punto:
-  Definir punto4 como punto:
-  Definir cuadrilatero1 como cuadrilatero:
-  punto1 coordenada x asignar 1:
-  punto1 coordenada y asignar 1:
-  punto2 coordenada x asignar 2:
-  punto2 coordenada y asignar 2:
-  punto3 coordenada x asignar 2:
-  punto3 coordenada y asignar 1:
-  punto4 coordenada x asignar 2:
-  punto4 coordenada y asignar 2:
-  cuadrilatero1 vertice a asignar punto1:
-  cuadrilatero1 vertice b asignar punto2:
-  cuadrilatero1 vertice c asignar punto3:  
-  cuadrilatero1 vertice d asignar punto4:
+  Definir punto1 como Punto:
+  a coordenada x de punto1 asignar 1:
+  a coordenada y de punto1 asignar 1:
+
+  Definir punto2 como Punto:
+  a coordenada x de punto2 asignar 2:
+  a coordenada y de punto2 asignar 2:
+
+  Definir punto3 como Punto:
+  a coordenada x de punto3 asignar 3:
+  a coordenada y de punto3 asignar 3:
+
+  Definir punto4 como Punto:
+  a coordenada x de punto4 asignar 4:
+  a coordenada y de punto4 asignar 4:
+
+  #Figura que tiene cuatro lados (cuadrado, rectangulo, ...)
+  Definir cuadrilatero1 como Cuadrilatero:
+  a vertice A de cuadrilatero1 asignar punto1:
+  a vertice B de cuadrilatero1 asignar punto2:
+  a vertice C de cuadrilatero1 asignar punto3:
+  a vertice D de cuadrilatero1 asignar punto3:  
   Dibujar cuadrilatero1:
 FINALIZAR

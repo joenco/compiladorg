@@ -1,10 +1,11 @@
 INICIAR
-  Definir punto1 como punto:
-  Definir elipse1 como elipse:
-  punto1 coordenada x asignar 1:
-  punto1 coordenada y asignar 4:
-  elipse1 origen o asignar punto1:
-  elipse1 semieje a asignar 4:
-  elipse1 semieje b asignar 6:  
+  Definir punto1 como Punto:
+  a coordenada x de punto1 asignar 1:
+  a coordenada y de punto1 asignar 1:
+
+  Definir elipse1 como Elipse:
+  a centro de elipse1 asignar punto1:
+  a semiEje A de elipse1 asignar 2:
+  a semiEje B de elipse1 asignar 3:  
   Dibujar elipse1:
 FINALIZAR

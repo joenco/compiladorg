@@ -13,13 +13,13 @@ tokens = (
    'Identificador',
    'Asignacion',
    'Propiedad',
-   'Signo',
    'Delimitador',
    'Fin',
    'Accion',
    'Reservado',
    'Atributo',
    'Tipo',
+   'Unidad',
    'Color',
    'Valor'
 )
@@ -28,16 +28,16 @@ tokens = (
 t_Inicio = r'INICIAR'
 t_Identificador = r'[a-z]+[\d]+'
 t_Asignacion = r'asignar'
-t_Propiedad = r'coordenada'
-t_Signo = r'(\+)|(\-)'
+t_Propiedad = r'(coordenada)|(extremo)|(vertice)|(semiEje)'
 t_Delimitador = r'\:'
 t_Fin = r'FINALIZAR'
-t_Accion = r'(Definir)|(Colorear)|(Dibujar)|(Rotar)|(MoverX)|(MoverY)|(MoverZ)|(Escalar)|(Trasladar)[\s]'
-t_Reservado = r'((como)|(en)|(de)|(hasta)|(repetir)|(veces)|(grados)|(a))[\s]'
-t_Atributo = r'(alto)|(ancho)|(largo)|(base)|(radio)|(x)|(y)[\s]'
-t_Tipo = r'(Punto)|(Recta)|(SemiRecta)|(Segmento)|(Curva)|(Circulo)|(Cuadrado)|(Rectangulo)|(Triangulo)|(Cono)|(Esfera)|(Elipse)'
-t_Color = r'([rR]ojo)|([aA]zul)|([aA]marillo)|([vV]erde)|([mM]orado)|([gG]ris)|([nN]egro)'
-t_Valor = r'[0-9]{1,}(\.[0-9]{1,})?'
+t_Accion = r'(Definir)|(Colorear)|(Dibujar)|(Rotar)|(Escalar)|(Trasladar)[\s]'
+t_Reservado = r'((como)|(en)|(de)|(hasta)|(a))[\s]'
+t_Atributo = r'((origen)|(escala)|(centro)|(altura)|(radio)|(x)|(y)|(A)|(B)|(C)|(D))[\s]'
+t_Tipo = r'(Punto)|(Recta)|(Parabola)|(Hiperbola)|(SemiRecta)|(Segmento)|(Curva)|(Circunferencia)|(Cuadrilatero)|(Triangulo)|(Cono)|(Esfera)|(Elipse)|(Cilindro)'
+t_Unidad = r'(grados)|(unidades)|(veces)'
+t_Color = r'([rR]ojo)|([aA]zul)|([aA]marillo)|([vV]erde)|([mM]orado)|([gG]ris)|([nN]egro)|([rR]osado)'
+t_Valor = r'[\-]?[0-9]{1,}(\.[0-9]{1,})?'
 
 def t_comentarios(t):
     r'\#\#(.|\n)*?\#\#'
@@ -88,8 +88,17 @@ lexer = lex.lex()
 if __name__ == '__main__':
 
     # Test
-
-    ejemplo = ['ejemplos/punto.CG']
+    
+    #ejemplo = ['ejemplos/esfera.CG']
+    #ejemplo = ['ejemplos/cilindro.CG']  
+    #ejemplo = ['ejemplos/cono.CG']
+    #ejemplo = ['ejemplos/elipse.CG']
+    #ejemplo = ['ejemplos/hiperbola.CG']
+    #ejemplo = ['ejemplos/parabola.CG']
+    #ejemplo = ['ejemplos/circunferencia.CG']
+    #ejemplo = ['ejemplos/cuadrilatero.CG']
+    ejemplo = ['ejemplos/triangulo.CG']    
+    #ejemplo = ['ejemplos/recta.CG']
     #ejemplo = ['ejemplos/punto.CG']
     for codigo in ejemplo:
       f = open(codigo, 'r')
