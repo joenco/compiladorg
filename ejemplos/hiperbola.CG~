@@ -1,0 +1,10 @@
+INICIAR
+  Definir punto1 como punto:
+  Definir hiperbola1 como hiperbola:
+  punto1 coordenada x asignar 0:
+  punto1 coordenada y asignar 0:
+  hiperbola1 origen o asignar punto1:
+  elipse1 semieje a asignar 4:
+  elipse1 semieje b asignar 6:  
+  Dibujar hiperbola1:
+FINALIZAR

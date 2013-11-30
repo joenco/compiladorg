@@ -1,0 +1,10 @@
+INICIAR
+  Definir punto1 como punto:
+  Definir circunferencia1 como circunferencia:
+  punto1 coordenada x asignar 1:
+  punto1 coordenada y asignar 2:
+  circunferencia1 atributo origen asignar punto1:
+  circunferencia1 atributo radio asiganr 3:
+  Dibujar circunferencia1:
+FINALIZAR
+

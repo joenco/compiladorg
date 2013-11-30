@@ -1,0 +1,12 @@
+INICIAR
+  Definir punto1 como punto:
+  Definir punto2 como punto:
+  Definir recta1 como recta:
+  punto1 coordenada x asignar 1:
+  punto1 coordenada y asignar 1:
+  punto2 coordenada x asignar 2:
+  punto2 coordenada y asignar 2:
+  recta1 extremo a asignar punto1:
+  recta1 extremo b asignar punto2:  
+  Dibujar recta1:
+FINALIZAR

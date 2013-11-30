@@ -1,0 +1,11 @@
+INICIAR
+  Definir punto1 como punto:
+  Definir cono1 como cono:
+  punto1 coordenada x asignar 0:
+  punto1 coordenada y asignar 0:
+  cono1 atributo origen asignar punto1:
+  cono1 atributo radio asignar 3:
+  cono1 atributo altura asignar 5:
+  Dibujar cono1:
+FINALIZAR
+
