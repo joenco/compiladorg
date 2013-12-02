@@ -10,8 +10,8 @@ os.system('clear')
 # Lista de nombres de Token. Esto es obligatorio.
 tokens = (
    'Inicio',
-   'Identificador',
    'Asignacion',
+   'Identificador',
    'Propiedad',
    'Delimitador',
    'Fin',
@@ -26,15 +26,15 @@ tokens = (
 
 # Declaraciones regulares de reglas para los tokens.
 t_Inicio = r'INICIAR'
-t_Identificador = r'[a-z]+[\d]+'
-t_Asignacion = r'asignar'
+t_Asignacion = r'(asignar)[\s]'
+t_Identificador = r'[a-zA-Z][a-z]+[_]?[\d]*'
 t_Propiedad = r'(coordenada)|(extremo)|(vertice)|(semiEje)'
 t_Delimitador = r'\:'
 t_Fin = r'FINALIZAR'
-t_Accion = r'(Definir)|(Colorear)|(Dibujar)|(Rotar)|(Escalar)|(Trasladar)[\s]'
+t_Accion = r'((Definir)|(Colorear)|(Dibujar)|(Rotar)|(Escalar)|(Trasladar))[\s]'
 t_Reservado = r'((como)|(en)|(de)|(hasta)|(a))[\s]'
 t_Atributo = r'((origen)|(escala)|(centro)|(altura)|(radio)|(x)|(y)|(A)|(B)|(C)|(D))[\s]'
-t_Tipo = r'(Punto)|(Recta)|(Parabola)|(Hiperbola)|(SemiRecta)|(Segmento)|(Curva)|(Circunferencia)|(Cuadrilatero)|(Triangulo)|(Cono)|(Esfera)|(Elipse)|(Cilindro)'
+t_Tipo = r'((Punto)|(Recta)|(Parabola)|(Hiperbola)|(SemiRecta)|(Segmento)|(Curva)|(Circunferencia)|(Cuadrilatero)|(Triangulo)|(Cono)|(Esfera)|(Elipse)|(Cilindro))[_][^\d]'
 t_Unidad = r'(grados)|(unidades)|(veces)'
 t_Color = r'([rR]ojo)|([aA]zul)|([aA]marillo)|([vV]erde)|([mM]orado)|([gG]ris)|([nN]egro)|([rR]osado)'
 t_Valor = r'[\-]?[0-9]{1,}(\.[0-9]{1,})?'
@@ -97,9 +97,9 @@ if __name__ == '__main__':
     #ejemplo = ['ejemplos/parabola.CG']
     #ejemplo = ['ejemplos/circunferencia.CG']
     #ejemplo = ['ejemplos/cuadrilatero.CG']
-    ejemplo = ['ejemplos/triangulo.CG']    
+    #ejemplo = ['ejemplos/triangulo.CG']    
     #ejemplo = ['ejemplos/recta.CG']
-    #ejemplo = ['ejemplos/punto.CG']
+    ejemplo = ['ejemplos/punto.CG']
     for codigo in ejemplo:
       f = open(codigo, 'r')
       data = f.read()
