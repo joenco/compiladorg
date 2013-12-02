@@ -71,6 +71,7 @@ lex.lex()
 
 # Obtener la entrada
 def test(data, lexer):
+    tabla_id = {}
     lexer.input(data)
     token=open('tokens.cg', 'w')
     while True:
@@ -82,8 +83,12 @@ def test(data, lexer):
       print tok
       #Guardar identificadores en la tabla de simbolos
       tokn = str(tok)
-      #if tokn.find("Identificador") >= 0:
-        #print "---",tokn
+      if tokn.find("Identificador") >= 0:
+        separado = tokn.split('\'',3)
+        tabla_id[str(separado[1])] = 0
+    print "\nElementos de la Tabla de Simbolos"
+    for key in tabla_id.keys():
+      print key  
     token.close()
 
 lexer = lex.lex()
@@ -103,7 +108,7 @@ if __name__ == '__main__':
     #ejemplo = ['ejemplos/cuadrilatero.CG']
     #ejemplo = ['ejemplos/triangulo.CG']    
     #ejemplo = ['ejemplos/recta.CG']
-    ejemplo = ['ejemplos/punto.CG']
+    ejemplo = ['ejemplos/cilindro.CG']
     for codigo in ejemplo:
       f = open(codigo, 'r')
       data = f.read()
