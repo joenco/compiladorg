@@ -1,7 +1,7 @@
 INICIAR
-  Definir Punto_115 como Punto_:
-  a coordenada x de punto1 asignar 1:
-  a coordenada y de punto1 asignar 1:
-  Dibujar punto1:
+  Definir punto115 como Punto :
+  a coordenada x de punto115 asignar 1 :
+  a coordenada y de punto115 asignar -1.23 :
+  Dibujar punto115 :
 FINALIZAR
 

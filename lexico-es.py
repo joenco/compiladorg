@@ -27,17 +27,17 @@ tokens = (
 # Declaraciones regulares de reglas para los tokens.
 t_Inicio = r'INICIAR'
 t_Asignacion = r'(asignar)[\s]'
-t_Identificador = r'[a-zA-Z][a-z]+[_]?[\d]*'
-t_Propiedad = r'(coordenada)|(extremo)|(vertice)|(semiEje)'
+t_Identificador = r'[a-z]+[\d]+[\s]'
+t_Propiedad = r'((coordenada)|(extremo)|(vertice)|(semiEje))[\s]'
 t_Delimitador = r'\:'
 t_Fin = r'FINALIZAR'
 t_Accion = r'((Definir)|(Colorear)|(Dibujar)|(Rotar)|(Escalar)|(Trasladar))[\s]'
 t_Reservado = r'((como)|(en)|(de)|(hasta)|(a))[\s]'
 t_Atributo = r'((origen)|(escala)|(centro)|(altura)|(radio)|(x)|(y)|(A)|(B)|(C)|(D))[\s]'
-t_Tipo = r'((Punto)|(Recta)|(Parabola)|(Hiperbola)|(SemiRecta)|(Segmento)|(Curva)|(Circunferencia)|(Cuadrilatero)|(Triangulo)|(Cono)|(Esfera)|(Elipse)|(Cilindro))[_][^\d]'
-t_Unidad = r'(grados)|(unidades)|(veces)'
-t_Color = r'([rR]ojo)|([aA]zul)|([aA]marillo)|([vV]erde)|([mM]orado)|([gG]ris)|([nN]egro)|([rR]osado)'
-t_Valor = r'[\-]?[0-9]{1,}(\.[0-9]{1,})?'
+t_Tipo = r'((Punto)|(Recta)|(Parabola)|(Hiperbola)|(SemiRecta)|(Segmento)|(Curva)|(Circunferencia)|(Cuadrilatero)|(Triangulo)|(Cono)|(Esfera)|(Elipse)|(Cilindro))[\s]'
+t_Unidad = r'((grados)|(unidades)|(veces))[\s]'
+t_Color = r'(([rR]ojo)|([aA]zul)|([aA]marillo)|([vV]erde)|([mM]orado)|([gG]ris)|([nN]egro)|([rR]osado))[\s]'
+t_Valor = r'[\-]?[0-9]{1,}(\.[0-9]{1,})?[\s]'
 
 def t_comentarios(t):
     r'\#\#(.|\n)*?\#\#'
@@ -82,8 +82,8 @@ def test(data, lexer):
       print tok
       #Guardar identificadores en la tabla de simbolos
       tokn = str(tok)
-      if tokn.find("Identificador") >= 0:
-        print "---",tokn
+      #if tokn.find("Identificador") >= 0:
+        #print "---",tokn
     token.close()
 
 lexer = lex.lex()
@@ -94,7 +94,7 @@ if __name__ == '__main__':
     # Test
     
     #ejemplo = ['ejemplos/esfera.CG']
-    ejemplo = ['ejemplos/cilindro.CG']  
+    #ejemplo = ['ejemplos/cilindro.CG']  
     #ejemplo = ['ejemplos/cono.CG']
     #ejemplo = ['ejemplos/elipse.CG']
     #ejemplo = ['ejemplos/hiperbola.CG']
