@@ -80,6 +80,10 @@ def test(data, lexer):
       token.write(str(tok))
       token.write('\n')
       print tok
+      #Guardar identificadores en la tabla de simbolos
+      tokn = str(tok)
+      if tokn.find("Identificador") >= 0:
+        print "---",tokn
     token.close()
 
 lexer = lex.lex()
@@ -90,14 +94,14 @@ if __name__ == '__main__':
     # Test
     
     #ejemplo = ['ejemplos/esfera.CG']
-    #ejemplo = ['ejemplos/cilindro.CG']  
+    ejemplo = ['ejemplos/cilindro.CG']  
     #ejemplo = ['ejemplos/cono.CG']
     #ejemplo = ['ejemplos/elipse.CG']
     #ejemplo = ['ejemplos/hiperbola.CG']
     #ejemplo = ['ejemplos/parabola.CG']
     #ejemplo = ['ejemplos/circunferencia.CG']
     #ejemplo = ['ejemplos/cuadrilatero.CG']
-    ejemplo = ['ejemplos/triangulo.CG']    
+    #ejemplo = ['ejemplos/triangulo.CG']    
     #ejemplo = ['ejemplos/recta.CG']
     #ejemplo = ['ejemplos/punto.CG']
     for codigo in ejemplo:
