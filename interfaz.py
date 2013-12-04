@@ -127,7 +127,7 @@ class TextViewExample:
       dialog.destroy()
     """
 
-    def abrir(self, widget, textbuffer):
+    def abrir(self,textbuffer):
         dialog = gtk.FileChooserDialog("Abrir archivo",None,
 gtk.FILE_CHOOSER_ACTION_OPEN,(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
 gtk.STOCK_OPEN, gtk.RESPONSE_OK))
@@ -164,8 +164,8 @@ gtk.STOCK_OPEN, gtk.RESPONSE_OK))
             f = open(codigo, 'r')
             if f:
               string = f.read()
-              textbuffer.set_text(string)
               f.close()
+              textbuffer.set_text(string)
 
     def ejecutar(self, Button, textbuffer):
         textbuffer = textbuffer
