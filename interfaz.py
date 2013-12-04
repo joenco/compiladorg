@@ -127,7 +127,8 @@ class TextViewExample:
       dialog.destroy()
     """
 
-    def abrir(self,textbuffer):
+    def abrir(self, Button, textbuffer):
+        textbuffer = textbuffer
         dialog = gtk.FileChooserDialog("Abrir archivo",None,
 gtk.FILE_CHOOSER_ACTION_OPEN,(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
 gtk.STOCK_OPEN, gtk.RESPONSE_OK))
@@ -239,7 +240,7 @@ gtk.STOCK_OPEN, gtk.RESPONSE_OK))
         box2.show()
 
         button2 = gtk.Button("Abrir...")
-        button2.connect("clicked", self.abrir)
+        button2.connect("clicked", self.abrir, self.textbuffer)
         box2.pack_start(button2, False, False, 0)
         button2.show()
 
