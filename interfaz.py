@@ -94,45 +94,24 @@ class TextViewExample:
           print key  
         token.close()
 
-
-    """
-    def abrir(self, Button, ):
-      dialog = gtk.FileChooserDialog("Abrir archivo...", None, gtk.FILE_CHOOSER_ACTION_OPEN, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK))
-      dialog.set_default_response(gtk.RESPONSE_OK)
-
-      filter = gtk.FileFilter()
-      filter.set_name("All files")
-      filter.add_pattern("*")
-      dialog.add_filter(filter)
-
-      filter = gtk.FileFilter()
-      filter.set_name("CG")
-      filter.add_mime_type("ejemplos/CG")
-      #filter.add_mime_type("image/jpeg")
-      #filter.add_mime_type("image/gif")
-      filter.add_pattern("*.CG")
-      #filter.add_pattern("*.jpg")
-      #filter.add_pattern("*.gif")
-      #filter.add_pattern("*.tif")
-      #filter.add_pattern("*.xpm")
-      dialog.add_filter(filter)
-
-      response = dialog.run()
-      if response == gtk.RESPONSE_OK:
-          print dialog.get_filename(), 'selected'
-      elif response == gtk.RESPONSE_CANCEL:
-          print 'Closed, no files selected'
-
-      return dialog
-      dialog.destroy()
-    """
-
     def abrir(self, Button, textbuffer):
         textbuffer = textbuffer
         dialog = gtk.FileChooserDialog("Abrir archivo",None,
 gtk.FILE_CHOOSER_ACTION_OPEN,(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
 gtk.STOCK_OPEN, gtk.RESPONSE_OK))
         dialog.set_default_response(gtk.RESPONSE_OK)
+
+        filter = gtk.FileFilter()
+        filter.set_name("Archivos CG")
+        dialog.set_filename('ejemplos/*')
+        filter.add_pattern("*.CG")
+        dialog.add_filter(filter)
+
+        filter = gtk.FileFilter()
+        filter.set_name("Todos los archivos")
+        filter.add_pattern("*")
+        dialog.add_filter(filter)
+
         response = dialog.run()
         if response == gtk.RESPONSE_OK:
             try:
