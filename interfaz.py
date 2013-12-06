@@ -94,8 +94,8 @@ class TextViewExample:
           print key  
         token.close()
 
-    def abrir(self, Button, textbuffer):
-        textbuffer = textbuffer
+    def abrir(self, callback_action, widget):
+        #textbuffer = textbuffer
         dialog = gtk.FileChooserDialog("Abrir archivo",None,
 gtk.FILE_CHOOSER_ACTION_OPEN,(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
 gtk.STOCK_OPEN, gtk.RESPONSE_OK))
@@ -119,7 +119,7 @@ gtk.STOCK_OPEN, gtk.RESPONSE_OK))
                 if infiles:
                   string = infiles.read()
                   infiles.close()
-                  textbuffer.set_text(string)
+                  self.textbuffer.set_text(string)
             except IOError :
                 print "El fichero no existe."
             infiles.close()
@@ -127,56 +127,79 @@ gtk.STOCK_OPEN, gtk.RESPONSE_OK))
             print "No hay elementos seleccionados"
         dialog.destroy()
 
-    def close_application(self, widget):
+    def close(self, callback_action, widget):
         gtk.main_quit()
 
     lexer = lex.lex()
 
-    def mostrarresultados(self, textbuffer):
-        textbuffer = textbuffer
-        n = os.system('ls *.cg | wc -l')
-        if n > 1:
-            resultado = ['errorLexico.cg']
-        else:
-            resultado = ['tokens.cg']
+    def get_main_menu(self, window):
+        accel_group = gtk.AccelGroup()
+        item_factory = gtk.ItemFactory(gtk.MenuBar, "<main>", accel_group)
+        item_factory.create_items(self.menu_items)
 
-        for codigo in resultado:
-            f = open(codigo, 'r')
-            if f:
-              string = f.read()
-              f.close()
-              textbuffer.set_text(string)
+        window.add_accel_group(accel_group)
 
-    def ejecutar(self, Button, textbuffer):
+        self.item_factory = item_factory
+
+        return item_factory.get_widget("<main>")
+
+    def mostrarresultados(self, textbuffer, textbuffer1):
         textbuffer = textbuffer
-        texto = textbuffer.get_text(textbuffer.get_start_iter(), textbuffer.get_end_iter(), True)
+        textbuffer1 = textbuffer1
+        textbuffer.delete(textbuffer.get_start_iter(), textbuffer.get_end_iter())
+        textbuffer1.delete(textbuffer1.get_start_iter(), textbuffer1.get_end_iter())
+
+        resultado1 = ['errorLexico.cg']
+        resultado2 = ['tokens.cg']
+
+        try:
+            for codigo in resultado1:
+              f = open(codigo, 'r')
+              if f:
+                string = f.read()
+                f.close()
+                textbuffer.set_text(string)
+
+            for codigo in resultado2:
+              f = open(codigo, 'r')
+              if f:
+                string = f.read()
+                f.close()
+                textbuffer1.set_text(string)
+
+        except IOError :
+            for codigo in resultado2:
+              f = open(codigo, 'r')
+              if f:
+                string = f.read()
+                f.close()
+                textbuffer1.set_text(string)
+
+    def Texto(self, textbuffer):
+        textbuffer = textbuffer
+        inicio = textbuffer.get_start_iter()
+        fin = textbuffer.get_end_iter()
+        texto = textbuffer.get_text(inicio, fin, True)
+
+        return texto
+
+    def ejecutar(self, callback_action, widget):
+        texto = self.Texto(self.textbuffer)
         if texto:
             self.lexer.input(texto)
             self.compilar(texto, self.lexer)
-        self.mostrarresultados(textbuffer)
+        self.mostrarresultados(self.textbuffer1, self.textbuffer2)
 
     def __init__(self):
-
-    # Test
-    
-    #ejemplo = ['ejemplos/esfera.CG']
-    #ejemplo = ['ejemplos/cilindro.CG']  
-    #ejemplo = ['ejemplos/cono.CG']
-    #ejemplo = ['ejemplos/elipse.CG']
-    #ejemplo = ['ejemplos/hiperbola.CG']
-    #ejemplo = ['ejemplos/parabola.CG']
-    #ejemplo = ['ejemplos/circunferencia.CG']
-    #ejemplo = ['ejemplos/cuadrilatero.CG']
-    #ejemplo = ['ejemplos/triangulo.CG']    
-    #ejemplo = ['ejemplos/recta.CG']
-    #ejemplo = ['ejemplos/cilindro.CG']
-
         window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         window.set_resizable(True)  
-        window.connect("destroy", self.close_application)
+        window.connect("destroy", self.close)
         window.set_title("Compilador Geométrico")
         window.set_size_request(800, 700)
         window.set_border_width(5)
+
+        self.vistas = gtk.Notebook()
+        self.vistas.set_tab_pos(gtk.POS_RIGHT)
 
         box1 = gtk.VBox(False, 0)
         window.add(box1)
@@ -195,47 +218,63 @@ gtk.STOCK_OPEN, gtk.RESPONSE_OK))
         sw.show()
         textview.show()
 
-        box2.pack_start(sw)
+        label = gtk.Label("Algoritmo")
+        label.show()
+        self.vistas.append_page(sw, label)
 
-        hbox = gtk.HButtonBox()
-        box2.pack_start(hbox, False, False, 0)
-        hbox.show()
+        sw1 = gtk.ScrolledWindow()
+        sw1.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        textview1 = gtk.TextView()
+        textview1.set_editable(False)
+        self.textbuffer1 = textview1.get_buffer()
+        sw1.add(textview1)
+        sw1.show()
+        textview1.show()
 
-        vbox = gtk.VBox()
-        vbox.show()
-        hbox.pack_start(vbox, False, False, 0)
+        label1 = gtk.Label("Errores")
+        label1.show()
+        self.vistas.append_page(sw1, label1)
+
+        sw2 = gtk.ScrolledWindow()
+        sw2.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        textview2 = gtk.TextView()
+        textview2.set_editable(False)
+        self.textbuffer2 = textview2.get_buffer()
+        sw2.add(textview2)
+        sw2.show()
+        textview2.show()
+
+        label2 = gtk.Label("Tokens")
+        label2.show()
+        self.vistas.append_page(sw2, label2)
+
+        self.menu_items = (
+            ( "/_Archivo",         None,         None, 0, "<Branch>" ),
+            #( "/Archivo/_Nuevo",     "<control>N", self.nuevo, 0, None ),
+            ( "/Archivo/_Abrir...",    "<control>O", self.abrir, 0, None ),
+            #( "/Archivo/_Guardar",    "<control>S", self.guardar, 0, None ),
+            #( "/Archivo/Guardar _como",    "<control><Shitf>S", self.guardar_como, 0, None ),
+            ( "/Archivo/sep1",     None,         None, 0, "<Separator>" ),
+            ( "/Archivo/_Salir",     "<control>Q", self.close, 0, None ),
+            ( "/_Compilar",      None,         None, 0, "<Branch>" ),
+            ( "/Compilar/_Léxico",     "<control>l", self.ejecutar, 0, None ),
+            #( "/Ay_uda",         None,         None, 0, "<LastBranch>" ),
+            #( "/Ayuda/Acerca",   None,         None, 0, None ),
+            )
+
+        menubar = self.get_main_menu(window)
+
+        box2.pack_start(menubar, False, False, 0)
+        menubar.show()
 
         separator = gtk.HSeparator()
-        box1.pack_start(separator, False, True, 0)
+        box2.pack_start(separator, False, True, 0)
         separator.show()
 
-        button2 = gtk.Button("Abrir...")
-        button2.connect("clicked", self.abrir, self.textbuffer)
-        box2.pack_start(button2, True, True, 0)
-
-        box2 = gtk.HBox(False, 10)
-        box2.set_border_width(10)
-        box1.pack_start(box2, False, True, 0)
-        box2.show()
-
-        button2 = gtk.Button("Abrir...")
-        button2.connect("clicked", self.abrir, self.textbuffer)
-        box2.pack_start(button2, False, False, 0)
-        button2.show()
-
-        button1 = gtk.Button("Compilar")
-        button1.connect("clicked", self.ejecutar, self.textbuffer)
-        box2.pack_start(button1, False, False, 0)
-        button1.set_flags(gtk.CAN_DEFAULT)
-        button1.grab_default()
-        button1.show()
-
-        button = gtk.Button("Cerrar")
-        button.connect("clicked", self.close_application)
-        box2.pack_start(button, False, False, 0)
-        button.set_flags(gtk.CAN_DEFAULT)
-        button.grab_default()
-        button.show()
+        box2.pack_start(self.vistas)
+        self.vistas.show()
+        self.show_tabs = True
+        self.show_border = True
 
         window.show()
 
