@@ -75,6 +75,7 @@ class TextViewExample:
     # Obtener la entrada
     def compilar(self, data, lexer):
         tabla_id = {}
+        lexer.lineno = 1
         lexer.input(data)
         token=open('tokens.cg', 'w')
         while True:
@@ -186,6 +187,7 @@ gtk.STOCK_OPEN, gtk.RESPONSE_OK))
     def ejecutar(self, callback_action, widget):
         texto = self.Texto(self.textbuffer)
         if texto:
+            
             self.lexer.input(texto)
             self.compilar(texto, self.lexer)
         self.mostrarresultados(self.textbuffer1, self.textbuffer2)
