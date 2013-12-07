@@ -8,8 +8,6 @@ import os
 
 #http://www.gacetadelinux.com/es/lg/issue79/divakaran.html
 class TextViewExample:
-    os.system('rm *.cg')
-    os.system('clear')
     # Lista de nombres de Token. Esto es obligatorio.
     tokens = (
        'Inicio',
@@ -185,6 +183,12 @@ gtk.STOCK_OPEN, gtk.RESPONSE_OK))
         return texto
 
     def ejecutar(self, callback_action, widget):
+        try:
+            os.system('rm *.cg')
+            os.system('clear')
+        except IOError :
+            print "No hay archivos cg"
+
         texto = self.Texto(self.textbuffer)
         if texto:
             
