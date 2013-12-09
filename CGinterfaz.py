@@ -7,7 +7,7 @@ import gtk
 import os
 
 #http://www.gacetadelinux.com/es/lg/issue79/divakaran.html
-class TextViewExample:
+class Interfaz:
     os.system('rm *.cg')
     os.system('clear')
     # Lista de nombres de Token. Esto es obligatorio.
@@ -147,7 +147,7 @@ gtk.STOCK_OPEN, gtk.RESPONSE_OK))
         else:
             self.guardar_como(self,widget)
 
-    def guardar_como(self,widget,data=None):
+    def guardar_como(self,widget, data=None):
         dialog = gtk.FileChooserDialog("Guardar archivo",None,
 gtk.FILE_CHOOSER_ACTION_SAVE,(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
 gtk.STOCK_SAVE, gtk.RESPONSE_OK))
@@ -164,6 +164,28 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
             print "No hay elementos seleccionados"
         self.filename = dialog.get_filename()
         self.window.set_title(str(dialog.get_filename())+" | Compilador Geométrico")
+        dialog.destroy()
+
+    def buscarlinea(self, callback_action, widget, data=None):
+        #dialog = gtk.Dialog("Buscar linea: ", None, gtk.DIALOG_MODAL, (gtk.RESPONSE_CANCEL, gtk.RESPONSE_OK))
+        dialog = gtk.Dialog("Buscar Linéa", None, 0, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
+        dialog.set_default_response(gtk.RESPONSE_OK)
+        self.edit = gtk.Entry()
+        dialog.action_area.pack_start(self.edit, True, True, 0)
+        self.edit.show()
+        iter = self.textbuffer.get_end_iter()
+        print "iter ", self.textbuffer.get_insert()
+        response = dialog.run()
+        if response == gtk.RESPONSE_OK:
+            try:
+                n_linea = int(self.edit.get_text())
+                print "linea: ", n_linea
+                iter.set_line(n_linea) # moverse al principio de la línea dada como parámetro
+                #print "i ", i
+            except IOError :
+                print "no es un parámetro válido"
+        elif response == gtk.RESPONSE_CANCEL:
+            print "No hay elementos seleccionados"
         dialog.destroy()
 
     def cerrar(self, callback_action, widget):
@@ -290,6 +312,8 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
             ( "/Archivo/Guardar _como",    "<control>S", self.guardar_como, 0, None ),
             ( "/Archivo/sep1",     None,         None, 0, "<Separator>" ),
             ( "/Archivo/_Salir",     "<control>Q", self.cerrar, 0, None ),
+            ( "/_Ir",      None,         None, 0, "<Branch>" ),
+            ( "/Ir/_Buscar linéa",     "<control>b", self.buscarlinea, 0, None ),
             ( "/_Compilar",      None,         None, 0, "<Branch>" ),
             ( "/Compilar/_Léxico",     "<control>l", self.ejecutar, 0, None ),
             #( "/Ay_uda",         None,         None, 0, "<LastBranch>" ),
@@ -317,6 +341,6 @@ def main():
     return 0       
 
 if __name__ == "__main__":
-    TextViewExample()
+    Interfaz()
     main()
 
