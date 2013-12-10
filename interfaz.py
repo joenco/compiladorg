@@ -7,7 +7,7 @@ import gtk
 import os
 
 #http://www.gacetadelinux.com/es/lg/issue79/divakaran.html
-class TextViewExample:
+class Interfaz:
     # Lista de nombres de Token. Esto es obligatorio.
     tokens = (
        'Inicio',
@@ -289,6 +289,6 @@ def main():
     return 0       
 
 if __name__ == "__main__":
-    TextViewExample()
+    Interfaz()
     main()
 
