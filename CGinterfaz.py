@@ -58,7 +58,7 @@ class Interfaz:
         error=open('errorLexico.cg', 'a')
         if t.value!=True:
           print "Carácter ilegal: '%s'" %  t.value[0] + " en la linea " + str(t.lineno)
-          error.write("Carácter ilegal: '%s'" %  t.value[0] + " en la linea " + str(t.lineno))
+          error.write("Carácter ilegal: '%s'" %  t.value + " en la linea " + str(t.lineno))
           error.write('\n')
         error.close()
         t.lexer.skip(1)
@@ -81,6 +81,7 @@ class Interfaz:
         while True:
           tok = lexer.token()
           if not tok:
+            print 
             break
           token.write(str(tok))
           token.write('\n')
@@ -186,6 +187,29 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
                 print "no es un parámetro válido"
         elif response == gtk.RESPONSE_CANCEL:
             print "No hay elementos seleccionados"
+        dialog.destroy()
+
+    def acerca(self, callback_action, widget, data=None):
+        #dialog = gtk.Dialog("Buscar linea: ", None, gtk.DIALOG_MODAL, (gtk.RESPONSE_CANCEL, gtk.RESPONSE_OK))
+        dialog = gtk.Dialog("Acerca de ...", None, 0, (gtk.STOCK_OK, gtk.RESPONSE_OK))
+
+        tabla = gtk.Table(3, 1, True)
+        tabla.show()
+        label = gtk.Label('Compilador Geométrico\nVersión 1.0\nDesarrollado por: Jorge Ortega - Jesús Pérez\nLicencia: GPL v3.0')
+        label.show()
+        #label1 = gtk.Label('Versión 1.0')
+        #dialog.action_area.pack_start(label1, True, True, 0)
+        #label1.show()
+        #label2 = gtk.Label('Desarrollado por: Jorge Ortega - Jesús Pérez')
+        dialog.action_area.pack_start(label, False, False, 0)
+        #label2.show()
+        dialog.set_default_response(gtk.RESPONSE_OK)
+        response = dialog.run()
+        if response == gtk.RESPONSE_OK:
+            try:
+                print "se ha cerrado"
+            except IOError :
+                print "no es un parámetro válido"
         dialog.destroy()
 
     def cerrar(self, callback_action, widget):
@@ -316,8 +340,8 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
             ( "/Ir/_Buscar linéa",     "<control>b", self.buscarlinea, 0, None ),
             ( "/_Compilar",      None,         None, 0, "<Branch>" ),
             ( "/Compilar/_Léxico",     "<control>l", self.ejecutar, 0, None ),
-            #( "/Ay_uda",         None,         None, 0, "<LastBranch>" ),
-            #( "/Ayuda/Acerca",   None,         None, 0, None ),
+            ( "/Ay_uda",         None,         None, 0, "<LastBranch>" ),
+            ( "/Ayuda/Acerca de ...",     "<control>h", self.acerca, 0, None ),
             )
 
         menubar = self.get_main_menu()
