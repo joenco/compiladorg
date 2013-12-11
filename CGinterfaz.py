@@ -58,7 +58,7 @@ class Interfaz:
         error=open('errorLexico.cg', 'a')
         if t.value!=True:
           print "Carácter ilegal: '%s'" %  t.value[0] + " en la linea " + str(t.lineno)
-          error.write("Carácter ilegal: '%s'" %  t.value + " en la linea " + str(t.lineno))
+          error.write("Carácter ilegal: '%s'" %  t.value[0] + " en la linea " + str(t.lineno))
           error.write('\n')
         error.close()
         t.lexer.skip(1)
@@ -100,6 +100,10 @@ class Interfaz:
         self.textbuffer.delete(self.textbuffer.get_start_iter(), self.textbuffer.get_end_iter())
         self.filename = 'None'
         self.window.set_title("Archivo nuevo sin guardar | Compilador Geométrico")
+        try:
+            self.vistas.remove_page(1)
+        except IOError :
+            print "No hay pestañas para eliminar"
 
     def abrir(self, callback_action, widget):
         #textbuffer = textbuffer
@@ -168,8 +172,8 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
         dialog.destroy()
 
     def buscarlinea(self, callback_action, widget, data=None):
-        #dialog = gtk.Dialog("Buscar linea: ", None, gtk.DIALOG_MODAL, (gtk.RESPONSE_CANCEL, gtk.RESPONSE_OK))
-        dialog = gtk.Dialog("Buscar Linéa", None, 0, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
+        #dialog = gtk.Dialog("Buscar linea: ", None, gtk.DIALOG_MODAL, (gtk.RESPONSE_CANCEL, gtk.RESPONSE_OK), gtk.Entry())
+        dialog = gtk.Dialog("Buscar Linéa", None, 0, None)
         dialog.set_default_response(gtk.RESPONSE_OK)
         self.edit = gtk.Entry()
         dialog.action_area.pack_start(self.edit, True, True, 0)
@@ -190,27 +194,11 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
         dialog.destroy()
 
     def acerca(self, callback_action, widget, data=None):
-        #dialog = gtk.Dialog("Buscar linea: ", None, gtk.DIALOG_MODAL, (gtk.RESPONSE_CANCEL, gtk.RESPONSE_OK))
-        dialog = gtk.Dialog("Acerca de ...", None, 0, (gtk.STOCK_OK, gtk.RESPONSE_OK))
-
-        tabla = gtk.Table(3, 1, True)
-        tabla.show()
-        label = gtk.Label('Compilador Geométrico\nVersión 1.0\nDesarrollado por: Jorge Ortega - Jesús Pérez\nLicencia: GPL v3.0')
-        label.show()
-        #label1 = gtk.Label('Versión 1.0')
-        #dialog.action_area.pack_start(label1, True, True, 0)
-        #label1.show()
-        #label2 = gtk.Label('Desarrollado por: Jorge Ortega - Jesús Pérez')
-        dialog.action_area.pack_start(label, False, False, 0)
-        #label2.show()
-        dialog.set_default_response(gtk.RESPONSE_OK)
-        response = dialog.run()
-        if response == gtk.RESPONSE_OK:
-            try:
-                print "se ha cerrado"
-            except IOError :
-                print "no es un parámetro válido"
-        dialog.destroy()
+        md = gtk.MessageDialog(self.window, 
+            gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO, 
+            gtk.BUTTONS_CLOSE, "Compilador Geométrico\nVersión 1.0\nDesarrollado por: Jesús Pérez - Jorge Ortega\nLincencia: GPL 3.0")
+        md.run()
+        md.destroy()
 
     def cerrar(self, callback_action, widget):
         gtk.main_quit()
@@ -338,8 +326,9 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
             ( "/Archivo/_Salir",     "<control>Q", self.cerrar, 0, None ),
             ( "/_Ir",      None,         None, 0, "<Branch>" ),
             ( "/Ir/_Buscar linéa",     "<control>b", self.buscarlinea, 0, None ),
-            ( "/_Compilar",      None,         None, 0, "<Branch>" ),
-            ( "/Compilar/_Léxico",     "<control>l", self.ejecutar, 0, None ),
+            ( "/_Herramientas",      None,         None, 0, "<Branch>" ),
+            ( "/Herramientas/Analizador",     None, None, 0, "<Branch>" ),
+            ( "/Herramientas/Analizador/Léxico linéa",     "<control>l", self.ejecutar, 0, None ),
             ( "/Ay_uda",         None,         None, 0, "<LastBranch>" ),
             ( "/Ayuda/Acerca de ...",     "<control>h", self.acerca, 0, None ),
             )
