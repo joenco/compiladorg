@@ -173,20 +173,23 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
 
     def buscarlinea(self, callback_action, widget, data=None):
         #dialog = gtk.Dialog("Buscar linea: ", None, gtk.DIALOG_MODAL, (gtk.RESPONSE_CANCEL, gtk.RESPONSE_OK), gtk.Entry())
-        dialog = gtk.Dialog("Buscar Linéa", None, 0, None)
+        dialog = gtk.Dialog("Buscar Linéa", None, 0, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_FIND, gtk.RESPONSE_OK))
         dialog.set_default_response(gtk.RESPONSE_OK)
-        self.edit = gtk.Entry()
-        dialog.action_area.pack_start(self.edit, True, True, 0)
-        self.edit.show()
-        iter = self.textbuffer.get_end_iter()
-        print "iter ", self.textbuffer.get_insert()
+        hbox = gtk.HBox(False, 0)
+        label = gtk.Label('Nro de linéa: ')
+        entry = gtk.Entry()
+        hbox.pack_start(label, False, False, 0)
+        hbox.pack_start(entry, False, False, 0)
+        dialog.vbox.pack_start(hbox, True, True, 0)
+        label.show()
+        entry.show()
+        hbox.show()
         response = dialog.run()
         if response == gtk.RESPONSE_OK:
             try:
-                n_linea = int(self.edit.get_text())
-                print "linea: ", n_linea
-                iter.set_line(n_linea) # moverse al principio de la línea dada como parámetro
-                #print "i ", i
+                n_linea = int(entry.get_text())
+                iter = self.textbuffer.get_iter_at_line(n_linea)
+                #iter.set_line(n_linea) # moverse al principio de la línea dada como parámetro
             except IOError :
                 print "no es un parámetro válido"
         elif response == gtk.RESPONSE_CANCEL:
@@ -194,11 +197,22 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
         dialog.destroy()
 
     def acerca(self, callback_action, widget, data=None):
-        md = gtk.MessageDialog(self.window, 
-            gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO, 
-            gtk.BUTTONS_CLOSE, "Compilador Geométrico\nVersión 1.0\nDesarrollado por: Jesús Pérez - Jorge Ortega\nLincencia: GPL 3.0")
-        md.run()
-        md.destroy()
+        aboutdialog = gtk.AboutDialog()
+        authors = ["Jorge Ortega", "Jesús Pérez"]
+        #documenters = ["GNOME Documentation Team"]
+        aboutdialog.set_program_name("CG: Compilador Geométrico")
+        aboutdialog.set_copyright("GPL 3.0")
+        aboutdialog.set_authors(authors)
+        #aboutdialog.set_documenters(documenters)
+        aboutdialog.set_website("http://code.google.com/p/compiladorg/")
+        aboutdialog.set_website_label("CG - Compilador Geométrico Website")
+        aboutdialog.set_title("Acerca de..")
+        aboutdialog.connect("response", self.on_close)
+        aboutdialog.show()
+
+    # destroy the aboutdialog
+    def on_close(self, action, parameter):
+        action.destroy()
 
     def cerrar(self, callback_action, widget):
         gtk.main_quit()
@@ -239,6 +253,7 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
             n_error = textbuffer.get_line_count()-1
             label.set_text(str(n_error)+" Errores")
             label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('red'))
+            self.statusbar.push(self.context_id, label.get_text())
         except IOError :
             for codigo in resultado2:
               f = open(codigo, 'r')
@@ -303,7 +318,7 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
         sw.show()
         self.textview.show()
 
-        label = gtk.Label("Algoritmo")
+        label = gtk.Label("Fuente")
         label.show()
         self.vistas.append_page(sw, label)
 
@@ -315,6 +330,11 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
         self.sw1.add(textview1)
         self.sw1.show()
         textview1.show()
+
+        # creamos una barra de estado
+        self.statusbar = gtk.Statusbar()
+        self.context_id = self.statusbar.get_context_id("")
+        self.statusbar.push(self.context_id, " ")
 
         self.menu_items = (
             ( "/_Archivo",         None,         None, 0, "<Branch>" ),
@@ -343,7 +363,9 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
         separator.show()
 
         box2.pack_start(self.vistas)
+        box2.pack_start(self.statusbar, False, False, 0)
         self.vistas.show()
+        self.statusbar.show()
         self.show_tabs = True
         self.show_border = True
 
