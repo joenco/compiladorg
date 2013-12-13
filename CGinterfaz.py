@@ -148,6 +148,7 @@ gtk.STOCK_OPEN, gtk.RESPONSE_OK))
                 texto.write(self.textbuffer.get_text(self.textbuffer.get_start_iter(), self.textbuffer.get_end_iter(), True)+"\n")
             except IOError :
                 print "El fichero no existe."
+            self.textbuffer.set_modified(False)
             texto.close()
         else:
             self.guardar_como(self,widget)
@@ -164,6 +165,7 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
                 texto.write(self.textbuffer.get_text(self.textbuffer.get_start_iter(), self.textbuffer.get_end_iter(), True)+"\n")
             except IOError :
                 print "El fichero no existe."
+            self.textbuffer.set_modified(False)
             texto.close()
         elif response == gtk.RESPONSE_CANCEL:
             print "No hay elementos seleccionados"
@@ -172,11 +174,11 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
         dialog.destroy()
 
     def buscarlinea(self, callback_action, widget, data=None):
-        #dialog = gtk.Dialog("Buscar linea: ", None, gtk.DIALOG_MODAL, (gtk.RESPONSE_CANCEL, gtk.RESPONSE_OK), gtk.Entry())
         dialog = gtk.Dialog("Buscar Linéa", None, 0, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_FIND, gtk.RESPONSE_OK))
         dialog.set_default_response(gtk.RESPONSE_OK)
         hbox = gtk.HBox(False, 0)
         label = gtk.Label('Nro de linéa: ')
+        n = self.textbuffer.get_line_count()
         entry = gtk.Entry()
         hbox.pack_start(label, False, False, 0)
         hbox.pack_start(entry, False, False, 0)
@@ -188,13 +190,18 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
         if response == gtk.RESPONSE_OK:
             try:
                 n_linea = int(entry.get_text())
-                iter = self.textbuffer.get_iter_at_line(n_linea)
-                #iter.set_line(n_linea) # moverse al principio de la línea dada como parámetro
+                self.mover(n_linea)
             except IOError :
                 print "no es un parámetro válido"
         elif response == gtk.RESPONSE_CANCEL:
             print "No hay elementos seleccionados"
         dialog.destroy()
+
+    #Mover el cursor a una linea determinada
+    def mover(self, linea):
+        linea = linea
+        iter = self.textbuffer.get_iter_at_offset(linea*2-1)
+        self.textbuffer.place_cursor(iter)
 
     def acerca(self, callback_action, widget, data=None):
         aboutdialog = gtk.AboutDialog()
@@ -210,12 +217,28 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
         aboutdialog.connect("response", self.on_close)
         aboutdialog.show()
 
-    # destroy the aboutdialog
+    # cerrar la ventana de acerca
     def on_close(self, action, parameter):
         action.destroy()
 
+    #cerrar la aplicación
     def cerrar(self, callback_action, widget):
+        if self.textbuffer.get_modified() == True:
+            self.verificarcambios()
         gtk.main_quit()
+
+    def verificarcambios(self):
+        dialog = gtk.Dialog("Aviso", None, 0, (gtk.STOCK_NO, gtk.RESPONSE_CANCEL, gtk.STOCK_YES, gtk.RESPONSE_OK))
+        dialog.set_default_response(gtk.RESPONSE_OK)
+        label = gtk.Label('Tiene cambios sin guardar, desea guardar los cambios?')
+        dialog.vbox.pack_start(label, True, True, 0)
+        label.show()
+        response = dialog.run()
+        if response == gtk.RESPONSE_OK:
+                return self.guardar(self)
+        elif response == gtk.RESPONSE_CANCEL:
+                return False
+        dialog.destroy()
 
     lexer = lex.lex()
 
@@ -349,6 +372,9 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
             ( "/_Herramientas",      None,         None, 0, "<Branch>" ),
             ( "/Herramientas/Analizador",     None, None, 0, "<Branch>" ),
             ( "/Herramientas/Analizador/Léxico linéa",     "<control>l", self.ejecutar, 0, None ),
+            ( "/Herramientas/Analizador/Sintáctico",     None, None, 0, None ),
+            ( "/Herramientas/Analizador/Semántico",     None, None, 0, None ),
+            ( "/Herramientas/Dibujar",     None, None, 0, "<Branch>" ),
             ( "/Ay_uda",         None,         None, 0, "<LastBranch>" ),
             ( "/Ayuda/Acerca de ...",     "<control>h", self.acerca, 0, None ),
             )
