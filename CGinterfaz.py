@@ -98,6 +98,7 @@ class Interfaz:
 
     def nuevo(self, callback_action, widget):
         self.textbuffer.delete(self.textbuffer.get_start_iter(), self.textbuffer.get_end_iter())
+        self.textbuffer.set_modified(False)
         self.filename = 'None'
         self.window.set_title("Archivo nuevo sin guardar | Compilador Geométrico")
         try:
@@ -133,6 +134,7 @@ gtk.STOCK_OPEN, gtk.RESPONSE_OK))
                   self.textbuffer.set_text(string)
             except IOError :
                 print "El fichero no existe."
+            self.textbuffer.set_modified(False)
             infiles.close()
         elif response == gtk.RESPONSE_CANCEL:
             print "No hay elementos seleccionados"
@@ -226,6 +228,7 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
         if self.textbuffer.get_modified() == True:
             self.verificarcambios()
         gtk.main_quit()
+        os.system('rm *.cg')
 
     def verificarcambios(self):
         dialog = gtk.Dialog("Aviso", None, 0, (gtk.STOCK_NO, gtk.RESPONSE_CANCEL, gtk.STOCK_YES, gtk.RESPONSE_OK))
@@ -277,6 +280,7 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
             label.set_text(str(n_error)+" Errores")
             label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('red'))
             self.statusbar.push(self.context_id, label.get_text())
+            os.system('rm tokens.cg')
         except IOError :
             for codigo in resultado2:
               f = open(codigo, 'r')
