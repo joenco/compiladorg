@@ -1,11 +1,17 @@
 INICIAR
+
+  #Definicion del punto que sera el centro
   Definir punto1 como Punto :
   a coordenada x de punto1 asignar 1 :
   a coordenada y de punto1 asignar 1 :
 
+  #Definicion de la esfera
   Definir esfera1 como Esfera :
   a centro de esfera1 asignar punto1 :
   a radio de esfera1 asignar 3 :
+
+  #Dibujar esfera
   Dibujar esfera1 :
+
 FINALIZAR
 
