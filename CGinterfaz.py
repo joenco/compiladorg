@@ -314,7 +314,10 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
               textbuffer.set_text(string)
 
             n_error = textbuffer.get_line_count()-1
-            label.set_text(str(n_error)+" Errores")
+            if (n_error == 1):
+              label.set_text(str(n_error)+" Error")
+            else: 
+              label.set_text(str(n_error)+" Errores")
             label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('red'))
             self.statusbar.push(self.context_id, label.get_text())
             os.system('rm tokens.cg')
