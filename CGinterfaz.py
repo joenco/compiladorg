@@ -202,7 +202,8 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
     #Mover el cursor a una linea determinada
     def mover(self, linea):
         linea = linea
-        iter = self.textbuffer.get_iter_at_offset(linea*2-1)
+        #iter = self.textbuffer.get_iter_at_offset(linea*2-1)
+        iter = self.textbuffer.get_iter_at_line(linea-1)
         self.textbuffer.place_cursor(iter)
 
     def acerca(self, callback_action, widget, data=None):
