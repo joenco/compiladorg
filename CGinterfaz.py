@@ -106,6 +106,44 @@ class Interfaz:
         except IOError :
             print "No hay pestañas para eliminar"
 
+
+
+    def do_apply_tabs(self, callback_action, widget):
+        buffer = self.text_view.get_buffer()
+        bounds = buffer.get_selection_bounds()
+        if bounds:
+            start, end = bounds
+            if callback_action:
+                buffer.remove_tag(buffer.custom_tabs_tag, start, end)
+            else:
+                buffer.apply_tag(buffer.custom_tabs_tag, start, end)
+
+    def colorear(self, callback_action, widget):
+        print "entrando a colorear"
+        buffer = self.textview.get_buffer()
+        bounds = buffer.get_selection_bounds()
+        if bounds:
+            print "entrando al 1er if del colorear"
+            start, end = bounds
+            if not callback_action:
+                print "entrando al if del colorear"
+                buffer.remove_tag(self.tag, start, end)
+            else:
+                print "entrando al else del colorear"
+                tmp = self.tag
+                i = 0
+                next = start.copy()
+                while next.compare(end) < 0:
+                    next.forward_chars(2)
+                    if next.compare(end) >= 0:
+                        next = end
+
+                    buffer.apply_tag(tmp, start, next)
+                    i += 1
+                    if i >= len(tmp):
+                        i = 0
+                    start = next.copy()
+
     def abrir(self, callback_action, widget):
         #textbuffer = textbuffer
         dialog = gtk.FileChooserDialog("Abrir archivo",None,
@@ -403,6 +441,8 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
         self.context_id = self.statusbar.get_context_id("")
         self.statusbar.push(self.context_id, " ")
 
+        self.tag = self.textbuffer.create_tag(None, foreground="green")
+
         self.menu_items = (
             ( "/_Archivo",         None,         None, 0, "<Branch>" ),
             ( "/Archivo/_Nuevo",     "<control>N", self.nuevo, 0, None ),
@@ -419,6 +459,8 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
             ( "/Herramientas/Analizador/Sintáctico",     None, None, 0, None ),
             ( "/Herramientas/Analizador/Semántico",     None, None, 0, None ),
             ( "/Herramientas/Dibujar",     None, None, 0, "<Branch>" ),
+            ( "/Herramientas/No Colorear Sintáxis", None, None, 0, "<RadioItem>" ),
+            ( "/Herramientas/Colorear Sintáxis", None, self.colorear, 0, "/Herramientas/No Colorear Sintáxis" ),
             ( "/Ay_uda",         None,         None, 0, "<LastBranch>" ),
             ( "/Ayuda/Acerca de ...",     "<control>h", self.acerca, 0, None ),
             )
