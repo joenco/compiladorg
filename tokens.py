@@ -5,8 +5,8 @@ import ply.lex as lex
 import os
 
 #http://www.gacetadelinux.com/es/lg/issue79/divakaran.html
-#os.system('rm *.cg')
-#os.system('clear')
+os.system('rm .*.cg')
+os.system('clear')
 # Lista de nombres de Token. Esto es obligatorio.
 tokens = (
    'Inicio',
@@ -54,10 +54,17 @@ t_ignore  = ' \t'
 def t_error(t):
     error=open('.errorLexico.cg', 'a')
     if t.value!=True:
-        error.write(t.value[0] + ":" + str(t.lineno) + ":" + str(t.lexpos))
-        error.write('\n')
+      print "Carácter ilegal: '%s'" %  t.value[0] + " en la linea " + str(t.lineno)
+      error.write("Carácter ilegal: '%s'" %  t.value[0] + " en la linea " + str(t.lineno))
+      error.write('\n')
     error.close()
     t.lexer.skip(1)
+
+# Definir una regla, así podemos localizar los números de líneas.
+def t_newline(t):
+    r'\n'
+    t.lexer.lineno += 1
+    #t.lineno += len(t.value)
 
 # Construir el analizador léxico
 lex.lex()
@@ -66,6 +73,7 @@ lex.lex()
 def lexico(data):
     tabla_id = {}
     lexer.input(data)
+    lexer.lineno = 1
     token=open('.tokens.cg', 'w')
     while True:
       tok = lexer.token()
@@ -86,10 +94,10 @@ def lexico(data):
 
 lexer = lex.lex()
 
-# Test 
+# lexico 
 if __name__ == '__main__':
 
-    # Test
+    # lexico
     
     #ejemplo = ['ejemplos/esfera.CG']
     #ejemplo = ['ejemplos/cilindro.CG']  
@@ -101,7 +109,7 @@ if __name__ == '__main__':
     #ejemplo = ['ejemplos/cuadrilatero.CG']
     #ejemplo = ['ejemplos/triangulo.CG']    
     #ejemplo = ['ejemplos/recta.CG']
-    ejemplo = ['/ejemplos/cilindro.CG']
+    ejemplo = ['ejemplos/cilindro.CG']
     for codigo in ejemplo:
       f = open(codigo, 'r')
       data = f.read()
