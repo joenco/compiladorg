@@ -169,8 +169,13 @@ def result(self, textbuffer, vistas, sw1, statusbar, context_id):
         completo = ""
         posicion = -1
         nolinea = -1
+        
+        #textbuffer = textbuffer
+        #textbuffer1 = textbuffer1
         textbuffer.delete(textbuffer.get_start_iter(), textbuffer.get_end_iter())
+        #textbuffer1.delete(textbuffer1.get_start_iter(), textbuffer1.get_end_iter())
 
+        resultado1 = ['.errorLexico.cg']
         resultado2 = ['.tokens.cg']
         label = gtk.Label()
         n_error = 0
@@ -233,7 +238,7 @@ def result(self, textbuffer, vistas, sw1, statusbar, context_id):
                 textbuffer.set_text(string)
             label.set_text("Tokens")
             label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('blue'))
-            statusbar.push(context_id, label.get_text())
+
         try:
             vistas.remove_page(1)
         except IOError :
@@ -257,6 +262,7 @@ def ejecute(self, textbuffer, textbuffer1, vistas, sw1, statusbar, context_id):
         sw1 = sw1
         statusbar = statusbar
         context_id = context_id
+        
         os.system('rm .*.cg')
         os.system('clear')
         texto = Text(self, textbuffer)
