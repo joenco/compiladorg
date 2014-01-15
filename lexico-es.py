@@ -70,7 +70,7 @@ def t_newline(t):
 lex.lex()
 
 # Obtener la entrada
-def test(data, lexer):
+def test(data):
     tabla_id = {}
     lexer.input(data)
     token=open('tokens.cg', 'w')
@@ -115,4 +115,4 @@ if __name__ == '__main__':
 
       # Build lexer and try on
       lexer.input(data)
-      test(data, lexer)
+      test(data)
