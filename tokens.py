@@ -52,13 +52,13 @@ t_ignore  = ' \t'
 
 # Una regla para manejar errores.
 def t_error(t):
-    error=open('.errorLexico.cg', 'a')
-    if t.value!=True:
-      print "Carácter ilegal: '%s'" %  t.value[0] + " en la linea " + str(t.lineno)
-      error.write("Carácter ilegal: '%s'" %  t.value[0] + " en la linea " + str(t.lineno))
-      error.write('\n')
-    error.close()
-    t.lexer.skip(1)
+        error=open('.errorLexico.cg', 'a')
+        if t.value!=True:
+          #print "Carácter ilegal: '%s'" %  t.value[0] + " en la linea " + str(t.lineno)
+          error.write(t.value[0] + ":" + str(t.lineno) + ":" + str(t.lexpos))
+          error.write('\n')
+        error.close()
+        t.lexer.skip(1)
 
 # Definir una regla, así podemos localizar los números de líneas.
 def t_newline(t):
