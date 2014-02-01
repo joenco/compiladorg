@@ -6,7 +6,7 @@ import pygtk
 import gtk
 import os
 import tokens
-import funtions as funtion
+import funtions1 as funtion
 
 class Interfaz:
     ui = '''<ui>
