@@ -5,30 +5,90 @@ import ply.lex as lex
 import pygtk
 import gtk
 import os
-import tokens
+import lexico
+
+#abrir pestañas para los nuevos archivos
+def openfiles(self, sw, textbuffer, vistas, filename):
+        sw=sw
+        textbuffer = textbuffer
+        vistas = vistas
+        filename = filename
+        n= nfiles(self, 'None', 0)
+
+        if filename!='Nuevo':
+            infiles=open(filename,'r')
+            if infiles:
+              string = infiles.read()
+              infiles.close()
+              textbuffer.set_text(string)
+        else:
+            filename='Codigo fuente '+str(n+1)
+        label = gtk.Label(filename)
+        label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('blue'))
+        vistas.append_page(sw, label)
+        vistas.next_page()
+
+#buscamos el nombre del archivo
+def namefiles(self, page):
+    page = page
+
+    file = ['.archivo'+str(page)+'.dat']
+    for line in file:
+      f = open(line, 'r')
+      filename = f.read()
+      f.close()
+
+    return filename
+
+#cambia los valores del archivo .n.dat
+def nfiles(self, filename, o):
+    filename = filename
+    o = o
+
+    file=['.n.dat']
+    for line in file:
+        f = open(line, 'r')
+        n= int(f.read())
+        f.close()
+
+    if o==0:
+        return n
+    elif o==1:
+        f0=open('.n.dat', 'w')
+        f1=open('.archivo'+str(n+1)+'.dat', 'a')
+        f0.write(str(n+1))
+        f1.write(filename)
+        f0.close()
+        f1.close()
+    elif o==2:
+        f0=open('.n.dat', 'w')
+        f0.write(str(n-1))
+        f0.close()
+    else:
+        f1=open('.archivo0.dat', 'w')
+        f1.write(filename)
+        f1.close()
+        
 
 # Nuevo archivo
-def new(self, textbuffer, window, vistas):
+def new(self, sw, textbuffer, vistas):
+    sw = sw
     textbuffer = textbuffer
-    window = window
     vistas = vistas
+    n= nfiles(self, '0', 0)
 
-    #pendiente por resolver
-    #if textbuffer.get_modified() == True:
-        #changeverify(self, textbuffer, window)
-
-    textbuffer.delete(textbuffer.get_start_iter(), textbuffer.get_end_iter())
-    textbuffer.set_modified(False)
-    window.set_title("Archivo nuevo sin guardar")
-    try:
-        vistas.remove_page(1)
-    except IOError :
-        print "No hay pestañas para eliminar"
+    if n>0 or textbuffer[0].get_modified() == True:
+        openfiles(self, sw[n+1], textbuffer[n+1], vistas, 'Nuevo')
+        nfiles(self, 'nuevo', 1)
 
 #Abrir archivo
-def openfile(self, textbuffer, window):
+def openfile(self, sw, textbuffer, vistas):
+    sw = sw
     textbuffer = textbuffer
-    window = window
+    vistas=vistas
+    
+    page = vistas.get_current_page()
+    n = nfiles(self, 'None', 0)
 
     dialog = gtk.FileChooserDialog("Abrir archivo",None,
 gtk.FILE_CHOOSER_ACTION_OPEN,(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
@@ -40,49 +100,56 @@ gtk.STOCK_OPEN, gtk.RESPONSE_OK))
     dialog.set_filename('ejemplos/*')
     filter.add_pattern("*.CG")
     dialog.add_filter(filter)
-    filter = gtk.FileFilter()
-    filter.set_name("Todos los archivos")
-    filter.add_pattern("*")
-    dialog.add_filter(filter)
 
     response = dialog.run()
     if response == gtk.RESPONSE_OK:
         try:
+          if page != 0 or textbuffer[0].get_modified() == True:
+            openfiles(self, sw[n+1], textbuffer[n+1], vistas, dialog.get_filename())
+            textbuffer[n+1].set_modified(False)
+            nfiles(self, dialog.get_filename(), 1)
+          else:
             infiles=open(dialog.get_filename(),'r')
             if infiles:
               string = infiles.read()
               infiles.close()
-              textbuffer.set_text(string)
+              textbuffer[0].set_text(string)
+            textbuffer[0].set_modified(False)
+            nfiles(self, dialog.get_filename(), 3)
         except IOError :
             print "El fichero no existe."
-        textbuffer.set_modified(False)
-        infiles.close()
+
     elif response == gtk.RESPONSE_CANCEL:
         print "No hay elementos seleccionados"
-
-    window.set_title(str(dialog.get_filename()))
     dialog.destroy()
 
-def savefile(self, textbuffer, window):
+#guardar archivos
+def savefile(self, sw, textbuffer, vistas):
+        sw = sw
         textbuffer = textbuffer
-        window = window
-        filename = window.get_title()
+        vistas = vistas
 
-        if filename != "Archivo nuevo sin guardar":
+        page = vistas.get_current_page()
+        filename = namefiles(self, page)
+
+        if filename != "nuevo":
             try:
                 texto=open(filename, 'w')
-                texto.write(textbuffer.get_text(textbuffer.get_start_iter(), textbuffer.get_end_iter(), True)+"\n")
+                texto.write(textbuffer[page].get_text(textbuffer[page].get_start_iter(), textbuffer[page].get_end_iter(), True)+"\n")
             except IOError :
                 print "El fichero no existe."
-            textbuffer.set_modified(False)
+            textbuffer[page].set_modified(False)
             texto.close()
         else:
-            saveasfile(self, textbuffer, window)
+            saveasfile(self, sw, textbuffer, vistas)
 
-def saveasfile(self, textbuffer, window):
+def saveasfile(self, sw, textbuffer, vistas):
+        sw = sw
         textbuffer = textbuffer
-        window = window
-
+        vistas = vistas
+        page = vistas.get_current_page()
+        filename = namefiles(self, page)
+        print 'filename ', filename
         dialog = gtk.FileChooserDialog("Guardar archivo",None,
 gtk.FILE_CHOOSER_ACTION_SAVE,(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
 gtk.STOCK_SAVE, gtk.RESPONSE_OK))
@@ -91,36 +158,100 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
         if response == gtk.RESPONSE_OK:
             try:
                 texto = open(dialog.get_filename(), 'w')
-                texto.write(textbuffer.get_text(textbuffer.get_start_iter(), textbuffer.get_end_iter(), True)+"\n")
+                texto.write(textbuffer[page].get_text(textbuffer[page].get_start_iter(), textbuffer[page].get_end_iter(), True)+"\n")
+                file = open('.archivo'+str(page)+'.dat', 'w')
+                file.write(dialog.get_filename())
+                file.close()
             except IOError :
                 print "El fichero no existe."
-            textbuffer.set_modified(False)
+            textbuffer[page].set_modified(False)
             texto.close()
         elif response == gtk.RESPONSE_CANCEL:
             print "No hay elementos seleccionados"
 
-        window.set_title(str(dialog.get_filename()))
+        label = gtk.Label(filename)
+        label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('blue'))
+        vistas.remove_page(page)
+        vistas.insert_page(sw[page], label, page)
+        #vistas.next_page()
         dialog.destroy()
 
+def close(self, textbuffer, vistas):
+    textbuffer = textbuffer
+    vistas = vistas
+
+    page = vistas.get_current_page()
+
+    if textbuffer[page].get_modified() == True:
+        changeverify(self, textbuffer[page], vistas, page)
+
+    removefile(self, page)
+    vistas.remove_page(page)
+
+def removefile(self, page):
+    page = page
+    nfiles(self, 'None', 2)
+
+    if page!= 0:
+      os.system('rm .archivo'+str(page)+'.dat')
+
 #cerrar la aplicación
-def close(self, textbuffer, window):
+def quit(self, textbuffer, vistas, window):
         textbuffer = textbuffer
-        if textbuffer.get_modified() == True:
-            changeverify(self, textbuffer, window)
+        vistas = vistas
+        window = window
+        i=int(0)
+        k=int(0)
+        j=int(0)
+
+        n = nfiles(self, 'None', 0)
+
+        while i!=-1:
+          file = os.system('ls .archivo'+str(k)+'.dat')
+          print 'file: ', file
+          if file != 512:
+            print 'k = ', k
+            if textbuffer[k].get_modified() == True:
+              changeverify(self, textbuffer[k], vistas, k)
+            j=j+1
+          if k != 0:
+              os.system('rm .archivo'+str(k)+'.dat')
+          if j==n+1:
+              i=-1
+          k=k+1
+
+        f = open('.n.dat', 'w')
+        f1 = open('.archivo0.dat', 'w')
+        f.write('0')
+        f1.write('nuevo')
+        f.close()
+        f1.close()
+        
         gtk.main_quit()
 
 #Verificar modificaciones
-def changeverify(self, textbuffer, window):
+def changeverify(self, textbuffer, vistas, page):
         textbuffer = textbuffer
-        window = window
+        vistas = vistas
+        page=page
+
+        try:
+          file = ['.archivo'+str(page)+'.dat']
+          for line in file:
+              f = open(line, 'r')
+              filename = str(f.read())
+          f.close()
+        except IOError :
+          print 'no existe el archivo'
+
         dialog = gtk.Dialog("Aviso", None, 0, (gtk.STOCK_NO, gtk.RESPONSE_CANCEL, gtk.STOCK_YES, gtk.RESPONSE_OK))
         dialog.set_default_response(gtk.RESPONSE_OK)
-        label = gtk.Label('Tiene cambios sin guardar, desea guardar los cambios?')
+        label = gtk.Label('Tiene cambios sin guardar en el archivo'+filename+' '+str(page)+', desea guardar los cambios?')
         dialog.vbox.pack_start(label, True, True, 0)
         label.show()
         response = dialog.run()
         if response == gtk.RESPONSE_OK:
-                return savefile(self, textbuffer, window)
+                return savefile(self, textbuffer, filename)
         elif response == gtk.RESPONSE_CANCEL:
                 return False
         dialog.destroy()
@@ -159,9 +290,8 @@ def moveline(self, linea, textbuffer):
         textbuffer.place_cursor(iter)
 
 #resultados
-def result(self, textbuffer, vistas, sw1, statusbar, context_id):
+def result(self, textbuffer, sw1, statusbar, context_id):
         textbuffer = textbuffer
-        vistas = vistas
         sw1 = sw1
         statusbar = statusbar
         context_id = context_id
@@ -170,12 +300,8 @@ def result(self, textbuffer, vistas, sw1, statusbar, context_id):
         posicion = -1
         nolinea = -1
         
-        #textbuffer = textbuffer
-        #textbuffer1 = textbuffer1
         textbuffer.delete(textbuffer.get_start_iter(), textbuffer.get_end_iter())
-        #textbuffer1.delete(textbuffer1.get_start_iter(), textbuffer1.get_end_iter())
 
-        resultado1 = ['.errorLexico.cg']
         resultado2 = ['.tokens.cg']
         label = gtk.Label()
         n_error = 0
@@ -228,7 +354,7 @@ def result(self, textbuffer, vistas, sw1, statusbar, context_id):
               label.set_text(str(n_error)+" Errores")
             label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('red'))
             statusbar.push(context_id, label.get_text())
-            os.system('rm tokens.cg')
+            os.system('rm lexico.cg')
         except IOError :
             for codigo in resultado2:
               f = open(codigo, 'r')
@@ -236,15 +362,8 @@ def result(self, textbuffer, vistas, sw1, statusbar, context_id):
                 string = f.read()
                 f.close()
                 textbuffer.set_text(string)
-            label.set_text("Tokens")
+            label.set_text("lexico")
             label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('blue'))
-
-        try:
-            vistas.remove_page(1)
-        except IOError :
-            print "No hay pestañas para eliminar"
-        vistas.append_page(sw1, label)
-        vistas.next_page()
 
 def Text(self, textbuffer):
         textbuffer = textbuffer
@@ -255,20 +374,21 @@ def Text(self, textbuffer):
 
         return texto
 
-def ejecute(self, textbuffer, textbuffer1, vistas, sw1, statusbar, context_id):
+def ejecute(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas):
         textbuffer = textbuffer
         textbuffer1 = textbuffer1
-        vistas = vistas
         sw1 = sw1
         statusbar = statusbar
         context_id = context_id
-        
+        vistas = vistas
+
         os.system('rm .*.cg')
         os.system('clear')
-        texto = Text(self, textbuffer)
+        page = vistas.get_current_page()
+        texto = Text(self, textbuffer[page])
         if texto:
-            tokens.lexico(texto)
-        result(self, textbuffer1, vistas, sw1, statusbar, context_id)
+            lexico.lexico(texto)
+        result(self, textbuffer1, sw1, statusbar, context_id)
 
 #acerca de
 def about(self):
