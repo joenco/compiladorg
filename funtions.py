@@ -394,11 +394,13 @@ def ejecute(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas):
 def about(self):
         aboutdialog = gtk.AboutDialog()
         authors = ["Jorge Ortega", "Jesús Pérez"]
-        #documenters = ["GNOME Documentation Team"]
+        logo = gtk.gdk.pixbuf_new_from_file_at_size('logoCG.png', 100, 100)
+        comments = "Programa que permite dibujar figuras geométricas.\nMediante sentencias de programación.\nEs un proyecto de Compiladores."
         aboutdialog.set_program_name("CG: Compilador Geométrico")
+        aboutdialog.set_logo(logo)
+        aboutdialog.set_comments(comments)
         aboutdialog.set_copyright("GPL 3.0")
         aboutdialog.set_authors(authors)
-        #aboutdialog.set_documenters(documenters)
         aboutdialog.set_website("http://code.google.com/p/compiladorg/")
         aboutdialog.set_website_label("CG - Compilador Geométrico Website")
         aboutdialog.set_title("Acerca de..")
@@ -406,5 +408,5 @@ def about(self):
         aboutdialog.show()
 
 # cerrar la ventana de acerca
-def on_close(self):
-        action.destroy()
+def on_close(self, parameter):
+        self.destroy()
