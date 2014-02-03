@@ -257,8 +257,13 @@ def changeverify(self, textbuffer, vistas, page):
         dialog.destroy()
 
 #Buscar linea
-def findline(self, textbuffer):
+def findline(self, textbuffer, vistas):
         textbuffer = textbuffer
+        vistas = vistas
+        
+        page = vistas.get_current_page()
+        textbuffer = textbuffer[page]
+        
         dialog = gtk.Dialog("Buscar Linéa", None, 0, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_FIND, gtk.RESPONSE_OK))
         dialog.set_default_response(gtk.RESPONSE_OK)
         hbox = gtk.HBox(False, 0)
@@ -352,7 +357,7 @@ def result(self, textbuffer, sw1, statusbar, context_id):
               label.set_text(str(n_error)+" Error")
             else: 
               label.set_text(str(n_error)+" Errores")
-            label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('red'))
+
             os.system('rm lexico.cg')
         except IOError :
             for codigo in resultado2:
@@ -362,7 +367,7 @@ def result(self, textbuffer, sw1, statusbar, context_id):
                 f.close()
                 textbuffer.set_text(string)
             label.set_text("Sin errores léxicos")
-            label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('blue'))
+
         statusbar.push(context_id, label.get_text())
         
 def Text(self, textbuffer):
