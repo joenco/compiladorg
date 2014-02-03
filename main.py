@@ -133,7 +133,7 @@ class Interfaz:
         actiongroup.get_action('Save_As').connect('activate', funtion.saveasfile, sw, textbuffer, vistas)
         actiongroup.get_action('Close').connect('activate', funtion.close, textbuffer, vistas)
         actiongroup.get_action('Quit').connect('activate', funtion.quit, textbuffer, vistas, window)
-        actiongroup.get_action('Find_line').connect('activate', funtion.findline, textbuffer)
+        actiongroup.get_action('Find_line').connect('activate', funtion.findline, textbuffer, vistas)
         actiongroup.get_action('Lexico').connect('activate', funtion.ejecute, textbuffer, textbufferl, swl, statusbar, context_id, vistas)
         actiongroup.get_action('About').connect('activate', funtion.about)
 
