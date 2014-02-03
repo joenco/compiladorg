@@ -153,13 +153,14 @@ class Interfaz:
         image.show()
         tabla.attach(image, 681, 700, 3, 6)
         tabla.attach(vistas, 0, 700, 9, 759)
-        tabla.attach(separator, 0, 700, 760, 761)
-        tabla.attach(swl, 0, 700, 762, 797)
+        tabla.attach(statusbar, 0, 700, 760, 761)
+        tabla.attach(swl, 0, 700, 762, 800)
         vistas.show()
-        tabla.attach(statusbar, 0, 700, 798, 800)
+
         statusbar.show()
         show_tabs = True
         show_border = True
+
         tabla.show()
 
         window.show()
