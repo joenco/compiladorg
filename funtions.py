@@ -353,7 +353,6 @@ def result(self, textbuffer, sw1, statusbar, context_id):
             else: 
               label.set_text(str(n_error)+" Errores")
             label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('red'))
-            statusbar.push(context_id, label.get_text())
             os.system('rm lexico.cg')
         except IOError :
             for codigo in resultado2:
@@ -362,9 +361,10 @@ def result(self, textbuffer, sw1, statusbar, context_id):
                 string = f.read()
                 f.close()
                 textbuffer.set_text(string)
-            label.set_text("lexico")
+            label.set_text("Sin errores léxicos")
             label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('blue'))
-
+        statusbar.push(context_id, label.get_text())
+        
 def Text(self, textbuffer):
         textbuffer = textbuffer
 
