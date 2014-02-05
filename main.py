@@ -6,6 +6,7 @@ import pygtk
 import gtk
 import os
 import lexico
+import parserCG
 import funtions as funtion
 
 class Interfaz:
@@ -135,6 +136,7 @@ class Interfaz:
         actiongroup.get_action('Quit').connect('activate', funtion.quit, textbuffer, vistas, window)
         actiongroup.get_action('Find_line').connect('activate', funtion.findline, textbuffer, vistas)
         actiongroup.get_action('Lexico').connect('activate', funtion.ejecute, textbuffer, textbufferl, swl, statusbar, context_id, vistas)
+        actiongroup.get_action('Syntactic').connect('activate', funtion.ejecute2, textbuffer, textbufferl, swl, statusbar, context_id, vistas)
         actiongroup.get_action('About').connect('activate', funtion.about)
 
         uimanager.insert_action_group(actiongroup, 0)
@@ -148,13 +150,13 @@ class Interfaz:
         tabla.attach(toolbar, 0, 680, 6, 8)
         separator.show()
 
-        image = gtk.Image()
-        image.set_from_file('logoCG.png')
-        image.show()
-        tabla.attach(image, 681, 700, 3, 6)
-        tabla.attach(vistas, 0, 700, 9, 759)
-        tabla.attach(statusbar, 0, 700, 760, 761)
-        tabla.attach(swl, 0, 700, 762, 800)
+        #image = gtk.Image()
+        #image.set_from_file('logoCG.png')
+        #image.show()
+        #tabla.attach(image, 681, 700, 3, 6)
+        tabla.attach(vistas, 0, 700, 9, 100)
+        tabla.attach(statusbar, 0, 650, 760, 761)
+        tabla.attach(swl, 0, 650, 762, 800)
         vistas.show()
 
         statusbar.show()

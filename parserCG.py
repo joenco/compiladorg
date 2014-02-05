@@ -82,15 +82,14 @@ def p_error(p):
 			print "Syntax error at line: " + str(lexico.lexer.lineno)
 	else:
 		raise Exception('syntax', 'error')
-
+		
 def parse(data):
     fin = 'ejemplos/cilindro.CG'
     f = open(fin, 'r')
     data = f.read()
     print data
     parser.parse(data, tracking=True)
-
-		
+    
 
 parser = yacc.yacc()
 
