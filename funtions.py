@@ -378,72 +378,21 @@ def result2(self, textbuffer, sw1, statusbar, context_id):
         statusbar = statusbar
         context_id = context_id
 
-        completo = ""
-        posicion = -1
-        nolinea = -1
-        
         textbuffer.delete(textbuffer.get_start_iter(), textbuffer.get_end_iter())
 
-        resultado2 = ['.tokens.cg']
+        resultado2 = ['.errorSintaxis.cg']
         label = gtk.Label()
-        n_error = 0
-        
-        #Tratamiento de errores
-        try:
-          f = open (".errorLexico.cg",'r')
-          errores=open('.erroresLexico.cg', 'a')
-          for line in f.readlines():
-            separados = line.split(':',3)
-            if posicion != -1:
-              if (posicion + 1) == int(separados[2]):
-                completo += str(separados[0])
-              else:
-                print "Error encontrado: ",completo
-                print "Linea: ",nolinea 
-                errores.write("Error: %s" % completo + " en la linea numero " + str(nolinea))
-                errores.write('\n')
-                completo = ""
-                completo += str(separados[0]) 
-              posicion = int(separados[2])
-              nolinea = int(separados[1])
-            else:
-              posicion = int(separados[2])
-              nolinea = int(separados[1])
-              completo += str(separados[0])
-          if completo != "":
-            print "Error encontrado: ",completo
-            print "Linea: ",nolinea 
-            errores.write("Error: %s" % completo + " en la linea numero " + str(nolinea))
-            errores.write('\n')
-            completo = ""
-          errores.close()
-          f.close()
-        except IOError :
-          print "El Analizador Lexico no encontro errores"    
-         
-        try:
-            #for codigo in resultado1:
-            f = open(".erroresLexico.cg", 'r')
-            if f:
-              string = f.read()
-              f.close()
-              textbuffer.set_text(string)
-
-            n_error = textbuffer.get_line_count()-1
-            if (n_error == 1):
-              label.set_text(str(n_error)+" Error")
-            else: 
-              label.set_text(str(n_error)+" Errores")
-
-            os.system('rm lexico.cg')
-        except IOError :
-            for codigo in resultado2:
-              f = open(codigo, 'r')
-              if f:
-                string = f.read()
-                f.close()
-                textbuffer.set_text(string)
-            label.set_text("Sin errores léxicos")
+                
+        for codigo in resultado2:
+            try:
+            	f = open(codigo, 'r')
+            	if f:
+                	string = f.read()
+               		f.close()
+                	textbuffer.set_text(string)
+            	label.set_text("Errores de sintaxis")
+            except IOError :
+		print"No se encontraron errores de sintaxis"
 
         statusbar.push(context_id, label.get_text())
 
@@ -474,7 +423,6 @@ def ejecute(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas):
         result(self, textbuffer1, sw1, statusbar, context_id)
 
 def ejecute2(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas):
-        print "pase"
         textbuffer = textbuffer
         textbuffer1 = textbuffer1
         sw1 = sw1
