@@ -72,22 +72,21 @@ def p_dibujado(p):
 	pass
 
 def p_error(p):
-	#print str(dir(p))
-	#print str(dir(cminus_lexer))
+	
 	if VERBOSE:
 		if p is not None:
                         error=open('.errorSintaxis.cg', 'a')
-          	        error.write("Error de sintaxis en la linea: " + str(p.lexer.lineno))
+          	        error.write("Error de sintaxis en la linea: " + str(p.lexer.lineno)+" en el token: "+str(p.value))
           		error.write('\n')
         		error.close()
-			print "Error de sintaxis en la linea: " + str(p.lexer.lineno)#+ " Unexpected token  " + str(p.value)
-                        p.lexer.skip(1)
+			yacc.errok()
 		else:
-			print "Syntax error at line: " + str(lexico.lexer.lineno)
+			print "Error de sintaxis en la linea: " + str(lexico.lexer.lineno)
 	else:
 		raise Exception('syntax', 'error')
 		
 def parse(data):
+    
     parser.parse(data, tracking=True)
     
 

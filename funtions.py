@@ -393,6 +393,7 @@ def result2(self, textbuffer, sw1, statusbar, context_id):
             	label.set_text("Errores de sintaxis")
             except IOError :
 		print"No se encontraron errores de sintaxis"
+                label.set_text("No hay errores de sintaxis")
 
         statusbar.push(context_id, label.get_text())
 
