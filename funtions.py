@@ -380,8 +380,29 @@ def result2(self, textbuffer, sw1, statusbar, context_id):
 
         textbuffer.delete(textbuffer.get_start_iter(), textbuffer.get_end_iter())
 
-        resultado2 = ['.errorSintaxis.cg']
+        resultado2 = ['.erroresSintaxis.cg']
         label = gtk.Label()
+        
+        primero = True
+
+        try:
+            f = open (".errorSintaxis.cg",'r')
+            errores=open('.erroresSintaxis.cg', 'a')
+            for line in f.readlines():
+                separados = line.split(':',2)
+                actual = str(separados[0])
+                lexema = str(separados[1])
+                if primero == True:
+                    primero = False
+                    anterior = actual
+                    errores.write("Error sintactico en la linea "+actual+" en el lexema " + lexema)
+                if actual != anterior:
+                    errores.write("Error sintactico en la linea "+actual+" en el lexema " + lexema)
+                    anterior = actual
+            errores.close()
+            f.close()
+        except IOError :
+            print "El Analizador Sintactico no encontro errores"
                 
         for codigo in resultado2:
             try:
@@ -392,8 +413,7 @@ def result2(self, textbuffer, sw1, statusbar, context_id):
                 	textbuffer.set_text(string)
             	label.set_text("Errores de sintaxis")
             except IOError :
-		print"No se encontraron errores de sintaxis"
-                label.set_text("No hay errores de sintaxis")
+		label.set_text("No hay errores de sintaxis")
 
         statusbar.push(context_id, label.get_text())
 

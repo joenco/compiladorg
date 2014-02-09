@@ -76,7 +76,8 @@ def p_error(p):
 	if VERBOSE:
 		if p is not None:
                         error=open('.errorSintaxis.cg', 'a')
-          	        error.write("Error de sintaxis en la linea " + str(p.lexer.lineno)+" en el token "+str(p.value))
+          	        #error.write("Error de sintaxis en la linea " + str(p.lexer.lineno)+" en el token "+str(p.value))
+                        error.write(str(p.lexer.lineno)+":"+str(p.value))
           		error.write('\n')
         		error.close()
 			yacc.errok()
