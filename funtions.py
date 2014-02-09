@@ -77,8 +77,9 @@ def new(self, sw, textbuffer, vistas):
     textbuffer = textbuffer
     vistas = vistas
     n= nfiles(self, '0', 0)
+    filename = namefiles(self, 0)
 
-    if n>0 or textbuffer[0].get_modified() == True:
+    if n>0 or textbuffer[0].get_modified() == True or filename!='nuevo':
         openfiles(self, sw[n+1], textbuffer[n+1], vistas, 'Nuevo')
         nfiles(self, 'nuevo', 1)
 
@@ -90,6 +91,7 @@ def openfile(self, sw, textbuffer, vistas):
     
     page = vistas.get_current_page()
     n = nfiles(self, 'None', 0)
+    filename = namefiles(self, 0)
 
     dialog = gtk.FileChooserDialog("Abrir archivo",None,
 gtk.FILE_CHOOSER_ACTION_OPEN,(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
@@ -105,7 +107,7 @@ gtk.STOCK_OPEN, gtk.RESPONSE_OK))
     response = dialog.run()
     if response == gtk.RESPONSE_OK:
         try:
-          if page != 0 or textbuffer[0].get_modified() == True:
+          if page != 0 or textbuffer[0].get_modified() == True or filename != 'nuevo':
             openfiles(self, sw[n+1], textbuffer[n+1], vistas, dialog.get_filename())
             textbuffer[n+1].set_modified(False)
             nfiles(self, dialog.get_filename(), 1)
@@ -117,6 +119,10 @@ gtk.STOCK_OPEN, gtk.RESPONSE_OK))
               textbuffer[0].set_text(string)
             textbuffer[0].set_modified(False)
             nfiles(self, dialog.get_filename(), 3)
+            label = gtk.Label(dialog.get_filename())
+            label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('blue'))
+            vistas.remove_page(page)
+            vistas.insert_page(sw[page], label, page)
         except IOError :
             print "El fichero no existe."
 
@@ -134,16 +140,14 @@ def savefile(self, sw, textbuffer, vistas):
         filename = namefiles(self, page)
 
         if filename != "nuevo":
-            try:
-                texto=open(filename, 'w')
-                texto.write(textbuffer[page].get_text(textbuffer[page].get_start_iter(), textbuffer[page].get_end_iter(), True)+"\n")
-            except IOError :
-                print "El fichero no existe."
+            texto=open(filename, 'w')
+            texto.write(textbuffer[page].get_text(textbuffer[page].get_start_iter(), textbuffer[page].get_end_iter(), True)+"\n")
             textbuffer[page].set_modified(False)
             texto.close()
         else:
             saveasfile(self, sw, textbuffer, vistas)
 
+#guardar como
 def saveasfile(self, sw, textbuffer, vistas):
         sw = sw
         textbuffer = textbuffer
@@ -157,47 +161,46 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
         dialog.set_default_response(gtk.RESPONSE_OK)
         response = dialog.run()
         if response == gtk.RESPONSE_OK:
-            try:
-                texto = open(dialog.get_filename(), 'w')
-                texto.write(textbuffer[page].get_text(textbuffer[page].get_start_iter(), textbuffer[page].get_end_iter(), True)+"\n")
-                file = open('.archivo'+str(page)+'.dat', 'w')
-                file.write(dialog.get_filename())
-                file.close()
-            except IOError :
-                print "El fichero no existe."
+            texto = open(dialog.get_filename(), 'w')
+            texto.write(textbuffer[page].get_text(textbuffer[page].get_start_iter(), textbuffer[page].get_end_iter(), True)+"\n")
+            file = open('.archivo'+str(page)+'.dat', 'w')
+            file.write(dialog.get_filename())
+            file.close()
             textbuffer[page].set_modified(False)
             texto.close()
+            label = gtk.Label(filename)
+            label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('blue'))
+            vistas.remove_page(page)
+            vistas.insert_page(sw[page], label, page)
         elif response == gtk.RESPONSE_CANCEL:
             print "No hay elementos seleccionados"
 
-        label = gtk.Label(filename)
-        label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('blue'))
-        vistas.remove_page(page)
-        vistas.insert_page(sw[page], label, page)
-        #vistas.next_page()
         dialog.destroy()
 
-def close(self, textbuffer, vistas):
+def close(self, sw, textbuffer, vistas):
+    sw = sw
     textbuffer = textbuffer
     vistas = vistas
 
     page = vistas.get_current_page()
 
     if textbuffer[page].get_modified() == True:
-        changeverify(self, textbuffer[page], vistas, page)
+        changeverify(self, sw, textbuffer, vistas, page)
 
-    removefile(self, page)
-    vistas.remove_page(page)
+    removefile(self, vistas, page)
 
-def removefile(self, page):
+def removefile(self, vistas, page):
+    vistas = vistas
     page = page
     nfiles(self, 'None', 2)
 
     if page!= 0:
       os.system('rm .archivo'+str(page)+'.dat')
+    vistas.remove_page(page)
 
 #cerrar la aplicación
-def quit(self, textbuffer, vistas, window):
+def quit(self, sw, textbuffer, vistas, window):
+        sw = sw
         textbuffer = textbuffer
         vistas = vistas
         window = window
@@ -209,11 +212,9 @@ def quit(self, textbuffer, vistas, window):
 
         while i!=-1:
           file = os.system('ls .archivo'+str(k)+'.dat')
-          print 'file: ', file
           if file != 512:
-            print 'k = ', k
             if textbuffer[k].get_modified() == True:
-              changeverify(self, textbuffer[k], vistas, k)
+              changeverify(self, sw, textbuffer, vistas, k)
             j=j+1
           if k != 0:
               os.system('rm .archivo'+str(k)+'.dat')
@@ -231,7 +232,8 @@ def quit(self, textbuffer, vistas, window):
         gtk.main_quit()
 
 #Verificar modificaciones
-def changeverify(self, textbuffer, vistas, page):
+def changeverify(self, sw, textbuffer, vistas, page):
+        sw = sw
         textbuffer = textbuffer
         vistas = vistas
         page=page
@@ -247,12 +249,15 @@ def changeverify(self, textbuffer, vistas, page):
 
         dialog = gtk.Dialog("Aviso", None, 0, (gtk.STOCK_NO, gtk.RESPONSE_CANCEL, gtk.STOCK_YES, gtk.RESPONSE_OK))
         dialog.set_default_response(gtk.RESPONSE_OK)
-        label = gtk.Label('Tiene cambios sin guardar en el archivo'+filename+' '+str(page)+', desea guardar los cambios?')
+        if filename != 'nuevo':
+            label = gtk.Label('Tiene cambios sin guardar en el archivo'+filename+', desea guardar los cambios?')
+        else:
+            label = gtk.Label('Tiene cambios sin guardar en el archivo'+filename+' '+str(page)+', desea guardar los cambios?')
         dialog.vbox.pack_start(label, True, True, 0)
         label.show()
         response = dialog.run()
         if response == gtk.RESPONSE_OK:
-                return savefile(self, textbuffer, filename)
+                return savefile(self, sw, textbuffer, vistas)
         elif response == gtk.RESPONSE_CANCEL:
                 return False
         dialog.destroy()
