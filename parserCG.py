@@ -76,7 +76,7 @@ def p_error(p):
 	if VERBOSE:
 		if p is not None:
                         error=open('.errorSintaxis.cg', 'a')
-          	        error.write("Error de sintaxis en la linea: " + str(p.lexer.lineno)+" en el token: "+str(p.value))
+          	        error.write("Error de sintaxis en la linea " + str(p.lexer.lineno)+" en el token "+str(p.value))
           		error.write('\n')
         		error.close()
 			yacc.errok()
@@ -86,7 +86,7 @@ def p_error(p):
 		raise Exception('syntax', 'error')
 		
 def parse(data):
-    
+    lexico.lexer.lineno = 1    
     parser.parse(data, tracking=True)
     
 
