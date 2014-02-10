@@ -27,9 +27,17 @@ def p_definicion(p):
 	'definicion : Accion Identificador Reservado Tipo Delimitador'
 	pass
 
+def p_definicion_error(p):
+	'definicion : Accion error Delimitador'
+	print "Error de Sintaxis"
+
 def p_asignacion_1(p):
 	'asignacion : Reservado Propiedad Atributo Reservado Identificador Asignacion Valor Delimitador'
 	pass
+
+def p_asignacion_1_error(p):
+	'asignacion : Reservado error Delimitador'
+	print "Error de Sintaxis"
 
 def p_asignacion_2(p):
 	'asignacion : Reservado Propiedad Atributo Reservado Identificador Asignacion Identificador Delimitador'
@@ -76,12 +84,15 @@ def p_error(p):
 	if VERBOSE:
 		if p is not None:
                         error=open('.errorSintaxis.cg', 'a')
-          	        #error.write("Error de sintaxis en la linea " + str(p.lexer.lineno)+" en el token "+str(p.value))
-                        error.write(str(p.lexer.lineno)+":"+str(p.value))
+          	        error.write(str(p.lexer.lineno)+":"+str(p.value)+":")
           		error.write('\n')
         		error.close()
-			yacc.errok()
+		
 		else:
+                        error=open('.errorSintaxis.cg', 'a')
+          	        error.write(str(lexico.lexer.lineno)+":"+"fin"+":")
+          		error.write('\n')
+        		error.close()
 			print "Error de sintaxis en la linea: " + str(lexico.lexer.lineno)
 	else:
 		raise Exception('syntax', 'error')

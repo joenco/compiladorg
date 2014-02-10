@@ -397,12 +397,19 @@ def result2(self, textbuffer, sw1, statusbar, context_id):
                 separados = line.split(':',2)
                 actual = str(separados[0])
                 lexema = str(separados[1])
+                
                 if primero == True:
                     primero = False
                     anterior = actual
-                    errores.write("Error sintactico en la linea "+actual+" en el lexema " + lexema)
+                    if lexema != "fin":
+                        errores.write("Error sintactico en la linea "+actual+" en el lexema " + lexema+"\n")
+                    else:
+                        errores.write("Error sintactico en la linea "+actual+"\n")
                 if actual != anterior:
-                    errores.write("Error sintactico en la linea "+actual+" en el lexema " + lexema)
+                    if lexema != "fin":
+                        errores.write("Error sintactico en la linea "+actual+" en el lexema " + lexema+"\n")
+                    else:
+                        errores.write("Error sintactico en la linea "+actual+"\n")
                     anterior = actual
             errores.close()
             f.close()

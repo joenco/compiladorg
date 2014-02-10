@@ -1,12 +1,11 @@
 INICIAR
-Definir punto1 como Punto : 
-a coordenada x de punto1 asignar 1 : 
-a coordenada y de punto1 asignar 1 : 
+Definir punto1 como Punto 
+a coordenada x de punto1 asignar 1 :
+a coordenada y de punto1 asignar 1 :
+Dibujar azul cilindro1 :
+Definir cilindro1 como Cilindro :
+a centro de cilindro1 asignar punto1 :
+a radio  cilindro1 asignar 3 :
+a altura de cilindro1 asignar 5 :
+Colorear  cilindro1 de azul :
 
-Definir cilindro1 como Cilindro : 
-a centro de cilindro1 asignar punto1 : 
-a radio de cilindro1 asignar 3 : 
-a altura cilindro1 de asignar 5 : 
-Colorear cilindro1 de azul : 
-FINALIZAR
-Dibujar cilindro1 : 
