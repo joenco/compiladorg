@@ -238,14 +238,7 @@ def changeverify(self, sw, textbuffer, vistas, page):
         vistas = vistas
         page=page
 
-        try:
-          file = ['.archivo'+str(page)+'.dat']
-          for line in file:
-              f = open(line, 'r')
-              filename = str(f.read())
-          f.close()
-        except IOError :
-          print 'no existe el archivo'
+        filename = namefiles(self, page)
 
         dialog = gtk.Dialog("Aviso", None, 0, (gtk.STOCK_NO, gtk.RESPONSE_CANCEL, gtk.STOCK_YES, gtk.RESPONSE_OK))
         dialog.set_default_response(gtk.RESPONSE_OK)
@@ -257,9 +250,11 @@ def changeverify(self, sw, textbuffer, vistas, page):
         label.show()
         response = dialog.run()
         if response == gtk.RESPONSE_OK:
-                return savefile(self, sw, textbuffer, vistas)
+            print "se ha presionado Si"
+            return savefile(self, sw, textbuffer, vistas)
         elif response == gtk.RESPONSE_CANCEL:
-                return False
+            print "se ha presionado No"
+            return False
         dialog.destroy()
 
 #Buscar linea
