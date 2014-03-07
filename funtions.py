@@ -7,6 +7,7 @@ import gtk
 import os
 import lexico
 import parserCG
+import re
 
 #abrir pestañas para los nuevos archivos
 def openfiles(self, sw, textbuffer, vistas, filename):
@@ -427,12 +428,39 @@ def result2(self, textbuffer, sw1, statusbar, context_id):
         
 def Text(self, textbuffer):
         textbuffer = textbuffer
+        nline = textbuffer.get_line_count()
 
         self.inicio = textbuffer.get_start_iter()
         self.fin = textbuffer.get_end_iter()
         texto = textbuffer.get_text(self.inicio, self.fin, True)
+        for i in range(nline):
+          lineas = texto.splitlines()
+        tabla_simbolos(self, texto, lineas)
 
         return texto
+
+def tabla_simbolos(self, texto, lineas):
+    texto=texto
+    lineas=lineas
+    c={}
+
+    for a in lineas:
+      palabras = a.split(' ')
+      id=tipo=' '
+      for b in palabras:
+        if re.findall('[a-z]+[\d]+', b):
+          id=b
+        if re.findall('((Punto)|(Recta)|(Parabola)|(Hiperbola)|(SemiRecta)|(Segmento)|(Curva)|(Circunferencia)|(Cuadrilatero)|(Triangulo)|(Cono)|(Esfera)|(Elipse)|(Cilindro))', b):
+          tipo=b
+          c[id] = tipo
+
+    n=len(c)
+    f = open('.tabla.cg', 'w')
+    for key in c.keys():
+      t=c[key]
+      f.write(str(key)+':'+str(t)+'\n')
+
+    f.close()
 
 def ejecute(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas):
         textbuffer = textbuffer
