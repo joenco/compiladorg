@@ -82,14 +82,6 @@ def lexico(data):
       token.write(str(tok))
       token.write('\n')
       print tok
-      #Guardar identificadores en la tabla de simbolos
-      tokn = str(tok)
-      if tokn.find("Identificador") >= 0:
-        separado = tokn.split('\'',3)
-        tabla_id[str(separado[1])] = 0
-    print "\nElementos de la Tabla de Simbolos"
-    for key in tabla_id.keys():
-      print key  
     token.close()
 
 lexer = lex.lex()
