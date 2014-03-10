@@ -436,6 +436,7 @@ def Text(self, textbuffer):
         for i in range(nline):
           lineas = texto.splitlines()
         simbolos =funtion.simbolos(texto, lineas)
+        print simbolos
 
         return texto
 
