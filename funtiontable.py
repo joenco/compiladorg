@@ -391,4 +391,12 @@ def simbolos(data, lineas):
       simbolos[i].append(0)
     i=i+1
     
+    
+    """
+    Se genera una tabla  con los siguientes datos y en la posición que sigue:
+    Posición Identificador Tipo A B C D Rotar Escalar Trasladar X Trasladar Y Color
+    para el punto A=X, B=y
+    para la circunferencia centro = A, radio=B
+    para la elipse y la hiperbola centro=A, semiEje A=B, semiEje=C
+    """
   return simbolos
