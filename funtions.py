@@ -7,7 +7,7 @@ import gtk
 import os
 import lexico
 import parserCG
-import re
+import funtiontable as funtion
 
 #abrir pestañas para los nuevos archivos
 def openfiles(self, sw, textbuffer, vistas, filename):
@@ -229,7 +229,7 @@ def quit(self, sw, textbuffer, vistas, window):
         f1.write('nuevo')
         f.close()
         f1.close()
-        
+        os.system('rm .*cg')
         gtk.main_quit()
 
 #Verificar modificaciones
@@ -435,32 +435,9 @@ def Text(self, textbuffer):
         texto = textbuffer.get_text(self.inicio, self.fin, True)
         for i in range(nline):
           lineas = texto.splitlines()
-        tabla_simbolos(self, texto, lineas)
+        simbolos =funtion.simbolos(texto, lineas)
 
         return texto
-
-def tabla_simbolos(self, texto, lineas):
-    texto=texto
-    lineas=lineas
-    c={}
-
-    for a in lineas:
-      palabras = a.split(' ')
-      id=tipo=' '
-      for b in palabras:
-        if re.findall('[a-z]+[\d]+', b):
-          id=b
-        if re.findall('((Punto)|(Recta)|(Parabola)|(Hiperbola)|(SemiRecta)|(Segmento)|(Curva)|(Circunferencia)|(Cuadrilatero)|(Triangulo)|(Cono)|(Esfera)|(Elipse)|(Cilindro))', b):
-          tipo=b
-          c[id] = tipo
-
-    n=len(c)
-    f = open('.tabla.cg', 'w')
-    for key in c.keys():
-      t=c[key]
-      f.write(str(key)+':'+str(t)+'\n')
-
-    f.close()
 
 def ejecute(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas):
         textbuffer = textbuffer
