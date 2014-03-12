@@ -1,4 +1,6 @@
 #! /usr/bin/emv python
+# -*- coding: utf-8 -*-
+
 import re
 
 def tabla(data, lineas):
@@ -90,6 +92,22 @@ def trasladar(lineas):
           t_y[id]=v
         
   return t_x, t_y
+  
+def dibujar(lineas):
+  lineas=lineas
+  d={}
+
+  for a in lineas:
+    palabras = a.split(' ')
+    id=' '
+    v=int(0)
+    for b in palabras:
+      if re.findall('(Dibujar)|(y)', b):
+        x=1
+      if re.findall('[a-z]+[\d]+', b):
+        id=b
+        d[id]=v
+  return d
 
 def coord(lineas):
   lineas=lineas
@@ -260,7 +278,7 @@ def semieje(lineas):
 def atributos(lineas, tipos):
   lineas=lineas
   tipos=tipos
-  lcoordenada=lextremo=lvertice=lsemiEje=lcirculo=lcuadrado=lhiper=' '
+  ldibujar=lcoordenada=lextremo=lvertice=lsemiEje=lcirculo=lcuadrado=lhiper=' '
   Coordenada={}
   Extremo={}
   Vertice={}
@@ -268,9 +286,13 @@ def atributos(lineas, tipos):
   Circulo={}
   Cuadrado={}
   Hiperbola={ }
+  Dibujar={}
 
   for key in tipos.keys():
     for b in lineas:
+      if tipos[key]=='Dibujar':
+        if re.findall('Dibujar', b):
+          ldibujar+=b+'\n'
       if tipos[key]=='Punto':
         if re.findall('coordenada', b):
           lcoordenada+=b+'\n'
@@ -293,6 +315,8 @@ def atributos(lineas, tipos):
         if re.findall('(centro)|(semiEje)', b):
           lhiper+=b+'\n'
 
+  ldibujar = ldibujar.splitlines()
+  Dibujar = dibujar(ldibujar)
   lcoordenada = lcoordenada.splitlines()
   Coordenada = coord(lcoordenada)
   lextremo = lextremo.splitlines()
@@ -309,7 +333,7 @@ def atributos(lineas, tipos):
   lhiper = lhiper.splitlines()
   Hiperbola = semieje(lhiper)
 
-  return Coordenada, Extremo, Vertice, Elipse, Circulo, Cuadrado, Hiperbola
+  return Coordenada, Extremo, Vertice, Elipse, Circulo, Cuadrado, Hiperbola, Dibujar
 
 def simbolos(data, lineas):
   data=data
@@ -389,11 +413,14 @@ def simbolos(data, lineas):
       simbolos[i].append(Color[key])
     else:
       simbolos[i].append(0)
+    if keys[key]=='Dibujar':
+      dibujar = Atributos[7]
+      simbolos[i].append(dibujar[key])
     i=i+1
     
     
     """
-    Se genera una tabla  con los siguientes datos y en la posición que sigue:
+    Se genera una tabla  con los siguientes datos y en la posicion que sigue:
     Posición Identificador Tipo A B C D Rotar Escalar Trasladar X Trasladar Y Color
     para el punto A=X, B=y
     para la circunferencia centro = A, radio=B
