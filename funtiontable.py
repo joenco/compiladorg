@@ -6,7 +6,7 @@ import re
 def tabla(data, lineas):
   data=data
   lineas = lineas
-  color=escalar=rotar=trasladar=''
+  color=escalar=rotar=trasladar=dibujar=''
   c={}
   for a in lineas:
     palabras = a.split(' ')
@@ -25,7 +25,9 @@ def tabla(data, lineas):
         color+=a+'\n'
       if re.findall('Trasladar', b):
         trasladar+=a+'\n'
-  return c, rotar, escalar, color, trasladar
+      if re.findall('Dibujar', b):
+        dibujar += a+'\n'
+  return c, rotar, escalar, color, trasladar, dibujar
   
 def rotar(lineas):
   lineas=lineas
@@ -102,8 +104,9 @@ def dibujar(lineas):
     id=' '
     v=int(0)
     for b in palabras:
-      if re.findall('(Dibujar)|(y)', b):
-        x=1
+      if re.findall('Dibujar', b):
+        v=1
+        print v
       if re.findall('[a-z]+[\d]+', b):
         id=b
         d[id]=v
@@ -278,7 +281,7 @@ def semieje(lineas):
 def atributos(lineas, tipos):
   lineas=lineas
   tipos=tipos
-  ldibujar=lcoordenada=lextremo=lvertice=lsemiEje=lcirculo=lcuadrado=lhiper=' '
+  lcoordenada=lextremo=lvertice=lsemiEje=lcirculo=lcuadrado=lhiper=' '
   Coordenada={}
   Extremo={}
   Vertice={}
@@ -286,13 +289,9 @@ def atributos(lineas, tipos):
   Circulo={}
   Cuadrado={}
   Hiperbola={ }
-  Dibujar={}
 
   for key in tipos.keys():
     for b in lineas:
-      if tipos[key]=='Dibujar':
-        if re.findall('Dibujar', b):
-          ldibujar+=b+'\n'
       if tipos[key]=='Punto':
         if re.findall('coordenada', b):
           lcoordenada+=b+'\n'
@@ -315,8 +314,6 @@ def atributos(lineas, tipos):
         if re.findall('(centro)|(semiEje)', b):
           lhiper+=b+'\n'
 
-  ldibujar = ldibujar.splitlines()
-  Dibujar = dibujar(ldibujar)
   lcoordenada = lcoordenada.splitlines()
   Coordenada = coord(lcoordenada)
   lextremo = lextremo.splitlines()
@@ -333,7 +330,7 @@ def atributos(lineas, tipos):
   lhiper = lhiper.splitlines()
   Hiperbola = semieje(lhiper)
 
-  return Coordenada, Extremo, Vertice, Elipse, Circulo, Cuadrado, Hiperbola, Dibujar
+  return Coordenada, Extremo, Vertice, Elipse, Circulo, Cuadrado, Hiperbola
 
 def simbolos(data, lineas):
   data=data
@@ -344,10 +341,12 @@ def simbolos(data, lineas):
   lescalar = identificadores[2].splitlines()
   ltrasladar = identificadores[3].splitlines()
   lcolor = identificadores[4].splitlines()
+  ldibujar = identificadores[5].splitlines()
   Rotar = rotar(lrotar)
   Escalar = escalar(lescalar)
   Trasladar = trasladar(ltrasladar)
   Color = color(lcolor)
+  Dibujar = dibujar(ldibujar)
   Atributos = atributos(lineas, identificadores[0])
   
   keys = identificadores[0]
@@ -390,9 +389,9 @@ def simbolos(data, lineas):
       simbolos[i].append(cuad[3][key])
     if keys[key]=='Hiperbola':
       hipe = Atributos[6]
+      simbolos[i].append(hipe[2][key])
       simbolos[i].append(hipe[0][key])
       simbolos[i].append(hipe[1][key])
-      simbolos[i].append(hipe[2][key])
     if Rotar.has_key(key)==True:
       simbolos[i].append(Rotar[key])
     else:
@@ -413,12 +412,12 @@ def simbolos(data, lineas):
       simbolos[i].append(Color[key])
     else:
       simbolos[i].append(0)
-    if keys[key]=='Dibujar':
-      dibujar = Atributos[7]
-      simbolos[i].append(dibujar[key])
+    if Dibujar.has_key(key)==True:
+      simbolos[i].append(Dibujar[key])
+    else:
+      simbolos[i].append(0)
     i=i+1
-    
-    
+
     """
     Se genera una tabla  con los siguientes datos y en la posicion que sigue:
     Posición Identificador Tipo A B C D Rotar Escalar Trasladar X Trasladar Y Color
