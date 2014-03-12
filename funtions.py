@@ -8,6 +8,7 @@ import os
 import lexico
 import parserCG
 import funtiontable as funtion
+import figuras
 
 #abrir pestañas para los nuevos archivos
 def openfiles(self, sw, textbuffer, vistas, filename):
@@ -362,14 +363,16 @@ def result(self, textbuffer, sw1, statusbar, context_id):
 
             os.system('rm lexico.cg')
         except IOError :
-            for codigo in resultado2:
-              f = open(codigo, 'r')
-              if f:
-                string = f.read()
-                f.close()
-                textbuffer.set_text(string)
-            label.set_text("Sin errores léxicos")
-
+            try:
+                for codigo in resultado2:
+                  f = open(codigo, 'r')
+                  if f:
+                    string = f.read()
+                    f.close()
+                    textbuffer.set_text(string)
+                label.set_text("Sin errores léxicos")
+            except IOError :
+                print "Error al leer .tokens.cg"
         statusbar.push(context_id, label.get_text())
 
 #Analisis sintactico
@@ -421,6 +424,7 @@ def result2(self, textbuffer, sw1, statusbar, context_id):
                 	textbuffer.set_text(string)
             	label.set_text("Errores de sintaxis")
             except IOError :
+                #print "Error al abrir .erroresSintaxis.cg"
 		label.set_text("No hay errores de sintaxis")
 
         statusbar.push(context_id, label.get_text())
@@ -435,8 +439,23 @@ def Text(self, textbuffer):
         texto = textbuffer.get_text(self.inicio, self.fin, True)
         for i in range(nline):
           lineas = texto.splitlines()
-        simbolos =funtion.simbolos(texto, lineas)
-        print simbolos
+        #simbolos =funtion.simbolos(texto, lineas)
+        #print simbolos
+
+        return texto
+
+def Draw(self, textbuffer):
+        textbuffer = textbuffer
+        nline = textbuffer.get_line_count()
+
+        self.inicio = textbuffer.get_start_iter()
+        self.fin = textbuffer.get_end_iter()
+        texto = textbuffer.get_text(self.inicio, self.fin, True)
+        for i in range(nline):
+          lineas = texto.splitlines()
+        simbolos = funtion.simbolos(texto, lineas)
+        #print simbolos
+	figuras.dibujar(simbolos)
 
         return texto
 
@@ -471,6 +490,16 @@ def ejecute2(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas):
         if texto:
             parserCG.parse(texto)
         result2(self, textbuffer1, sw1, statusbar, context_id)
+
+def ejecute3(self, textbuffer, vistas):
+        textbuffer = textbuffer
+        vistas = vistas
+
+        os.system('rm .*.cg')
+        os.system('clear')
+
+        page = vistas.get_current_page()
+        texto = Draw(self, textbuffer[page])
 
 #acerca de
 def about(self):

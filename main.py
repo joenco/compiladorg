@@ -120,7 +120,7 @@ class Interfaz:
             ('Syntactic', None, 'Sintáctico', '<Control>y', 'Sintáctico'),
             ('Semantic', None, 'Semántico', '<Control>z', 'Semántico'),
             ('Analyc', None, 'Analizar'),
-            ('Convert', None, 'Dibujar', '<Control>d', 'Semántico'),
+            ('Convert', None, 'Dibujar', '<Control>d', 'Dibujar'),
             ('Tools', None, '_Herramientas'),
             ('Tutor', gtk.STOCK_HELP, None, '<Control>h', 'La ayuda del programa'),
             ('About', gtk.STOCK_ABOUT, None, '<Control>u', 'Acerca de'),
@@ -137,6 +137,7 @@ class Interfaz:
         actiongroup.get_action('Find_line').connect('activate', funtion.findline, textbuffer, vistas)
         actiongroup.get_action('Lexico').connect('activate', funtion.ejecute, textbuffer, textbufferl, swl, statusbar, context_id, vistas)
         actiongroup.get_action('Syntactic').connect('activate', funtion.ejecute2, textbuffer, textbufferl, swl, statusbar, context_id, vistas)
+        actiongroup.get_action('Convert').connect('activate', funtion.ejecute3, textbuffer, vistas)
         actiongroup.get_action('About').connect('activate', funtion.about)
 
         uimanager.insert_action_group(actiongroup, 0)
