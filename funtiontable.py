@@ -68,7 +68,7 @@ def color(lineas):
     for b in palabras:
       if re.findall('[a-z]+[\d]+', b):
         id=b
-      if re.findall('(([rR]ojo)|([aA]zul)|([aA]marillo)|([vV]erde)|([mM]orado)|([gG]ris)|([nN]egro)|([rR]osado))', b):
+      if re.findall('([rR]ojo)|([aA]zul)|([aA]marillo)|([vV]erde)|([mM]orado)|([gG]ris)|([nN]egro)|([rR]osado)', b):
         color=b
         c[id]=color
         
@@ -339,8 +339,8 @@ def simbolos(data, lineas):
   identificadores = tabla(data, lineas)
   lrotar = identificadores[1].splitlines()
   lescalar = identificadores[2].splitlines()
-  ltrasladar = identificadores[3].splitlines()
-  lcolor = identificadores[4].splitlines()
+  lcolor = identificadores[3].splitlines()
+  ltrasladar = identificadores[4].splitlines()
   ldibujar = identificadores[5].splitlines()
   Rotar = rotar(lrotar)
   Escalar = escalar(lescalar)
