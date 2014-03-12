@@ -7,6 +7,10 @@ INICIAR
   a centro de hiperbola1 asignar punto1 : 
   a semiEje A de hiperbola1 asignar 2 : 
   a semiEje B de hiperbola1 asignar 3 : 
+Rotar hiperbola1 hasta 30 grados : 
+  Trasladar en x hiperbola1 hasta -3 unidades : 
+  Trasladar en y hiperbola1 hasta 5 unidades : 
+  Colorear hiperbola1 de verde :
   Dibujar hiperbola1 : 
 
 FINALIZAR
