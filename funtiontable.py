@@ -71,6 +71,7 @@ def color(lineas):
       if re.findall('([rR]ojo)|([aA]zul)|([aA]marillo)|([vV]erde)|([mM]orado)|([gG]ris)|([nN]egro)|([rR]osado)', b):
         color=b
         c[id]=color
+        print c
         
   return c
   
