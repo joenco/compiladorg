@@ -3,6 +3,7 @@
 
 import re
 
+#extrae los identificadores y los Tipos, tambien las lineas de rotar, escalar, trasladar y dibujar
 def tabla(data, lineas):
   data=data
   lineas = lineas
@@ -29,6 +30,7 @@ def tabla(data, lineas):
         dibujar += a+'\n'
   return c, rotar, escalar, color, trasladar, dibujar
   
+#función que extrae el identificador y el valor a rotar
 def rotar(lineas):
   lineas=lineas
   r={}
@@ -44,6 +46,7 @@ def rotar(lineas):
         
   return r
 
+#función que extrae el identificador y e valor deescalar 
 def escalar(lineas):
   lineas=lineas
   e={}
@@ -59,6 +62,7 @@ def escalar(lineas):
         
   return e
   
+#función que extrae el identificador y su color
 def color(lineas):
   lineas=lineas
   c={}
@@ -75,6 +79,7 @@ def color(lineas):
         
   return c
   
+#función que extrae el identificador y e valor trasladar (x, y)
 def trasladar(lineas):
   lineas=lineas
   t_x={}
@@ -96,6 +101,7 @@ def trasladar(lineas):
         
   return t_x, t_y
   
+#función que extrae el identificador y si se va a dibujar
 def dibujar(lineas):
   lineas=lineas
   d={}
@@ -113,6 +119,7 @@ def dibujar(lineas):
         d[id]=v
   return d
 
+#funciones de los valores del punto
 def coord(lineas):
   lineas=lineas
   X={}
@@ -134,6 +141,7 @@ def coord(lineas):
           Y[id]=v
   return X, Y
 
+#funciones de los valores de la recta
 def extremo(lineas):
   lineas=lineas
   A={}
@@ -142,17 +150,22 @@ def extremo(lineas):
   for a in lineas:
     palabras = a.split(' ')
     id=x=v=' '
+    p=i=0
     for b in palabras:
       if re.findall('(A)|(B)', b):
         x=b
-      if re.findall('[a-z]+[\d]+', b):
+      if re.findall('[a-z]+[\d]+', b) and p==0:
         id=b
-      if re.findall('[\-]?[0-9]{1,}(\.[0-9]{1,})?', b):
+        p=1
+      if re.findall('[a-z]+[\d]+', b) and i==2:
         v=b
+        print b
         if x=='A':
           A[id]=v
         if x=='B':
           B[id]=v
+      if re.findall('asignar', b):
+        i=2
   return A, B
 
 def circulo(lineas):
@@ -182,8 +195,9 @@ def circulo(lineas):
             r[id]=v
       if re.findall('asignar', b):
         i=2
-  return c, r
+  return r, c
 
+#funciones de los valores del triangulo
 def vertice(lineas):
   lineas=lineas
   A={}
@@ -246,6 +260,7 @@ def cuadrado(lineas):
 
   return A, B, C, D
 
+#funciones de los valores de la elipse y la hiperbola
 def semieje(lineas):
   lineas=lineas
   A={}
@@ -279,6 +294,7 @@ def semieje(lineas):
 
   return A, B, C
 
+#función que extrae todos los valores de cada identificador
 def atributos(lineas, tipos):
   lineas=lineas
   tipos=tipos
@@ -333,6 +349,7 @@ def atributos(lineas, tipos):
 
   return Coordenada, Extremo, Vertice, Elipse, Circulo, Cuadrado, Hiperbola
 
+#función que devuelve una tabla con todos los identificadores y sus atributos
 def simbolos(data, lineas):
   data=data
   lineas=lineas
@@ -390,9 +407,9 @@ def simbolos(data, lineas):
       simbolos[i].append(cuad[3][key])
     if keys[key]=='Hiperbola':
       hipe = Atributos[6]
-      simbolos[i].append(hipe[2][key])
       simbolos[i].append(hipe[0][key])
       simbolos[i].append(hipe[1][key])
+      simbolos[i].append(hipe[2][key])
     if Rotar.has_key(key)==True:
       simbolos[i].append(Rotar[key])
     else:
@@ -421,9 +438,9 @@ def simbolos(data, lineas):
 
     """
     Se genera una tabla  con los siguientes datos y en la posicion que sigue:
-    Posición Identificador Tipo A B C D Rotar Escalar Trasladar X Trasladar Y Color
+    Posición Identificador Tipo A B C D Rotar Escalar Trasladar X Trasladar Y Color dibujar
     para el punto A=X, B=y
-    para la circunferencia centro = A, radio=B
-    para la elipse y la hiperbola centro=A, semiEje A=B, semiEje=C
+    para la circunferencia radio =A, centro=B
+    para la elipse y la hiperbola centro=C, semiEje A=A, semiEje=B
     """
   return simbolos
