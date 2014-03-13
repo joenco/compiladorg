@@ -294,11 +294,62 @@ def semieje(lineas):
 
   return A, B, C
 
+#función de los valores de la parabola
+def parabola(lineas):
+  lineas=lineas
+  o={}
+  e={}
+  
+  for a in lineas:
+    palabras = a.split(' ')
+    id=x=v=' '
+    i=p=0
+    for b in palabras:
+      if re.findall('(origen)|(escala)', b):
+        x=b
+      if p==0:
+        if re.findall('[a-z]+[\d]+', b):
+          id=b
+          p=1
+      if i==2:
+        if x=='origen':
+          if re.findall('[a-z]+[\d]+', b):
+            v=b
+            o[id]=v
+        elif x=='escala':
+          if re.findall('[\-]?[0-9]{1,}(\.[0-9]{1,})?', b):
+            v=b
+            e[id]=v
+      if re.findall('asignar', b):
+        i=2
+  return e, o
+  
+def cono(lineas):
+  lineas=lineas
+  c_r = circulo(lineas)
+  c={}
+  
+  for a in lineas:
+    palabras = a.split(' ')
+    id=x=v=' '
+    i=p=0
+    for b in palabras:
+      if re.findall('altura', b):
+        x=b
+      if re.findall('[a-z]+[\d]+', b):
+        id=b
+      if x=='altura':
+        if re.findall('[\-]?[0-9]{1,}(\.[0-9]{1,})?', b):
+          v=b
+          c[id]=v
+
+  return c_r[0], c, c_r[1]
+  
 #función que extrae todos los valores de cada identificador
 def atributos(lineas, tipos):
   lineas=lineas
   tipos=tipos
-  lcoordenada=lextremo=lvertice=lsemiEje=lcirculo=lcuadrado=lhiper=' '
+  lcoordenada=lextremo=lvertice=lsemiEje=lcirculo=lcuadrado=lhiper=lparabola=lcono=lesfera=lcilindro=' '
   Coordenada={}
   Extremo={}
   Vertice={}
@@ -306,6 +357,10 @@ def atributos(lineas, tipos):
   Circulo={}
   Cuadrado={}
   Hiperbola={ }
+  Parabola={}
+  Cono={}
+  Esfera={}
+  Cilindro={}
 
   for key in tipos.keys():
     for b in lineas:
@@ -330,6 +385,18 @@ def atributos(lineas, tipos):
       if tipos[key]=='Hiperbola':
         if re.findall('(centro)|(semiEje)', b):
           lhiper+=b+'\n'
+      if tipos[key]=='Parabola':
+        if re.findall('(origen)|(escala)', b):
+          lparabola+=b+'\n'
+      if tipos[key]=='Cono':
+        if re.findall('(centro)|(radio)|(altura)', b):
+          lcono+=b+'\n'
+      if tipos[key]=='Esfera':
+        if re.findall('(centro)|(radio)', b):
+          lesfera+=b+'\n'
+      if tipos[key]=='Cilindro':
+        if re.findall('(centro)|(radio)|(altura)', b):
+          lcilindro+=b+'\n'
 
   lcoordenada = lcoordenada.splitlines()
   Coordenada = coord(lcoordenada)
@@ -346,10 +413,18 @@ def atributos(lineas, tipos):
   Cuadrado = cuadrado(lcuadrado)
   lhiper = lhiper.splitlines()
   Hiperbola = semieje(lhiper)
+  lparabola = lparabola.splitlines()
+  Parabola = parabola(lparabola)
+  lcono = lcono.splitlines()
+  Cono = cono(lcono)
+  lesfera = lesfera.splitlines()
+  Esfera = circulo(lesfera)
+  lcilindro = lcilindro.splitlines()
+  Cilindro = cono(lcilindro)
 
-  return Coordenada, Extremo, Vertice, Elipse, Circulo, Cuadrado, Hiperbola
+  return Coordenada, Extremo, Vertice, Elipse, Circulo, Cuadrado, Hiperbola, Parabola, Cono, Esfera, Cilindro
 
-#función que devuelve una tabla con todos los identificadores y sus atributos
+#función que devuelve una tabla con todos los identificadores y sus atributos de 2D y 3d
 def simbolos(data, lineas):
   data=data
   lineas=lineas
@@ -410,6 +485,24 @@ def simbolos(data, lineas):
       simbolos[i].append(hipe[0][key])
       simbolos[i].append(hipe[1][key])
       simbolos[i].append(hipe[2][key])
+    if keys[key]=='Parabola':
+      para = Atributos[7]
+      simbolos[i].append(para[0][key])
+      simbolos[i].append(para[1][key])
+    if keys[key]=='Cono':
+      cono = Atributos[8]
+      simbolos[i].append(cono[0][key])
+      simbolos[i].append(cono[1][key])
+      simbolos[i].append(cono[2][key])
+    if keys[key]=='Esfera':
+      esf = Atributos[9]
+      simbolos[i].append(esf[0][key])
+      simbolos[i].append(esf[1][key])
+    if keys[key]=='Cilindro':
+      cil = Atributos[10]
+      simbolos[i].append(cil[0][key])
+      simbolos[i].append(cil[1][key])
+      simbolos[i].append(cil[2][key])
     if Rotar.has_key(key)==True:
       simbolos[i].append(Rotar[key])
     else:
@@ -440,7 +533,9 @@ def simbolos(data, lineas):
     Se genera una tabla  con los siguientes datos y en la posicion que sigue:
     Posición Identificador Tipo A B C D Rotar Escalar Trasladar X Trasladar Y Color dibujar
     para el punto A=X, B=y
-    para la circunferencia radio =A, centro=B
+    para la circunferencia y la esfera radio =A, centro=B
     para la elipse y la hiperbola centro=C, semiEje A=A, semiEje=B
+    para la parabola escala=A, centro = B
+    para el cono y el cilindro radio=A, altura=B, centro=C
     """
   return simbolos
