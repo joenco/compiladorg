@@ -7,5 +7,6 @@ Definir cilindro1 como Cilindro :
 a centro de cilindro1 asignar punto1 :
 a radio  cilindro1 asignar 3 :
 a altura de cilindro1 asignar 5 :
+#a altura de cilindro1 asignar 8 :
 Colorear  cilindro1 de azul :
 
