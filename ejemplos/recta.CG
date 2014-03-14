@@ -1,16 +1,48 @@
 INICIAR
   Definir punto1 como Punto : 
-  a coordenada x de punto1 asignar 1 : 
-  a coordenada y de punto1 asignar 1 : 
+  a coordenada x de punto1 asignar 2 : 
+  a coordenada y de punto1 asignar 3 : 
 
   Definir punto2 como Punto : 
-  a coordenada x de punto2 asignar 2 : 
+  a coordenada x de punto2 asignar 1 : 
   a coordenada y de punto2 asignar 2 : 
 
   Definir recta1 como Recta : 
   a extremo A de recta1 asignar punto1 : 
   a extremo B de recta1 asignar punto2 : 
-    
-  Dibujar recta1 : 
+
+  Definir punto3 como Punto : 
+  a coordenada x de punto3 asignar -1 : 
+  a coordenada y de punto3 asignar -3 : 
+
+  Definir punto4 como Punto : 
+  a coordenada x de punto4 asignar 3 : 
+  a coordenada y de punto4 asignar 2 : 
+
+  Definir recta2 como Recta : 
+  a extremo A de recta2 asignar punto3 : 
+  a extremo B de recta2 asignar punto4 : 
+
+  Rotar recta1 hasta 30 grados : 
+  Rotar recta2 hasta 45 grados :  
+  Escalar recta1 hasta 3 veces :
+  Escalar recta2 hasta 2 veces :
+
+  Trasladar en x recta1 hasta -2 unidades :
+  
+  Trasladar en y recta2 hasta 1 unidades :
+
+  Colorear recta1 de Rojo :
+  Colorear recta2 de verde :   
+  Dibujar recta1 :   
+  Dibujar recta2 : 
 
 FINALIZAR
+
+
+
+
+
+
+
+
