@@ -12,22 +12,26 @@ def tabla(data, lineas):
   for a in lineas:
     palabras = a.split(' ')
     id=tipo=' '
+    i=0
     for b in palabras:
-      if re.findall('[a-z]+[\d]+', b):
-        id=b
-      if re.findall('((Punto)|(Recta)|(Parabola)|(Hiperbola)|(SemiRecta)|(Segmento)|(Curva)|(Circunferencia)|(Cuadrilatero)|(Triangulo)|(Cono)|(Esfera)|(Elipse)|(Cilindro))', b):
-        tipo=b
-        c[id]=tipo
-      if re.findall('Rotar', b):
-        rotar+=a+'\n'
-      if re.findall('Escalar', b):
-        escalar+=a+'\n'
-      if re.findall('Colorear', b):
-        color+=a+'\n'
-      if re.findall('Trasladar', b):
-        trasladar+=a+'\n'
-      if re.findall('Dibujar', b):
-        dibujar += a+'\n'
+      if re.findall('#', b):
+        i=1
+      if i==0:
+        if re.findall('[a-z]+[\d]+', b):
+          id=b
+        if re.findall('((Punto)|(Recta)|(Parabola)|(Hiperbola)|(SemiRecta)|(Segmento)|(Curva)|(Circunferencia)|(Cuadrilatero)|(Triangulo)|(Cono)|(Esfera)|(Elipse)|(Cilindro))', b):
+          tipo=b
+          c[id]=tipo
+        if re.findall('Rotar', b):
+          rotar+=a+'\n'
+        if re.findall('Escalar', b):
+          escalar+=a+'\n'
+        if re.findall('Colorear', b):
+          color+=a+'\n'
+        if re.findall('Trasladar', b):
+          trasladar+=a+'\n'
+        if re.findall('Dibujar', b):
+          dibujar += a+'\n'
   return c, rotar, escalar, color, trasladar, dibujar
   
 #función que extrae el identificador y el valor a rotar
@@ -37,6 +41,7 @@ def rotar(lineas):
   for a in lineas:
     palabras = a.split(' ')
     id=v=' '
+    i=0
     for b in palabras:
       if re.findall('[a-z]+[\d]+', b):
         id=b
@@ -128,17 +133,21 @@ def coord(lineas):
   for a in lineas:
     palabras = a.split(' ')
     id=x=v=' '
+    i=0
     for b in palabras:
-      if re.findall('(x)|(y)', b):
-        x=b
-      if re.findall('[a-z]+[\d]+', b):
-        id=b
-      if re.findall('[\-]?[0-9]{1,}(\.[0-9]{1,})?', b):
-        v=b
-        if x=='x':
-          X[id]=v
-        if x=='y':
-          Y[id]=v
+      if re.findall('#', b):
+        i=1
+      if i==0:
+        if re.findall('(x)|(y)', b):
+          x=b
+        if re.findall('[a-z]+[\d]+', b):
+          id=b
+        if re.findall('[\-]?[0-9]{1,}(\.[0-9]{1,})?', b):
+          v=b
+          if x=='x':
+            X[id]=v
+          if x=='y':
+            Y[id]=v
   return X, Y
 
 #funciones de los valores de la recta
@@ -150,22 +159,24 @@ def extremo(lineas):
   for a in lineas:
     palabras = a.split(' ')
     id=x=v=' '
-    p=i=0
+    p=i=t=0
     for b in palabras:
-      if re.findall('(A)|(B)', b):
-        x=b
-      if re.findall('[a-z]+[\d]+', b) and p==0:
-        id=b
-        p=1
-      if re.findall('[a-z]+[\d]+', b) and i==2:
-        v=b
-        print b
-        if x=='A':
-          A[id]=v
-        if x=='B':
-          B[id]=v
-      if re.findall('asignar', b):
-        i=2
+      if re.findall('#', b):
+        t=1
+      if t==0:
+        if re.findall('(A)|(B)', b):
+          x=b
+        if re.findall('[a-z]+[\d]+', b) and p==0:
+          id=b
+          p=1
+        if re.findall('[a-z]+[\d]+', b) and i==2:
+          v=b
+          if x=='A':
+            A[id]=v
+          if x=='B':
+            B[id]=v
+        if re.findall('asignar', b):
+          i=2
   return A, B
 
 def circulo(lineas):
@@ -176,25 +187,28 @@ def circulo(lineas):
   for a in lineas:
     palabras = a.split(' ')
     id=x=v=' '
-    i=p=0
+    i=p=t=0
     for b in palabras:
-      if re.findall('(centro)|(radio)', b):
-        x=b
-      if p==0:
-        if re.findall('[a-z]+[\d]+', b):
-          id=b
-          p=1
-      if i==2:
-        if x=='centro':
+      if re.findall('#', b):
+        t=1
+      if t==0:
+        if re.findall('(centro)|(radio)', b):
+          x=b
+        if p==0:
           if re.findall('[a-z]+[\d]+', b):
-            v=b
-            c[id]=v
-        elif x=='radio':
-          if re.findall('[\-]?[0-9]{1,}(\.[0-9]{1,})?', b):
-            v=b
-            r[id]=v
-      if re.findall('asignar', b):
-        i=2
+            id=b
+            p=1
+        if i==2:
+          if x=='centro':
+            if re.findall('[a-z]+[\d]+', b):
+              v=b
+              c[id]=v
+          elif x=='radio':
+            if re.findall('[\-]?[0-9]{1,}(\.[0-9]{1,})?', b):
+              v=b
+              r[id]=v
+        if re.findall('asignar', b):
+          i=2
   return r, c
 
 #funciones de los valores del triangulo
@@ -207,15 +221,17 @@ def vertice(lineas):
   for a in lineas:
     palabras = a.split(' ')
     id=x=v=' '
-    i=p=0
+    i=p=t=0
     for b in palabras:
-      if re.findall('(A)|(B)|(C)', b):
+      if re.findall('#', b):
+        t=1
+      if re.findall('(A)|(B)|(C)', b) and t==0:
         x=b
-      if p==0:
+      if p==0 and t==0:
         if re.findall('[a-z]+[\d]+', b):
           id=b
           p=1
-      if i==2:
+      if i==2 and t==0:
         if re.findall('[a-z]+[\d]+', b):
           v=b
           if x=='A':
@@ -224,7 +240,7 @@ def vertice(lineas):
             B[id]=v
           if x=='C':
             C[id]=v
-      if re.findall('asignar', b):
+      if re.findall('asignar', b) and t==0:
         i=2
   return A, B, C
 
@@ -238,14 +254,16 @@ def cuadrado(lineas):
   for a in lineas:
     palabras = a.split(' ')
     id=x=v=' '
-    i=p=0
+    i=p=t=0
     for b in palabras:
-      if re.findall('(A)|(B)|(C)|(D)', b):
+      if re.findall('#', b):
+        t=1
+      if re.findall('(A)|(B)|(C)|(D)', b) and t==0:
         x=b
-      if re.findall('[a-z]+[\d]+', b) and p==0:
+      if re.findall('[a-z]+[\d]+', b) and p==0 and t==0:
         id=b
         p=1
-      if re.findall('[a-z]+[\d]+', b) and i==2:
+      if re.findall('[a-z]+[\d]+', b) and i==2 and t==0:
         v=b
         if x=='A':
           A[id]=v
@@ -255,7 +273,7 @@ def cuadrado(lineas):
           C[id]=v
         if x=='D':
           D[id]=v
-      if re.findall('asignar', b):
+      if re.findall('asignar', b) and t==0:
         i=2
 
   return A, B, C, D
@@ -270,26 +288,28 @@ def semieje(lineas):
   for a in lineas:
     palabras = a.split(' ')
     id=x=x1=v=' '
-    i=p=0
+    i=p=t=0
     for b in palabras:
-      if re.findall('(centro)|(semiEje)', b):
+      if re.findall('#', b):
+        t=1
+      if re.findall('(centro)|(semiEje)', b) and t==0:
         x=b
-      if re.findall('[a-z]+[\d]+', b) and p==0:
+      if re.findall('[a-z]+[\d]+', b) and p==0 and t==0:
         id=b
         p=1
-      if re.findall('[a-z]+[\d]+', b) and i==2:
+      if re.findall('[a-z]+[\d]+', b) and i==2 and t==0:
         v=b
         C[id]=v
       if re.findall('(A)|(B)', b):
         x1=b
         print x1
-      if re.findall('[\-]?[0-9]{1,}(\.[0-9]{1,})?', b):
+      if re.findall('[\-]?[0-9]{1,}(\.[0-9]{1,})?', b) and t==0:
         v=b
         if x1=='A':
           A[id]=v
         if x1=='B':
           B[id]=v
-      if re.findall('asignar', b):
+      if re.findall('asignar', b) and t==0:
         i=2
 
   return A, B, C
@@ -303,24 +323,26 @@ def parabola(lineas):
   for a in lineas:
     palabras = a.split(' ')
     id=x=v=' '
-    i=p=0
+    i=p=t=0
     for b in palabras:
-      if re.findall('(origen)|(escala)', b):
+      if re.findall('#', b):
+        t=1
+      if re.findall('(origen)|(escala)', b) and t==0:
         x=b
-      if p==0:
+      if p==0 and t==0:
         if re.findall('[a-z]+[\d]+', b):
           id=b
           p=1
-      if i==2:
+      if i==2 and t==0:
         if x=='origen':
           if re.findall('[a-z]+[\d]+', b):
             v=b
             o[id]=v
         elif x=='escala':
-          if re.findall('[\-]?[0-9]{1,}(\.[0-9]{1,})?', b):
+          if re.findall('[\-]?[0-9]{1,}(\.[0-9]{1,})?', b) and t==0:
             v=b
             e[id]=v
-      if re.findall('asignar', b):
+      if re.findall('asignar', b) and t==0:
         i=2
   return e, o
   
@@ -332,13 +354,15 @@ def cono(lineas):
   for a in lineas:
     palabras = a.split(' ')
     id=x=v=' '
-    i=p=0
+    i=p=t=0
     for b in palabras:
+      if re.findall('#', b):
+        t=1
       if re.findall('altura', b):
         x=b
       if re.findall('[a-z]+[\d]+', b):
         id=b
-      if x=='altura':
+      if x=='altura' and t==0:
         if re.findall('[\-]?[0-9]{1,}(\.[0-9]{1,})?', b):
           v=b
           c[id]=v
