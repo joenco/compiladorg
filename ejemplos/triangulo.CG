@@ -1,25 +1,51 @@
 INICIAR
   Definir punto1 como Punto : 
-  a coordenada x de punto1 asignar 1 : 
-  a coordenada y de punto1 asignar 1 : 
+  a coordenada x de punto1 asignar 0 : 
+  a coordenada y de punto1 asignar 0 : 
 
   Definir punto2 como Punto : 
   a coordenada x de punto2 asignar 2 : 
   a coordenada y de punto2 asignar 2 : 
 
   Definir punto3 como Punto : 
-  a coordenada x de punto3 asignar 3 : 
-  a coordenada y de punto3 asignar 1 : 
+  a coordenada x de punto3 asignar 5 : 
+  a coordenada y de punto3 asignar 0 : 
 
   Definir triangulo1 como Triangulo : 
   a vertice A de triangulo1 asignar punto1 : 
   a vertice B de triangulo1 asignar punto2 : 
-  a vertice C de triangulo1 asignar punto3 : 
-  Rotar triangulo1 hasta 45 grados : 
+  a vertice C de triangulo1 asignar punto3 :
+ 
+  Rotar triangulo1 hasta 90 grados : 
   Trasladar en x triangulo1 hasta -3 unidades : 
   Trasladar en y triangulo1 hasta 3 unidades : 
   Colorear triangulo1 de azul : 
-  Escalar triangulo1 5 veces : 
+  Escalar triangulo1 3 veces : 
   Dibujar triangulo1 : 
 
+  Definir punto4 como Punto : 
+  a coordenada x de punto4 asignar -1 : 
+  a coordenada y de punto4 asignar -1 : 
+
+  Definir punto5 como Punto : 
+  a coordenada x de punto5 asignar -2 : 
+  a coordenada y de punto5 asignar -2 : 
+
+  Definir punto6 como Punto : 
+  a coordenada x de punto6 asignar -5 : 
+  a coordenada y de punto6 asignar -2 : 
+
+  Definir triangulo2 como Triangulo : 
+  a vertice A de triangulo2 asignar punto4 : 
+  a vertice B de triangulo2 asignar punto5 : 
+  a vertice C de triangulo2 asignar punto6 : 
+  Rotar triangulo2 hasta 30 grados : 
+  Trasladar en x triangulo2 hasta 2 unidades : 
+  Trasladar en y triangulo2 hasta 1 unidades : 
+  Colorear triangulo2 de Rojo : 
+  Escalar triangulo2 2 veces : 
+  Dibujar triangulo2 : 
+
 FINALIZAR
+
+

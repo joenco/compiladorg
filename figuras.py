@@ -18,15 +18,18 @@ def dibujar(simbolos):
   print "Indentificador\tTipo"
   #Recorriendo la tabla de simbolos
   for a in simbolos:
+    print a[1]+"\t\t"+a[2]
     if (a[2]== "Punto"):
-      print a[1]+"\t\t"+a[2]
-      #Dibujar
       if (int(a[10]) == 1 ):
         punto(float(a[3]),float(a[4]),float(a[7]),float(a[8]),obtener_color(str(a[9])))
     elif (a[2]=="Recta"):
       if (int(a[10]) == 1 ):
         # Atributos: x1, y1, x2, y2, rotar, escalar, trasladarx, trasladary, color
         recta(obtener_x(a[3], simbolos),obtener_y(a[3], simbolos),obtener_x(a[4], simbolos),obtener_y(a[4], simbolos),int(a[5]),int(a[6]),float(a[7]),float(a[8]),obtener_color(a[9]))
+    elif (a[2]=="Triangulo"):
+      if(int(a[11])==1):
+        #Atributos: simbolos, p1, p2, p3,rotar,escalar,tx,ty, color
+        triangulo(simbolos,a[3],a[4],a[5],int(a[6]),int(a[7]),float(a[8]),float(a[9]),obtener_color(a[10]))
   
   turtle.exitonclick()
 
@@ -62,7 +65,7 @@ def plano2d():
     turtle.left(grados)
     turtle.forward(264) 
   
-#Dibujar punto
+#Plantilla punto
 def punto(x,y,tx,ty,color):
   x = x
   y = y
@@ -137,7 +140,121 @@ def recta(x1, y1, x2, y2, rotar, escalar, tx, ty, color):
     turtle.lt(angulo+180)
     turtle.pendown()
     turtle.forward((distancia/2)*escalar)
- 
+
+#Plantilla triangulo
+def triangulo(simbolos,p1,p2,p3,rotar,escalar,tx,ty,color):
+  x1 = obtener_x(p1,simbolos)
+  y1 = obtener_y(p1,simbolos)
+  x2 = obtener_x(p2,simbolos)
+  y2 = obtener_y(p2,simbolos)
+  x3 = obtener_x(p3,simbolos)
+  y3 = obtener_y(p3,simbolos)
+
+  #Trasladar triangulo
+  x1 = x1*44 + tx*44
+  y1 = y1*44 + ty*44  
+  x2 = x2*44 + tx*44
+  y2 = y2*44 + ty*44
+  x3 = x3*44 + tx*44
+  y3 = y3*44 + ty*44
+
+  #Dibujar triangulo
+  turtle.penup()
+  turtle.setposition(x1,y1)
+  turtle.pendown()
+  turtle.color(color)
+  turtle.pensize(8)
+  turtle.setposition(x2,y2)
+  turtle.setposition(x3,y3)
+  turtle.setposition(x1,y1)
+  
+  #Calculos de lados
+  a =  math.sqrt(((x2 -x1)**2)+((y2-y1)**2)) #Opuesto de p3
+  b =  math.sqrt(((x3 -x1)**2)+((y3-y1)**2)) #Opuesto de p2
+  c =  math.sqrt(((x3 -x2)**2)+((y3-y2)**2)) #Opuesto de p1
+
+  #Calculo de incentro
+  incentro_x = (( (x1*c) + (x2*b) + (x3*a) ) / (a+b+c) )
+  incentro_y = (( (y1*c) + (y2*b) + (y3*a) ) / (a+b+c) ) 
+
+  #Calculo de distancias
+  d1 = math.sqrt(((incentro_x -x1)**2)+((incentro_y-y1)**2))
+  d2 = math.sqrt(((incentro_x -x2)**2)+((incentro_y-y2)**2))
+  d3 = math.sqrt(((incentro_x -x3)**2)+((incentro_y-y3)**2))
+
+  #Calculo de angulos
+  turtle.penup()  
+  turtle.setposition(incentro_x, incentro_y)
+  a1 = turtle.towards(x1,y1)
+  a2 = turtle.towards(x2,y2)
+  a3 = turtle.towards(x3,y3)
+
+  #Calcular nuevos puntos para escalar
+  turtle.setposition(incentro_x, incentro_y)
+  turtle.setheading(0)
+  turtle.lt(a1)
+  turtle.forward(d1*escalar)
+  x_1 = turtle.xcor()
+  y_1 = turtle.ycor()
+
+  turtle.setposition(incentro_x, incentro_y)
+  turtle.setheading(0)
+  turtle.lt(a2)
+  turtle.forward(d2*2)
+  x_2 = turtle.xcor()
+  y_2 = turtle.ycor()
+   
+  turtle.setposition(incentro_x, incentro_y)
+  turtle.setheading(0)
+  turtle.lt(a3)
+  turtle.forward(d3*2)
+  x_3 = turtle.xcor()
+  y_3 = turtle.ycor()
+
+  #Calcular nuevos puntos para rotar
+  turtle.setposition(incentro_x, incentro_y)
+  turtle.setheading(0)
+  turtle.lt(a1+rotar)
+  turtle.forward(d1)
+  x_1_ = turtle.xcor()
+  y_1_ = turtle.ycor()
+
+  turtle.setposition(incentro_x, incentro_y)
+  turtle.setheading(0)
+  turtle.lt(a2+rotar)
+  turtle.forward(d2)
+  x_2_ = turtle.xcor()
+  y_2_ = turtle.ycor()
+   
+  turtle.setposition(incentro_x, incentro_y)
+  turtle.setheading(0)
+  turtle.lt(a3+rotar)
+  turtle.forward(d3)
+  x_3_ = turtle.xcor()
+  y_3_ = turtle.ycor()
+
+  #Rotar triangulo
+  if rotar != 0:
+    print "rotar"
+    turtle.color("#008080")
+    turtle.penup()
+    turtle.setposition(x_1_,y_1_)
+    turtle.pendown()
+    turtle.setposition(x_2_,y_2_)
+    turtle.setposition(x_3_,y_3_)
+    turtle.setposition(x_1_,y_1_)
+     
+  #Escalar recta
+  if escalar != 0:
+    print "escalar"
+    turtle.color("#00FFFF")
+    turtle.penup()
+    turtle.setposition(x_1,y_1)
+    turtle.pendown()
+    turtle.setposition(x_2,y_2)
+    turtle.setposition(x_3,y_3)
+    turtle.setposition(x_1,y_1)
+
 #Traducir color a Ingles
 def obtener_color(color):
   color = color
