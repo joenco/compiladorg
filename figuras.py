@@ -30,7 +30,10 @@ def dibujar(simbolos):
       if(int(a[11])==1):
         #Atributos: simbolos, p1, p2, p3,rotar,escalar,tx,ty, color
         triangulo(simbolos,a[3],a[4],a[5],int(a[6]),int(a[7]),float(a[8]),float(a[9]),obtener_color(a[10]))
-  
+    elif (a[2] == "Cuadrilatero"):
+      if(int(a[12])==1):      
+        #Atributos: simbolos, p1, p2, p3, p4,rotar, escalar, tx, ty, color
+        cuadrilatero(simbolos,a[3],a[4],a[5],a[6],int(a[7]),int(a[8]),float(a[9]),float(a[10]),obtener_color(a[11]))  
   turtle.exitonclick()
 
 #Dibujar plano 2D
@@ -200,14 +203,14 @@ def triangulo(simbolos,p1,p2,p3,rotar,escalar,tx,ty,color):
   turtle.setposition(incentro_x, incentro_y)
   turtle.setheading(0)
   turtle.lt(a2)
-  turtle.forward(d2*2)
+  turtle.forward(d2*escalar)
   x_2 = turtle.xcor()
   y_2 = turtle.ycor()
    
   turtle.setposition(incentro_x, incentro_y)
   turtle.setheading(0)
   turtle.lt(a3)
-  turtle.forward(d3*2)
+  turtle.forward(d3*escalar)
   x_3 = turtle.xcor()
   y_3 = turtle.ycor()
 
@@ -255,6 +258,146 @@ def triangulo(simbolos,p1,p2,p3,rotar,escalar,tx,ty,color):
     turtle.setposition(x_3,y_3)
     turtle.setposition(x_1,y_1)
 
+#Plantilla cuadrilatero
+def cuadrilatero(simbolos,p1,p2,p3,p4,rotar,escalar,tx,ty,color):
+
+  #Obtener coordenadas
+  x1 = obtener_x(p1,simbolos)*44
+  y1 = obtener_y(p1,simbolos)*44
+  x2 = obtener_x(p2,simbolos)*44
+  y2 = obtener_y(p2,simbolos)*44
+  x3 = obtener_x(p3,simbolos)*44
+  y3 = obtener_y(p3,simbolos)*44
+  x4 = obtener_x(p4,simbolos)*44
+  y4 = obtener_y(p4,simbolos)*44
+
+  #Trasladar cuadrilatero
+  x1 = x1 + tx*44
+  y1 = y1 + ty*44  
+  x2 = x2 + tx*44
+  y2 = y2 + ty*44
+  x3 = x3 + tx*44
+  y3 = y3 + ty*44
+  x4 = x4 + tx*44
+  y4 = y4 + ty*44	
+
+  #Caucular punto medio de cuadrilatero
+  x5 = inferior_izquierdo(x1,x2,x3,x4,y1,y2,y3,y4,0)
+  y5 = inferior_izquierdo(x1,x2,x3,x4,y1,y2,y3,y4,1)
+  x6 = superior_derecho(x1,x2,x3,x4,y1,y2,y3,y4,0)
+  y6 = superior_derecho(x1,x2,x3,x4,y1,y2,y3,y4,1)
+  punto_medio_x = (x5 + x6) / 2 
+  punto_medio_y = (y5 + y6) / 2
+
+  print punto_medio_x, punto_medio_y
+
+  #Calculo de distancias
+  d1 = math.sqrt(((punto_medio_x -x1)**2)+((punto_medio_y-y1)**2))
+  d2 = math.sqrt(((punto_medio_x -x2)**2)+((punto_medio_y-y2)**2))
+  d3 = math.sqrt(((punto_medio_x -x3)**2)+((punto_medio_y-y3)**2))
+  d4 = math.sqrt(((punto_medio_x -x4)**2)+((punto_medio_y-y4)**2))
+  
+  #Calculo de angulos
+  turtle.penup()  
+  turtle.setposition(punto_medio_x, punto_medio_y)
+  a1 = turtle.towards(x1,y1)
+  a2 = turtle.towards(x2,y2)
+  a3 = turtle.towards(x3,y3)
+  a4 = turtle.towards(x4,y4)
+
+  #Calcular nuevos puntos para escalar
+  turtle.setposition(punto_medio_x, punto_medio_y)
+  turtle.setheading(0)
+  turtle.lt(a1)
+  turtle.forward(d1*escalar)
+  x_1 = turtle.xcor()
+  y_1 = turtle.ycor()
+
+  turtle.setposition(punto_medio_x, punto_medio_y)
+  turtle.setheading(0)
+  turtle.lt(a2)
+  turtle.forward(d2*escalar)
+  x_2 = turtle.xcor()
+  y_2 = turtle.ycor()
+   
+  turtle.setposition(punto_medio_x, punto_medio_y)
+  turtle.setheading(0)
+  turtle.lt(a3)
+  turtle.forward(d3*escalar)
+  x_3 = turtle.xcor()
+  y_3 = turtle.ycor()
+
+  turtle.setposition(punto_medio_x, punto_medio_y)
+  turtle.setheading(0)
+  turtle.lt(a4)
+  turtle.forward(d4*escalar)
+  x_4 = turtle.xcor()
+  y_4 = turtle.ycor()
+
+  #Calcular nuevos puntos para rotar
+  turtle.setposition(punto_medio_x, punto_medio_y)
+  turtle.setheading(0)
+  turtle.lt(a1+rotar)
+  turtle.forward(d1)
+  x_1_ = turtle.xcor()
+  y_1_ = turtle.ycor()
+
+  turtle.setposition(punto_medio_x, punto_medio_y)
+  turtle.setheading(0)
+  turtle.lt(a2+rotar)
+  turtle.forward(d2)
+  x_2_ = turtle.xcor()
+  y_2_ = turtle.ycor()
+   
+  turtle.setposition(punto_medio_x, punto_medio_y)
+  turtle.setheading(0)
+  turtle.lt(a3+rotar)
+  turtle.forward(d3)
+  x_3_ = turtle.xcor()
+  y_3_ = turtle.ycor()
+
+  turtle.setposition(punto_medio_x, punto_medio_y)
+  turtle.setheading(0)
+  turtle.lt(a4+rotar)
+  turtle.forward(d4)
+  x_4_ = turtle.xcor()
+  y_4_ = turtle.ycor()
+
+  #Dibujar cuadrilatero
+  turtle.color(color)         
+  turtle.penup()
+  turtle.setposition(x1,y1)
+  turtle.pendown()
+  turtle.pensize(8)
+  turtle.setposition(x2,y2)
+  turtle.setposition(x3,y3)
+  turtle.setposition(x4,y4)
+  turtle.setposition(x1,y1)
+
+  #Escalar
+  if escalar != 0:
+    print "escalar"
+    turtle.color("#00FFFF")
+    turtle.penup()
+    turtle.setposition(x_1,y_1)
+    turtle.pendown()
+    turtle.setposition(x_2,y_2)
+    turtle.setposition(x_3,y_3)
+    turtle.setposition(x_4,y_4)
+    turtle.setposition(x_1,y_1)
+
+  #Rotar
+  if rotar != 0:
+    print "rotar"
+    turtle.color("#008080")
+    turtle.penup()
+    turtle.setposition(x_1_,y_1_)
+    turtle.pendown()
+    turtle.setposition(x_2_,y_2_)
+    turtle.setposition(x_3_,y_3_)
+    turtle.setposition(x_4_,y_4_)
+    turtle.setposition(x_1_,y_1_)
+
 #Traducir color a Ingles
 def obtener_color(color):
   color = color
@@ -295,4 +438,38 @@ def obtener_y(punto, simbolos):
     if (a[1]== punto):
       return float(a[4])
   return 0
+
+def inferior_izquierdo(x1,x2,x3,x4,y1,y2,y3,y4,c):
+  inferior_x = x1
+  inferior_y = y1
+  if (inferior_x >= x2 and inferior_y >= y2):
+    inferior_x = x2
+    inferior_y = y2 
+  if (inferior_x >= x3 and inferior_y >= y3):
+    inferior_x = x3
+    inferior_y = y3 
+  if (inferior_x >= x4 and inferior_y >= y4):
+    inferior_x = x4
+    inferior_y = y4 
+  if c == 0:
+    return inferior_x
+  elif c == 1:
+    return inferior_y
+
+def superior_derecho(x1,x2,x3,x4,y1,y2,y3,y4,c):
+  superior_x = x1
+  superior_y = y1
+  if (superior_x <= x2 and superior_y <= y2):
+    superior_x = x2
+    superior_y = y2 
+  if (superior_x <= x3 and superior_y <= y3):
+    superior_x = x3
+    superior_y = y3 
+  if (superior_x <= x4 and superior_y <= y4):
+    superior_x = x4
+    superior_y = y4 
+  if c == 0:
+    return superior_x
+  elif c == 1:
+    return superior_y
 

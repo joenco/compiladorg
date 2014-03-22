@@ -20,7 +20,7 @@ INICIAR
   Trasladar en x triangulo1 hasta -3 unidades : 
   Trasladar en y triangulo1 hasta 3 unidades : 
   Colorear triangulo1 de azul : 
-  Escalar triangulo1 por 3 veces : 
+  Escalar triangulo1 hasta 3 veces : 
   Dibujar triangulo1 : 
 
   Definir punto4 como Punto : 
@@ -43,9 +43,8 @@ INICIAR
   Trasladar en x triangulo2 hasta 2 unidades : 
   Trasladar en y triangulo2 hasta 1 unidades : 
   Colorear triangulo2 de Rojo : 
-  Escalar triangulo2 por 2 veces : 
+  Escalar triangulo2 hasta 2 veces : 
   Dibujar triangulo2 : 
 
 FINALIZAR
-
 
