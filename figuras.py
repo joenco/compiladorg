@@ -33,7 +33,11 @@ def dibujar(simbolos):
     elif (a[2] == "Cuadrilatero"):
       if(int(a[12])==1):      
         #Atributos: simbolos, p1, p2, p3, p4,rotar, escalar, tx, ty, color
-        cuadrilatero(simbolos,a[3],a[4],a[5],a[6],int(a[7]),int(a[8]),float(a[9]),float(a[10]),obtener_color(a[11]))  
+        cuadrilatero(simbolos,a[3],a[4],a[5],a[6],int(a[7]),int(a[8]),float(a[9]),float(a[10]),obtener_color(a[11]))
+    elif (a[2]=="Circunferencia"):
+      if (int(a[10])==1):
+        #Atributo: radio, centro,tx,ty, escalar, color
+        circunferencia(simbolos,int(a[3]),a[4],float(a[6]),float(a[7]),float(a[8]),obtener_color(a[9]))  
   turtle.exitonclick()
 
 #Dibujar plano 2D
@@ -397,6 +401,30 @@ def cuadrilatero(simbolos,p1,p2,p3,p4,rotar,escalar,tx,ty,color):
     turtle.setposition(x_3_,y_3_)
     turtle.setposition(x_4_,y_4_)
     turtle.setposition(x_1_,y_1_)
+
+def circunferencia(simbolos,radio,centro,escalar,tx,ty,color):
+  turtle.color(color) 
+  turtle.pensize(8)
+  turtle.penup()
+
+  #Centro
+  x1 = obtener_x(centro,simbolos)*44
+  y1 = obtener_y(centro,simbolos)*44
+
+  #Trasladar circunferencia
+  x1 = x1 + tx*44
+  y1 = y1 + ty*44
+
+  turtle.setposition(x1, y1-(radio*44))
+  turtle.pendown()
+  turtle.circle(radio*44)
+
+  #Escalar circunferencia
+  turtle.penup()
+  turtle.setposition(x1, y1-(radio*44*escalar))
+  turtle.pendown()
+  turtle.color("#00FFFF")
+  turtle.circle(radio*44*escalar)
 
 #Traducir color a Ingles
 def obtener_color(color):

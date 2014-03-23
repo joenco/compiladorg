@@ -5,6 +5,17 @@ INICIAR
 
   Definir circunferencia1 como Circunferencia : 
   a centro de circunferencia1 asignar punto1 : 
-  a radio de circunferencia1 asignar 3 : 
+  a radio de circunferencia1 asignar 1 :
+ 
+  Colorear circunferencia1 de Amarillo :
+  Trasladar en x circunferencia1 hasta 1 unidades : 
+  Trasladar en y circunferencia1 hasta 2 unidades :
+  Escalar circunferencia1 hasta 3 veces :
   Dibujar circunferencia1 : 
 FINALIZAR
+
+
+
+
+
+
