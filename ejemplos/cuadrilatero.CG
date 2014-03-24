@@ -4,24 +4,60 @@ INICIAR
   a coordenada y de punto1 asignar 1 : 
 
   Definir punto2 como Punto : 
-  a coordenada x de punto2 asignar 2 : 
-  a coordenada y de punto2 asignar 2 : 
+  a coordenada x de punto2 asignar 1 : 
+  a coordenada y de punto2 asignar 3 : 
 
   Definir punto3 como Punto : 
   a coordenada x de punto3 asignar 3 : 
   a coordenada y de punto3 asignar 3 : 
 
   Definir punto4 como Punto : 
-  a coordenada x de punto4 asignar 4 : 
-  a coordenada y de punto4 asignar 4 : 
+  a coordenada x de punto4 asignar 3 : 
+  a coordenada y de punto4 asignar 1 : 
 
   #Figura que tiene cuatro lados (cuadrado, rectangulo, ...)
   Definir cuadrilatero1 como Cuadrilatero : 
   a vertice A de cuadrilatero1 asignar punto1 : 
   a vertice B de cuadrilatero1 asignar punto2 : 
   a vertice C de cuadrilatero1 asignar punto3 : 
-  a vertice D de cuadrilatero1 asignar punto4 : 
+  a vertice D de cuadrilatero1 asignar punto4 :
+  
+  Rotar cuadrilatero1 hasta 45 grados : 
+  Escalar cuadrilatero1 hasta 3 veces :
+  Colorear cuadrilatero1 de Morado :
+  Trasladar en x cuadrilatero1 hasta 1 unidades : 
+  Trasladar en y cuadrilatero1 hasta 1 unidades : 
   Dibujar cuadrilatero1 : 
+
+  Definir punto5 como Punto : 
+  a coordenada x de punto5 asignar -1 : 
+  a coordenada y de punto5 asignar 1 : 
+
+  Definir punto6 como Punto : 
+  a coordenada x de punto6 asignar -5 : 
+  a coordenada y de punto6 asignar 1 : 
+
+  Definir punto7 como Punto : 
+  a coordenada x de punto7 asignar -5 : 
+  a coordenada y de punto7 asignar 5 : 
+
+  Definir punto8 como Punto : 
+  a coordenada x de punto8 asignar -1 : 
+  a coordenada y de punto8 asignar 5 : 
+
+  #Figura que tiene cuatro lados (cuadrado, rectangulo, ...)
+  Definir cuadrilatero2 como Cuadrilatero : 
+  a vertice A de cuadrilatero2 asignar punto5 : 
+  a vertice B de cuadrilatero2 asignar punto6 : 
+  a vertice C de cuadrilatero2 asignar punto7 : 
+  a vertice D de cuadrilatero2 asignar punto8 :
+  
+  Rotar cuadrilatero2 hasta 15 grados : 
+  Escalar cuadrilatero2 hasta 2 veces :
+  Colorear cuadrilatero2 de Azul :
+  #Trasladar en x cuadrilatero2 hasta 1 unidades : 
+  #Trasladar en y cuadrilatero2 hasta 1 unidades : 
+  Dibujar cuadrilatero2 : 
 
 FINALIZAR
 
