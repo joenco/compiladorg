@@ -27,7 +27,7 @@ tokens = (
 # Declaraciones regulares de reglas para los tokens.
 t_Identificador = r'[a-z]+[\d]+[\s]'
 t_Asignacion = r'(asignar)[\s]'
-t_Propiedad = r'((coordenada)|(extremo)|(vertice)|(semiEje))[\s]'
+t_Propiedad = r'((coordenada)|(extremo)|(vertice)|(semiEje)|(potencia))[\s]'
 t_Delimitador = r'\:'
 t_Accion = r'((Definir)|(Colorear)|(Dibujar)|(Rotar)|(Escalar)|(Trasladar))[\s]'
 t_Reservado = r'((como)|(en)|(de)|(hasta)|(a))[\s]'
