@@ -86,7 +86,7 @@ def escalar(lineas):
         e[j].append(v)
         e[j].append(n)
         j+=1
-      if re.findall('por', b):
+      if re.findall('hasta', b):
         i=1
 
   return e
@@ -581,7 +581,7 @@ def simbolos(data, lineas):
     la segunda tabla "tabladibujar" contiene las figuras a graficar y tiene el siguiente orden:
         identificador Rotar Escalar Trasladar X Trasladar Y Color liniea posicióndegraficar
 -- es importante saber que para definir Escalar debe hacerse de la siguiente forma:
-Escalar triangulo1 por 3 veces : 
+Escalar triangulo1 hasta 3 veces : 
 para no tener problemas si sean reconocido
     """
   Tabladibujar = tabladibujar(identificadores)
