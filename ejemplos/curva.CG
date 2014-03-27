@@ -23,9 +23,9 @@ INICIAR
 
   Definir curva2 como Curva : 
   a extremo A de curva2 asignar punto3 : 
-  a extremo B de curv a2 asignar punto4 : 
+  a extremo B de curva2 asignar punto4 : 
   # curva convexa
-  a potencia de curva1 asignar 0.5 :
+  a potencia de curva2 asignar 0.5 :
   Rotar curva1 hasta 30 grados : 
   Rotar curva2 hasta 45 grados :  
   Escalar curva1 hasta 3 veces :
