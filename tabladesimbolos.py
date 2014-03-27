@@ -207,21 +207,26 @@ def extremo(lineas):
   lineas=lineas
   A={}
   B={}
+  P={}
   
   for a in lineas:
     palabras = a.split(' ')
-    id=x=v=' '
+    id=x=v=var=' '
     p=i=t=0
     for b in palabras:
       if re.findall('#', b):
         t=1
       if t==0:
+        if re.findall('(extremo)|(potencia)', b):
+          var=b
         if re.findall('(A)|(B)', b):
           x=b
         if re.findall('[a-z]+[\d]+', b) and p==0:
           id=b
           p=1
-        if re.findall('[a-z]+[\d]+', b) and i==2:
+        if re.findall('[\-]?[0-9]{1,}(\.[0-9]{1,})?', b) and i==2 and var=='potencia':
+          P[id]=b
+        if re.findall('[a-z]+[\d]+', b) and i==2 and var=='extremo':
           v=b
           if x=='A':
             A[id]=v
@@ -229,7 +234,8 @@ def extremo(lineas):
             B[id]=v
         if re.findall('asignar', b):
           i=2
-  return A, B
+          
+  return A, B, P
 
 def circulo(lineas):
   lineas=lineas
@@ -424,9 +430,10 @@ def cono(lineas):
 def atributos(lineas, tipos):
   lineas=lineas
   tipos=tipos
-  lcoordenada=lextremo=lvertice=lsemiEje=lcirculo=lcuadrado=lhiper=lparabola=lcono=lesfera=lcilindro=' '
+  lcoordenada=lextremo=lvertice=lsemiEje=lcirculo=lcuadrado=lhiper=lparabola=lcono=lesfera=lcilindro=lcurva=' '
   Coordenada={}
   Extremo={}
+  Curva={}
   Vertice={}
   Elipse={}
   Circulo={}
@@ -442,9 +449,12 @@ def atributos(lineas, tipos):
       if tipos[key]=='Punto':
         if re.findall('coordenada', b):
           lcoordenada+=b+'\n'
-      if tipos[key]=='Recta':
+      if tipos[key]=='Recta' :
         if re.findall('extremo', b):
           lextremo+=b+'\n'
+      if tipos[key]=='Curva':
+        if re.findall('(extremo)|(potencia)', b):
+          lcurva+=b+'\n'
       if tipos[key]=='Triangulo':
         if re.findall('vertice', b):
           lvertice+=b+'\n'
@@ -477,6 +487,8 @@ def atributos(lineas, tipos):
   Coordenada = coord(lcoordenada)
   lextremo = lextremo.splitlines()
   Extremo = extremo(lextremo)
+  lcurva = lcurva.splitlines()
+  Curva = extremo(lcurva)
   lvertice = lvertice.splitlines()
   Vertice = vertice(lvertice)
   lsemiEje = lsemiEje.splitlines()
@@ -496,7 +508,7 @@ def atributos(lineas, tipos):
   lcilindro = lcilindro.splitlines()
   Cilindro = cono(lcilindro)
 
-  return Coordenada, Extremo, Vertice, Elipse, Circulo, Cuadrado, Hiperbola, Parabola, Cono, Esfera, Cilindro
+  return Coordenada, Extremo, Vertice, Elipse, Circulo, Cuadrado, Hiperbola, Parabola, Cono, Esfera, Cilindro, Curva
 
 #función que devuelve una tabla con todos los identificadores y sus atributos de 2D y 3d
 def simbolos(data, lineas):
@@ -524,6 +536,11 @@ def simbolos(data, lineas):
       sec = Atributos[1]
       simbolos[i].append(sec[0][key])
       simbolos[i].append(sec[1][key])
+    if keys[key]=='Curva':
+      sec = Atributos[11]
+      simbolos[i].append(sec[0][key])
+      simbolos[i].append(sec[1][key])
+      simbolos[i].append(sec[2][key])
     if keys[key]=='Triangulo':
       vert = Atributos[2]
       simbolos[i].append(vert[0][key])
