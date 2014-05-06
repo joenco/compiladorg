@@ -133,10 +133,11 @@ gtk.STOCK_OPEN, gtk.RESPONSE_OK))
     dialog.destroy()
 
 #guardar archivos
-def savefile(self, sw, textbuffer, vistas):
+def savefile(self, sw, textbuffer, vistas, remove):
         sw = sw
         textbuffer = textbuffer
         vistas = vistas
+        remove = remove
 
         page = vistas.get_current_page()
         filename = namefiles(self, page)
@@ -147,13 +148,14 @@ def savefile(self, sw, textbuffer, vistas):
             textbuffer[page].set_modified(False)
             texto.close()
         else:
-            saveasfile(self, sw, textbuffer, vistas)
+            saveasfile(self, sw, textbuffer, vistas, remove)
 
 #guardar como
-def saveasfile(self, sw, textbuffer, vistas):
+def saveasfile(self, sw, textbuffer, vistas, remove):
         sw = sw
         textbuffer = textbuffer
         vistas = vistas
+        remove = remove
         page = vistas.get_current_page()
         filename = namefiles(self, page)
         print 'filename ', filename
@@ -170,10 +172,11 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
             file.close()
             textbuffer[page].set_modified(False)
             texto.close()
-            label = gtk.Label(filename)
+            label = gtk.Label(dialog.get_filename())
             label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('blue'))
-            vistas.remove_page(page)
-            vistas.insert_page(sw[page], label, page)
+            if remove==1:
+              vistas.remove_page(page)
+              vistas.insert_page(sw[page], label, page)
         elif response == gtk.RESPONSE_CANCEL:
             print "No hay elementos seleccionados"
 
@@ -187,7 +190,7 @@ def close(self, sw, textbuffer, vistas):
     page = vistas.get_current_page()
 
     if textbuffer[page].get_modified() == True:
-        changeverify(self, sw, textbuffer, vistas, page)
+        changeverify(self, sw, textbuffer, vistas, page, 0)
 
     removefile(self, vistas, page)
 
@@ -216,7 +219,7 @@ def quit(self, sw, textbuffer, vistas, window):
           file = os.system('ls .archivo'+str(k)+'.dat')
           if file != 512:
             if textbuffer[k].get_modified() == True:
-              changeverify(self, sw, textbuffer, vistas, k)
+              changeverify(self, sw, textbuffer, vistas, k, 1)
             j=j+1
           if k != 0:
               os.system('rm .archivo'+str(k)+'.dat')
@@ -233,12 +236,13 @@ def quit(self, sw, textbuffer, vistas, window):
         os.system('rm .*cg')
         gtk.main_quit()
 
-#Verificar modificaciones
-def changeverify(self, sw, textbuffer, vistas, page):
+# guarda o no las modificaciones
+def changeverify(self, sw, textbuffer, vistas, page, remove):
         sw = sw
         textbuffer = textbuffer
         vistas = vistas
         page=page
+        remove = remove
 
         filename = namefiles(self, page)
 
@@ -253,10 +257,11 @@ def changeverify(self, sw, textbuffer, vistas, page):
         response = dialog.run()
         if response == gtk.RESPONSE_OK:
             print "se ha presionado Si"
-            return savefile(self, sw, textbuffer, vistas)
+            return savefile(self, sw, textbuffer, vistas, remove)
+            #dialog.destroy()
         elif response == gtk.RESPONSE_CANCEL:
             print "se ha presionado No"
-            return False
+            #dialog.destroy()
         dialog.destroy()
 
 #Buscar linea
