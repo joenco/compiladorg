@@ -130,8 +130,8 @@ class Interfaz:
         #conectamos los eventos
         actiongroup.get_action('New').connect('activate', funtion.new, sw, textbuffer, vistas)
         actiongroup.get_action('Open').connect('activate', funtion.openfile, sw, textbuffer, vistas)
-        actiongroup.get_action('Save').connect('activate', funtion.savefile, sw, textbuffer, vistas)
-        actiongroup.get_action('Save_As').connect('activate', funtion.saveasfile, sw, textbuffer, vistas)
+        actiongroup.get_action('Save').connect('activate', funtion.savefile, sw, textbuffer, vistas, 1)
+        actiongroup.get_action('Save_As').connect('activate', funtion.saveasfile, sw, textbuffer, vistas, 1)
         actiongroup.get_action('Close').connect('activate', funtion.close, sw, textbuffer, vistas)
         actiongroup.get_action('Quit').connect('activate', funtion.quit, sw, textbuffer, vistas, window)
         actiongroup.get_action('Find_line').connect('activate', funtion.findline, textbuffer, vistas)
