@@ -510,7 +510,7 @@ def ejecute3(self, textbuffer, vistas):
 def about(self):
         aboutdialog = gtk.AboutDialog()
         authors = ["Jorge Ortega", "Jesús Pérez"]
-        logo = gtk.gdk.pixbuf_new_from_file_at_size('logoCG.png', 100, 100)
+        logo = gtk.gdk.pixbuf_new_from_file_at_size('imagenes/logoCG.png', 100, 100)
         comments = "Programa que permite dibujar figuras geométricas.\nMediante sentencias de programación.\nEs un proyecto de Compiladores."
         aboutdialog.set_program_name("CG: Compilador Geométrico")
         aboutdialog.set_logo(logo)
@@ -526,3 +526,39 @@ def about(self):
 # cerrar la ventana de acerca
 def on_close(self, parameter):
         self.destroy()
+
+def icon(self, icons):
+    icons = icons
+    icon = gtk.Image()
+    icon.set_from_file(icons)
+
+    return icon
+
+def toolbar(self, sw, vistas, textbuffer):
+        sw = sw
+        vistas = vistas
+        textbuffer = textbuffer
+        toolbar = gtk.Toolbar()
+        toolbar.set_orientation(gtk.ORIENTATION_HORIZONTAL)
+        toolbar.set_style(gtk.TOOLBAR_BOTH)
+        toolbar.set_border_width(5)
+
+
+        iconnew = icon(self, 'imagenes/nuevo.xpm')
+        bnew = toolbar.append_item("Nuevo", "Nuevo archivo","Private", iconnew, None)
+        bnew.connect('activate', new, sw, textbuffer, vistas)
+        toolbar.append_space()
+        iconopen = icon(self, 'imagenes/abrir.xpm')
+        bopen = toolbar.append_item("Abrir", "Abrir archivo", "Private", iconopen, None)
+        bopen.connect('activate', openfile, sw, textbuffer, vistas)
+        toolbar.append_space()
+        iconsave = icon(self, 'imagenes/guardar.xpm')
+        bsave = toolbar.append_item("Guardar", "Guardar el archivo", "Private", iconsave, None)
+        bsave.connect('activate', savefile, sw, textbuffer, vistas, 1)
+        toolbar.append_space()
+        icondraw = icon(self, 'imagenes/dibujar.xpm')
+        bdraw = toolbar.append_item("Dibujar", "Dibujar el archivo", "Private", icondraw, None)
+        bdraw.connect('activate', ejecute3, textbuffer, vistas)
+        toolbar.append_space()
+
+        return toolbar
