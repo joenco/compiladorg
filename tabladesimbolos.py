@@ -670,3 +670,15 @@ def tabladibujar(identificadores):
             min=tabladibujar[i][6]
 
   return tabladibujar
+
+def nombre(self, label):
+    label = label
+    palabras = label.split('/')
+    archivo=' '
+    for a in palabras:
+      print a
+      if re.findall('[\W]+[.CG]', a):
+        print a
+        archivo=a
+
+    return archivo
