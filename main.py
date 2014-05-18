@@ -138,6 +138,9 @@ class Interfaz:
         handlebox.add(toolbar)
         handlebox.show()
 
+        #imageanime = gtk.gdk.PixbufAnimation("imagenes/banerCG.gif")
+        #image = gtk.Image()
+        #self.image.set_from_animation(imageanime)
         image = gtk.Image()
         image.set_from_file('imagenes/banerCG.png')
         image.show()
