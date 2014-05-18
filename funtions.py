@@ -9,6 +9,7 @@ import lexico
 import parserCG
 import funtiontable as funtion
 import figuras
+import tabladesimbolos as funtion1
 
 #abrir pestañas para los nuevos archivos
 def openfiles(self, sw, textbuffer, vistas, filename):
@@ -121,7 +122,8 @@ gtk.STOCK_OPEN, gtk.RESPONSE_OK))
               textbuffer[0].set_text(string)
             textbuffer[0].set_modified(False)
             nfiles(self, dialog.get_filename(), 3)
-            label = gtk.Label(dialog.get_filename())
+            narchivo = funtion1.nombre(self, dialog.get_filename())
+            label = gtk.Label(narchivo)
             label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('blue'))
             vistas.remove_page(page)
             vistas.insert_page(sw[page], label, page)
@@ -172,7 +174,8 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
             file.close()
             textbuffer[page].set_modified(False)
             texto.close()
-            label = gtk.Label(dialog.get_filename())
+            narchivo = funtion1.nombre(self, dialog.get_filename())
+            label = gtk.Label(narchivo)
             label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('blue'))
             if remove==1:
               vistas.remove_page(page)
@@ -351,7 +354,7 @@ def result(self, textbuffer, sw1, statusbar, context_id):
           f.close()
         except IOError :
           print "El Analizador Lexico no encontro errores"    
-         
+        
         try:
             #for codigo in resultado1:
             f = open(".erroresLexico.cg", 'r')
@@ -540,7 +543,7 @@ def toolbar(self, sw, vistas, textbuffer):
         textbuffer = textbuffer
         toolbar = gtk.Toolbar()
         toolbar.set_orientation(gtk.ORIENTATION_HORIZONTAL)
-        toolbar.set_style(gtk.TOOLBAR_BOTH)
+        toolbar.set_style(gtk.TOOLBAR_ICONS)
         toolbar.set_border_width(5)
 
 
