@@ -545,7 +545,7 @@ def bienvenida(self):
         label1 = gtk.Label("Jesús Peréz & Jorge Ortega'!")
         label1.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('red'))
         dialog.vbox.pack_start(label1, True, True, 0)
-        activar = gtk:CheckBox('No mostrar de nuevo esta ventana')
+        activar = gtk:CheckButton('No mostrar de nuevo esta ventana')
         dialog.vbox.pack_start(activar, True, True, 0)
         label.show()
         label1.show()
