@@ -8,6 +8,7 @@ import os
 import lexico
 import parserCG
 import funtions as funtion
+import  tabladesimbolos as funtion1
 
 class Interfaz:
     ui = '''<ui>
@@ -39,6 +40,10 @@ class Interfaz:
     </ui>'''
 
     def __init__(self): 
+    
+        atributos = funtion1.preferencias(self)
+        if atributos[0] == str(0):
+          funtion.bienvenida(self)
         window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         window.set_resizable(True)  
         window.connect('destroy', lambda w: gtk.main_quit())
