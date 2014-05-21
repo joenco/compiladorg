@@ -531,3 +531,28 @@ def toolbar(self, sw, vistas, textbuffer):
         toolbar.append_space()
 
         return toolbar
+
+def bienvenida(self):
+        dialog = gtk.Dialog("Bienvenid@ Compilador CG", None, 0, (gtk.STOCK_YES, gtk.RESPONSE_OK))
+        dialog.set_default_response(gtk.RESPONSE_OK)
+        label = gtk.Label("Bienvenid@ al Compilador Geométrico!'!")
+        label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('red'))
+        dialog.vbox.pack_start(label, True, True, 0)
+        imageanime = gtk.gdk.PixbufAnimation("imagenes/logoCG.gif")
+        image = gtk.Image()
+        image.set_from_animation(imageanime)
+        dialog.vbox.pack_start(image, True, True, 0)
+        label1 = gtk.Label("Jesús Peréz & Jorge Ortega'!")
+        label1.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('red'))
+        dialog.vbox.pack_start(label1, True, True, 0)
+        activar = gtk:CheckBox('No mostrar de nuevo esta ventana')
+        dialog.vbox.pack_start(activar, True, True, 0)
+        label.show()
+        label1.show()
+        activar.show()
+        image.show()
+        response = dialog.run()
+        if response == gtk.RESPONSE_OK:
+            print "se ha presionado aceptar"
+        dialog.destroy()
+
