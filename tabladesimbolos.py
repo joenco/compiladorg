@@ -678,7 +678,21 @@ def nombre(self, label):
     for a in palabras:
       print a
       if re.findall('[\W]+[.CG]', a):
-        print a
         archivo=a
 
     return archivo
+    
+def preferencias(self):
+    atributos = []
+    archivo = ['.preferencias.dat']
+    lineas=' '
+    for texto in archivo:
+      f = open(texto, 'r')
+      data = f.read()
+      lineas = data.splitlines()
+      f.close()
+
+    for line in lineas:
+      atributos = line.split(' ')
+      
+    return atributos
