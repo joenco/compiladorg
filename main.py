@@ -130,8 +130,8 @@ class Interfaz:
         actiongroup.get_action('Close').connect('activate', funtion.close, sw, textbuffer, vistas)
         actiongroup.get_action('Quit').connect('activate', funtion.quit, sw, textbuffer, vistas, window)
         actiongroup.get_action('Find_line').connect('activate', funtion.findline, textbuffer, vistas)
-        actiongroup.get_action('Lexico').connect('activate', funtion.ejecute, textbuffer, textbufferl, swl, statusbar, context_id, vistas)
-        actiongroup.get_action('Syntactic').connect('activate', funtion.ejecute2, textbuffer, textbufferl, swl, statusbar, context_id, vistas)
+        actiongroup.get_action('Lexico').connect('activate', funtion.ejecute, textbuffer, textbufferl, swl, statusbar, context_id, vistas, 1)
+        actiongroup.get_action('Syntactic').connect('activate', funtion.ejecute, textbuffer, textbufferl, swl, statusbar, context_id, vistas, 2)
         actiongroup.get_action('Convert').connect('activate', funtion.ejecute3, textbuffer, vistas)
         actiongroup.get_action('About').connect('activate', funtion.about)
 
