@@ -467,13 +467,14 @@ def Draw(self, textbuffer):
 
         return texto
 
-def ejecute(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas):
+def ejecute(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas, opc):
         textbuffer = textbuffer
         textbuffer1 = textbuffer1
         sw1 = sw1
         statusbar = statusbar
         context_id = context_id
         vistas = vistas
+        opc = opc
         n=0
 
         os.system('rm .*.cg')
@@ -483,7 +484,8 @@ def ejecute(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas):
         if texto:
           if n==0:
             lexico.lexico(texto)
-            n=1
+            if opc==2:
+              n=1
           result(self, textbuffer1, sw1, statusbar, context_id)
           if n==1:
             parserCG.parse(texto)
