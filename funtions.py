@@ -354,7 +354,7 @@ def result(self, textbuffer, sw1, statusbar, context_id):
           f.close()
         except IOError :
           print "El Analizador Lexico no encontro errores"    
-        
+
         try:
             #for codigo in resultado1:
             f = open(".erroresLexico.cg", 'r')
@@ -383,6 +383,7 @@ def result(self, textbuffer, sw1, statusbar, context_id):
                 print "Error al leer .tokens.cg"
         statusbar.push(context_id, label.get_text())
 
+
 #Analisis sintactico
 def result2(self, textbuffer, sw1, statusbar, context_id):
         textbuffer = textbuffer
@@ -392,14 +393,14 @@ def result2(self, textbuffer, sw1, statusbar, context_id):
 
         textbuffer.delete(textbuffer.get_start_iter(), textbuffer.get_end_iter())
 
-        resultado2 = ['.erroresSintaxis.cg']
+        resultado2 = ['.erroresLexico.cg']
         label = gtk.Label()
         
         primero = True
 
         try:
             f = open (".errorSintaxis.cg",'r')
-            errores=open('.erroresSintaxis.cg', 'a')
+            errores=open('.erroresLexico.cg', 'a')
             for line in f.readlines():
                 separados = line.split(':',2)
                 actual = str(separados[0])
@@ -437,7 +438,6 @@ def result2(self, textbuffer, sw1, statusbar, context_id):
 
         statusbar.push(context_id, label.get_text())
 
-        
 def Text(self, textbuffer):
         textbuffer = textbuffer
         nline = textbuffer.get_line_count()
@@ -474,14 +474,20 @@ def ejecute(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas):
         statusbar = statusbar
         context_id = context_id
         vistas = vistas
+        n=0
 
         os.system('rm .*.cg')
         os.system('clear')
         page = vistas.get_current_page()
         texto = Text(self, textbuffer[page])
         if texto:
+          if n==0:
             lexico.lexico(texto)
-        result(self, textbuffer1, sw1, statusbar, context_id)
+            n=1
+          result(self, textbuffer1, sw1, statusbar, context_id)
+          if n==1:
+            parserCG.parse(texto)
+          result2(self, textbuffer1, sw1, statusbar, context_id)
 
 def ejecute2(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas):
         textbuffer = textbuffer
