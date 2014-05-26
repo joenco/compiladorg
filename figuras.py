@@ -78,10 +78,10 @@ def punto(x,y,tx,ty,color):
   y = y
   x = x*44 + tx*44
   y = y*44 + ty*44
-  turtle.penup()
-  turtle.setposition(x,y)
-  turtle.pendown()
-  turtle.dot(20,color)
+  turtle.penup() #levantar lapiz
+  turtle.setposition(x,y) #ir a posición
+  turtle.pendown() #bajar lapiz
+  turtle.dot(20,color) #dibujar punto
 
 #Plantilla recta
 def recta(x1, y1, x2, y2, rotar, escalar, tx, ty, color):
