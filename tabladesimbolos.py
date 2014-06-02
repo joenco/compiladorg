@@ -97,28 +97,37 @@ def escalar(lineas):
 #función que extrae el identificador y su color
 def color(lineas):
   lineas=lineas
-  c=[]
+  c=c1=[]
   j=0
   for a in lineas:
     palabras = a.split(' ')
-    id=color=' '
+    id=color=bf=' '
     i=p=n=0
     for b in palabras:
+      c.append([])
+      c1.append([])
       if re.findall('[\-]?[0-9]{1,}(\.[0-9]{1,})?', b) and p==0:
         n=b
         p=1
+      if re.findall('(borde)|(fondo)', b):
+        bf=b
       if re.findall('[a-z]+[\d]+', b):
         id=b
       if re.findall('([rR]ojo)|([aA]zul)|([aA]marillo)|([vV]erde)|([mM]orado)|([gG]ris)|([nN]egro)|([rR]osado)', b) and i==1:
         color=b
-        c.append([])
-        c[j].append(id)
-        c[j].append(color)
-        c[j].append(n)
+        
+        if bf == 'borde':
+          c[j].append(id)
+          c[j].append(n)
+          c[j].append(color)
+        if bf == 'fondo':
+          c1[j].append(id)
+          c1[j].append(n)
+          c1[j].append(color)
         j+=1
       if re.findall('de', b):
         i=1
-  return c
+  return c, c1
   
 #función que extrae el identificador y e valor trasladar (x, y)
 def trasladar(lineas):
@@ -757,6 +766,8 @@ def tabladibujar(identificadores):
   TrasladarX = Trasladar[0]
   TrasladarY = Trasladar[1]
   Color = color(lcolor)
+  Color1 = Color[0]
+  Color2 = Color[1]
   Dibujar = dibujar(ldibujar)
   tabladibujar=[]
   for k in Dibujar:
@@ -802,10 +813,10 @@ def tabladibujar(identificadores):
             min=tabladibujar[i][6]
   for i in range(d):
     min=0
-    for j in range(len(Color)):
-        if Color[j][0]==tabladibujar[i][0]:
-          if Color[j][2]>min and Color[j][2]<tabladibujar[i][6]:
-            tabladibujar[i][5]=Color[j][1]
+    for j in range(len(Color1)):
+        if Color1[j][0]==tabladibujar[i][0]:
+          if Color1[j][2]>min and Color1[j][2]<tabladibujar[i][6]:
+            tabladibujar[i][5]=Color1[j][1]
             min=tabladibujar[i][6]
 
   return tabladibujar
