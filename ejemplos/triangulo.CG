@@ -42,7 +42,8 @@ INICIAR
   Rotar triangulo2 hasta 30 grados : 
   Trasladar en x triangulo2 hasta 2 unidades : 
   Trasladar en y triangulo2 hasta 1 unidades : 
-  Colorear triangulo2 de Rojo : 
+  Colorear borde de triangulo2 de Rojo : 
+  Colorear fondo de triangulo2 de Verde : 
   Escalar triangulo2 hasta 2 veces : 
   Dibujar triangulo2 : 
 
