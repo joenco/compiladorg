@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import re
+import os
 
 #extrae los identificadores y los Tipos, tambien las lineas de rotar, escalar, trasladar y dibujar
 def tabla(data, lineas):
@@ -9,7 +10,7 @@ def tabla(data, lineas):
   lineas = lineas
   lineadibujar=10000
   nlinea=0
-  color=escalar=rotar=rotarD=trasladar=dibujar=''
+  idem=color=escalar=rotar=rotarD=trasladar=dibujar=''
   c={}
   for a in lineas:
     nlinea+=1
@@ -25,6 +26,8 @@ def tabla(data, lineas):
         if re.findall('((Punto)|(Recta)|(Parabola)|(Hiperbola)|(SemiRecta)|(Segmento)|(Curva)|(Circunferencia)|(Cuadrilatero)|(Triangulo)|(Cono)|(Esfera)|(Elipse)|(Cilindro))', b):
           tipo=b
           c[id]=tipo
+        if re.findall('(Coordenada)|(vertice)|(radio)|(centro)|(extremo)|(semiEje)|(origen)|(altura)|(Rotar)|(Trasladar)|(Escalar)|(Colorear)', b):
+          idem += str(nlinea)+a+'\n'
         if re.findall('Rotar', b):
           rotar+= str(nlinea)+' '+a+'\n'
         if re.findall('Escalar', b):
@@ -36,7 +39,7 @@ def tabla(data, lineas):
         if re.findall('Dibujar', b):
           dibujar += str(nlinea)+' '+a+'\n'
 
-  return c, rotar, escalar, color, trasladar, dibujar
+  return c, rotar, escalar, color, trasladar, dibujar, idem
   
 #función que extrae el identificador y el valor a rotar
 def rotar(lineas):
@@ -200,6 +203,7 @@ def coord(lineas):
             X[id]=v
           if x=='y':
             Y[id]=v
+
   return X, Y
 
 #funciones de los valores de la recta
@@ -524,14 +528,23 @@ def simbolos(data, lineas):
     simbolos.append([])
     simbolos[i].append(i)
 
+  os.system('rm .erroresSemanticos.cg')
+  semantic(keys, identificadores[6])
   i=0
+  f = open('.erroresSemanticos.cg', 'a')
   for key in keys.keys():
     simbolos[i].append(key)
     simbolos [i].append(keys[key])
     if keys[key]=='Punto':
       coord = Atributos[0]
-      simbolos[i].append(coord[0][key])
-      simbolos[i].append(coord[1][key])
+      if coord[0].has_key(key)==True:
+        simbolos[i].append(coord[0][key])
+      else:
+        f.write('La coordenada x del '+str(key)+', no tiene valor'+'\n')
+      if coord[1].has_key(key)==True:
+        simbolos[i].append(coord[1][key])
+      else:
+        f.write('La coordenada y del '+str(key)+', no tiene valor'+'\n')
     if keys[key]=='Recta':
       sec = Atributos[1]
       simbolos[i].append(sec[0][key])
@@ -586,9 +599,11 @@ def simbolos(data, lineas):
       simbolos[i].append(cil[2][key])
     i=i+1
 
-    """
+  f.close()
+
+  """
     Se genera 2 tablas:
-    la primera tabla "simbolo" contiene los valores de las corrdenadas, aristas, secmentos, centro, radio, orign, .... y  tiene el siguiente orden:
+    la primera tabla "simbolo" contiene los valores de las corrdenadas, aristas, secmentos, centro, radio, origen, .... y  tiene el siguiente orden:
         Posición Identificador Tipo A B C D
     para el punto A=X, B=y
     para la circunferencia y la esfera radio =A, centro=B
@@ -600,7 +615,7 @@ def simbolos(data, lineas):
 -- es importante saber que para definir Escalar debe hacerse de la siguiente forma:
 Escalar triangulo1 hasta 3 veces : 
 para no tener problemas si sean reconocido
-    """
+  """
   Tabladibujar = tabladibujar(identificadores)
   return simbolos, Tabladibujar
   
@@ -696,3 +711,40 @@ def preferencias(self):
       atributos = line.split(' ')
       
     return atributos
+
+def semantic(identificadores, idem):
+    identificadores = identificadores
+    idem = idem
+    declarado={}
+    id=' '
+    idem = idem.splitlines()
+
+    for a in idem:
+      palabras = a.split(' ')
+      n=0
+      for b in palabras:
+        if re.findall('[a-z]+[\d]+', b):
+          id = b
+      for key in identificadores.keys():
+        if key==id:
+          n=n+1
+      declarado[id]=n
+
+    for key in declarado.keys():
+      l=0
+      if declarado[key] == 0:
+        #for a in idem:
+          #palabras = a.split(' ')
+          #i=0
+          #id=' '
+          #for b in palabras:
+            #if re.findall(key, b):
+              #id = b
+            #if i==0:
+              #if re.findall('[\d]', b):
+                #l=b
+                #i=1
+          #if key == id:
+        f = open('.erroresSemanticos.cg', 'a')
+        f.write('El identificador '+str(key)+', no esta declarado.'+'\n')
+        f.close()
