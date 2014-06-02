@@ -79,7 +79,7 @@ def punto(x,y,tx,ty,color):
   x = x*44 + tx*44
   y = y*44 + ty*44
   turtle.penup() #levantar lapiz
-  turtle.setposition(x,y) #ir a posición
+  turtle.setposition(x,y) #ir a posicion
   turtle.pendown() #bajar lapiz
   turtle.dot(20,color) #dibujar punto
 
@@ -170,11 +170,13 @@ def triangulo(simbolos,p1,p2,p3,rotar,escalar,tx,ty,color):
   turtle.setposition(x1,y1)
   turtle.pendown()
   turtle.color(color)
+  turtle.fillcolor(color)
+  turtle.begin_fill()
   turtle.pensize(8)
   turtle.setposition(x2,y2)
   turtle.setposition(x3,y3)
   turtle.setposition(x1,y1)
-  
+  turtle.end_fill()
   #Calculos de lados
   a =  math.sqrt(((x2 -x1)**2)+((y2-y1)**2)) #Opuesto de p3
   b =  math.sqrt(((x3 -x1)**2)+((y3-y1)**2)) #Opuesto de p2
