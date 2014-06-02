@@ -530,7 +530,7 @@ def simbolos(data, lineas):
 
   os.system('rm .erroresSemanticos.cg')
   semantic(keys, identificadores[6])
-  i=0
+  e=i=0
   f = open('.erroresSemanticos.cg', 'a')
   for key in keys.keys():
     simbolos[i].append(key)
@@ -541,65 +541,189 @@ def simbolos(data, lineas):
         simbolos[i].append(coord[0][key])
       else:
         f.write('La coordenada x del '+str(key)+', no tiene valor'+'\n')
+        e=1
       if coord[1].has_key(key)==True:
         simbolos[i].append(coord[1][key])
       else:
         f.write('La coordenada y del '+str(key)+', no tiene valor'+'\n')
+        e=1
     if keys[key]=='Recta':
       sec = Atributos[1]
-      simbolos[i].append(sec[0][key])
-      simbolos[i].append(sec[1][key])
+      if sec[0].has_key(key)==True:
+        simbolos[i].append(sec[0][key])
+      else:
+        f.write('El extremo A de la '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if sec[1].has_key(key)==True:
+        simbolos[i].append(sec[1][key])
+      else:
+        f.write('El extremo B de la '+str(key)+', no tiene valor'+'\n')
+        e=1
     if keys[key]=='Curva':
       sec = Atributos[11]
-      simbolos[i].append(sec[0][key])
-      simbolos[i].append(sec[1][key])
-      simbolos[i].append(sec[2][key])
+      if sec[0].has_key(key)==True:
+        simbolos[i].append(sec[0][key])
+      else:
+        f.write('El extremo A de la '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if sec[1].has_key(key)==True:
+        simbolos[i].append(sec[1][key])
+      else:
+        f.write('El extremo B de la '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if sec[2].has_key(key)==True:
+        simbolos[i].append(sec[2][key])
+      else:
+        f.write('La potencia de la '+str(key)+', no tiene valor'+'\n')
+        e=1
     if keys[key]=='Triangulo':
       vert = Atributos[2]
-      simbolos[i].append(vert[0][key])
-      simbolos[i].append(vert[1][key])
-      simbolos[i].append(vert[2][key])
+      if vert[0].has_key(key)==True:
+        simbolos[i].append(vert[0][key])
+      else:
+        f.write('El Vertice A del '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if vert[1].has_key(key)==True:
+        simbolos[i].append(vert[1][key])
+      else:
+        f.write('El Vertice B del '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if vert[2].has_key(key)==True:
+        simbolos[i].append(vert[2][key])
+      else:
+        f.write('El Vertice C del '+str(key)+', no tiene valor'+'\n')
+        e=1
     if keys[key]=='Elipse':
       elip = Atributos[3]
-      simbolos[i].append(elip[0][key])
-      simbolos[i].append(elip[1][key])
-      simbolos[i].append(elip[2][key])
+      if elip[0].has_key(key)==True:
+        simbolos[i].append(elip[0][key])
+      else:
+        f.write('El semieje A de la '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if elip[1].has_key(key)==True:
+        simbolos[i].append(elip[1][key])
+      else:
+        f.write('El semieje B de la '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if elip[2].has_key(key)==True:
+        simbolos[i].append(elip[2][key])
+      else:
+        f.write('El centro de la '+str(key)+', no tiene valor'+'\n')
+        e=1
     if keys[key]=='Circunferencia':
       cir = Atributos[4]
-      simbolos[i].append(cir[0][key])
-      simbolos[i].append(cir[1][key])
+      if cir[0].has_key(key)==True:
+        simbolos[i].append(cir[0][key])
+      else:
+        f.write('El radio de la '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if cir[1].has_key(key)==True:
+        simbolos[i].append(cir[1][key])
+      else:
+        f.write('El centro de la '+str(key)+', no tiene valor'+'\n')
+        e=1
     if keys[key]=='Cuadrilatero':
       cuad = Atributos[5]
-      simbolos[i].append(cuad[0][key])
-      simbolos[i].append(cuad[1][key])
-      simbolos[i].append(cuad[2][key])
-      simbolos[i].append(cuad[3][key])
+      if cuad[0].has_key(key)==True:
+        simbolos[i].append(cuad[0][key])
+      else:
+        f.write('El Vertice A de '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if cuad[1].has_key(key)==True:
+        simbolos[i].append(cuad[1][key])
+      else:
+        f.write('El Vertice B de '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if cuad[2].has_key(key)==True:
+        simbolos[i].append(cuad[2][key])
+      else:
+        f.write('El Vertice C de '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if cuad[3].has_key(key)==True:
+        simbolos[i].append(cuad[3][key])
+      else:
+        f.write('El Vertice D de '+str(key)+', no tiene valor'+'\n')
+        e=1
     if keys[key]=='Hiperbola':
       hipe = Atributos[6]
-      simbolos[i].append(hipe[0][key])
-      simbolos[i].append(hipe[1][key])
-      simbolos[i].append(hipe[2][key])
+      if hipe[0].has_key(key)==True:
+        simbolos[i].append(hipe[0][key])
+      else:
+        f.write('El semieje A de '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if hipe[1].has_key(key)==True:
+        simbolos[i].append(hipe[1][key])
+      else:
+        f.write('El semieje B de '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if hipe[2].has_key(key)==True:
+        simbolos[i].append(hipe[2][key])
+      else:
+        f.write('El centro de '+str(key)+', no tiene valor'+'\n')
+        e=1
     if keys[key]=='Parabola':
       para = Atributos[7]
-      simbolos[i].append(para[0][key])
-      simbolos[i].append(para[1][key])
+      if para[0].has_key(key)==True:
+        simbolos[i].append(para[0][key])
+      else:
+        f.write('La escala D de '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if para[1].has_key(key)==True:
+        simbolos[i].append(para[1][key])
+      else:
+        f.write('El origen de '+str(key)+', no tiene valor'+'\n')
+        e=1
     if keys[key]=='Cono':
       cono = Atributos[8]
-      simbolos[i].append(cono[0][key])
-      simbolos[i].append(cono[1][key])
-      simbolos[i].append(cono[2][key])
+      if cono[0].has_key(key)==True:
+        simbolos[i].append(cono[0][key])
+      else:
+        f.write('El radio de '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if cono[1].has_key(key)==True:
+        simbolos[i].append(cono[1][key])
+      else:
+        f.write('La altura de '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if cono[2].has_key(key)==True:
+        simbolos[i].append(cono[2][key])
+      else:
+        f.write('El centro de '+str(key)+', no tiene valor'+'\n')
+        e=1
     if keys[key]=='Esfera':
       esf = Atributos[9]
-      simbolos[i].append(esf[0][key])
-      simbolos[i].append(esf[1][key])
+      if esf[0].has_key(key)==True:
+        simbolos[i].append(esf[0][key])
+      else:
+        f.write('El centro de '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if esf[1].has_key(key)==True:
+        simbolos[i].append(esf[1][key])
+      else:
+        f.write('El radio de '+str(key)+', no tiene valor'+'\n')
+        e=1
     if keys[key]=='Cilindro':
       cil = Atributos[10]
-      simbolos[i].append(cil[0][key])
-      simbolos[i].append(cil[1][key])
-      simbolos[i].append(cil[2][key])
+      if cil[0].has_key(key)==True:
+        simbolos[i].append(cil[0][key])
+      else:
+        f.write('El radio de '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if cil[1].has_key(key)==True:
+        simbolos[i].append(cil[1][key])
+      else:
+        f.write('La altura de '+str(key)+', no tiene valor'+'\n')
+        e=1
+      if cil[2].has_key(key)==True:
+        simbolos[i].append(cil[2][key])
+      else:
+        f.write('El centro de '+str(key)+', no tiene valor'+'\n')
+        e=1
     i=i+1
 
   f.close()
+  if e==0:
+    os.system('rm .erroresSemanticos.cg')
 
   """
     Se genera 2 tablas:
