@@ -26,7 +26,7 @@ def tabla(data, lineas):
         if re.findall('((Punto)|(Recta)|(Parabola)|(Hiperbola)|(SemiRecta)|(Segmento)|(Curva)|(Circunferencia)|(Cuadrilatero)|(Triangulo)|(Cono)|(Esfera)|(Elipse)|(Cilindro))', b):
           tipo=b
           c[id]=tipo
-        if re.findall('(Coordenada)|(vertice)|(radio)|(centro)|(extremo)|(semiEje)|(origen)|(altura)|(Rotar)|(Trasladar)|(Escalar)|(Colorear)|(Dibujar)', b):
+        if re.findall('(Coordenada)|(vertice)|(radio)|(centro)|(extremo)|(semiEje)|(origen)|(altura)|(Rotar)|(Trasladar)|(Escalar)|(Colorear)|(Definir)', b):
           idem += str(nlinea)+a+'\n'
         if re.findall('Rotar', b):
           rotar+= str(nlinea)+' '+a+'\n'
@@ -97,15 +97,14 @@ def escalar(lineas):
 #función que extrae el identificador y su color
 def color(lineas):
   lineas=lineas
-  c=c1=[]
-  j=0
+  c=[]
+  c1=[]
+  k=j=0
   for a in lineas:
     palabras = a.split(' ')
-    id=color=bf=' '
+    bf=id=color=' '
     i=p=n=0
     for b in palabras:
-      c.append([])
-      c1.append([])
       if re.findall('[\-]?[0-9]{1,}(\.[0-9]{1,})?', b) and p==0:
         n=b
         p=1
@@ -115,18 +114,21 @@ def color(lineas):
         id=b
       if re.findall('([rR]ojo)|([aA]zul)|([aA]marillo)|([vV]erde)|([mM]orado)|([gG]ris)|([nN]egro)|([rR]osado)', b) and i==1:
         color=b
-        
         if bf == 'borde':
+          c.append([])
           c[j].append(id)
-          c[j].append(n)
           c[j].append(color)
-        if bf == 'fondo':
-          c1[j].append(id)
-          c1[j].append(n)
-          c1[j].append(color)
-        j+=1
+          c[j].append(n)
+          j+=1
+        if bf=='fondo':
+          c1.append([])
+          c1[k].append(id)
+          c1[k].append(color)
+          c1[k].append(n)
+          k+=1
       if re.findall('de', b):
         i=1
+
   return c, c1
   
 #función que extrae el identificador y e valor trasladar (x, y)
@@ -539,7 +541,7 @@ def simbolos(data, lineas):
 
   os.system('rm .erroresSemanticos.cg')
   semantic(keys, identificadores[6])
-  e=i=0
+  i=0
   f = open('.erroresSemanticos.cg', 'a')
   for key in keys.keys():
     simbolos[i].append(key)
@@ -550,189 +552,65 @@ def simbolos(data, lineas):
         simbolos[i].append(coord[0][key])
       else:
         f.write('La coordenada x del '+str(key)+', no tiene valor'+'\n')
-        e=1
       if coord[1].has_key(key)==True:
         simbolos[i].append(coord[1][key])
       else:
         f.write('La coordenada y del '+str(key)+', no tiene valor'+'\n')
-        e=1
     if keys[key]=='Recta':
       sec = Atributos[1]
-      if sec[0].has_key(key)==True:
-        simbolos[i].append(sec[0][key])
-      else:
-        f.write('El extremo A de la '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if sec[1].has_key(key)==True:
-        simbolos[i].append(sec[1][key])
-      else:
-        f.write('El extremo B de la '+str(key)+', no tiene valor'+'\n')
-        e=1
+      simbolos[i].append(sec[0][key])
+      simbolos[i].append(sec[1][key])
     if keys[key]=='Curva':
       sec = Atributos[11]
-      if sec[0].has_key(key)==True:
-        simbolos[i].append(sec[0][key])
-      else:
-        f.write('El extremo A de la '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if sec[1].has_key(key)==True:
-        simbolos[i].append(sec[1][key])
-      else:
-        f.write('El extremo B de la '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if sec[2].has_key(key)==True:
-        simbolos[i].append(sec[2][key])
-      else:
-        f.write('La potencia de la '+str(key)+', no tiene valor'+'\n')
-        e=1
+      simbolos[i].append(sec[0][key])
+      simbolos[i].append(sec[1][key])
+      simbolos[i].append(sec[2][key])
     if keys[key]=='Triangulo':
       vert = Atributos[2]
-      if vert[0].has_key(key)==True:
-        simbolos[i].append(vert[0][key])
-      else:
-        f.write('El Vertice A del '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if vert[1].has_key(key)==True:
-        simbolos[i].append(vert[1][key])
-      else:
-        f.write('El Vertice B del '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if vert[2].has_key(key)==True:
-        simbolos[i].append(vert[2][key])
-      else:
-        f.write('El Vertice C del '+str(key)+', no tiene valor'+'\n')
-        e=1
+      simbolos[i].append(vert[0][key])
+      simbolos[i].append(vert[1][key])
+      simbolos[i].append(vert[2][key])
     if keys[key]=='Elipse':
       elip = Atributos[3]
-      if elip[0].has_key(key)==True:
-        simbolos[i].append(elip[0][key])
-      else:
-        f.write('El semieje A de la '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if elip[1].has_key(key)==True:
-        simbolos[i].append(elip[1][key])
-      else:
-        f.write('El semieje B de la '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if elip[2].has_key(key)==True:
-        simbolos[i].append(elip[2][key])
-      else:
-        f.write('El centro de la '+str(key)+', no tiene valor'+'\n')
-        e=1
+      simbolos[i].append(elip[0][key])
+      simbolos[i].append(elip[1][key])
+      simbolos[i].append(elip[2][key])
     if keys[key]=='Circunferencia':
       cir = Atributos[4]
-      if cir[0].has_key(key)==True:
-        simbolos[i].append(cir[0][key])
-      else:
-        f.write('El radio de la '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if cir[1].has_key(key)==True:
-        simbolos[i].append(cir[1][key])
-      else:
-        f.write('El centro de la '+str(key)+', no tiene valor'+'\n')
-        e=1
+      simbolos[i].append(cir[0][key])
+      simbolos[i].append(cir[1][key])
     if keys[key]=='Cuadrilatero':
       cuad = Atributos[5]
-      if cuad[0].has_key(key)==True:
-        simbolos[i].append(cuad[0][key])
-      else:
-        f.write('El Vertice A de '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if cuad[1].has_key(key)==True:
-        simbolos[i].append(cuad[1][key])
-      else:
-        f.write('El Vertice B de '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if cuad[2].has_key(key)==True:
-        simbolos[i].append(cuad[2][key])
-      else:
-        f.write('El Vertice C de '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if cuad[3].has_key(key)==True:
-        simbolos[i].append(cuad[3][key])
-      else:
-        f.write('El Vertice D de '+str(key)+', no tiene valor'+'\n')
-        e=1
+      simbolos[i].append(cuad[0][key])
+      simbolos[i].append(cuad[1][key])
+      simbolos[i].append(cuad[2][key])
+      simbolos[i].append(cuad[3][key])
     if keys[key]=='Hiperbola':
       hipe = Atributos[6]
-      if hipe[0].has_key(key)==True:
-        simbolos[i].append(hipe[0][key])
-      else:
-        f.write('El semieje A de '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if hipe[1].has_key(key)==True:
-        simbolos[i].append(hipe[1][key])
-      else:
-        f.write('El semieje B de '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if hipe[2].has_key(key)==True:
-        simbolos[i].append(hipe[2][key])
-      else:
-        f.write('El centro de '+str(key)+', no tiene valor'+'\n')
-        e=1
+      simbolos[i].append(hipe[0][key])
+      simbolos[i].append(hipe[1][key])
+      simbolos[i].append(hipe[2][key])
     if keys[key]=='Parabola':
       para = Atributos[7]
-      if para[0].has_key(key)==True:
-        simbolos[i].append(para[0][key])
-      else:
-        f.write('La escala D de '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if para[1].has_key(key)==True:
-        simbolos[i].append(para[1][key])
-      else:
-        f.write('El origen de '+str(key)+', no tiene valor'+'\n')
-        e=1
+      simbolos[i].append(para[0][key])
+      simbolos[i].append(para[1][key])
     if keys[key]=='Cono':
       cono = Atributos[8]
-      if cono[0].has_key(key)==True:
-        simbolos[i].append(cono[0][key])
-      else:
-        f.write('El radio de '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if cono[1].has_key(key)==True:
-        simbolos[i].append(cono[1][key])
-      else:
-        f.write('La altura de '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if cono[2].has_key(key)==True:
-        simbolos[i].append(cono[2][key])
-      else:
-        f.write('El centro de '+str(key)+', no tiene valor'+'\n')
-        e=1
+      simbolos[i].append(cono[0][key])
+      simbolos[i].append(cono[1][key])
+      simbolos[i].append(cono[2][key])
     if keys[key]=='Esfera':
       esf = Atributos[9]
-      if esf[0].has_key(key)==True:
-        simbolos[i].append(esf[0][key])
-      else:
-        f.write('El centro de '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if esf[1].has_key(key)==True:
-        simbolos[i].append(esf[1][key])
-      else:
-        f.write('El radio de '+str(key)+', no tiene valor'+'\n')
-        e=1
+      simbolos[i].append(esf[0][key])
+      simbolos[i].append(esf[1][key])
     if keys[key]=='Cilindro':
       cil = Atributos[10]
-      if cil[0].has_key(key)==True:
-        simbolos[i].append(cil[0][key])
-      else:
-        f.write('El radio de '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if cil[1].has_key(key)==True:
-        simbolos[i].append(cil[1][key])
-      else:
-        f.write('La altura de '+str(key)+', no tiene valor'+'\n')
-        e=1
-      if cil[2].has_key(key)==True:
-        simbolos[i].append(cil[2][key])
-      else:
-        f.write('El centro de '+str(key)+', no tiene valor'+'\n')
-        e=1
+      simbolos[i].append(cil[0][key])
+      simbolos[i].append(cil[1][key])
+      simbolos[i].append(cil[2][key])
     i=i+1
 
   f.close()
-  if e==0:
-    os.system('rm .erroresSemanticos.cg')
 
   """
     Se genera 2 tablas:
@@ -744,7 +622,7 @@ def simbolos(data, lineas):
     para la parabola escala=A, centro = B
     para el cono y el cilindro radio=A, altura=B, centro=C 
     la segunda tabla "tabladibujar" contiene las figuras a graficar y tiene el siguiente orden:
-        identificador Rotar Escalar Trasladar X Trasladar Y Color liniea posicióndegraficar
+        identificador Rotar Escalar Trasladar X Trasladar Y Color de borde | color de fondo | liniea posicióndegraficar
 -- es importante saber que para definir Escalar debe hacerse de la siguiente forma:
 Escalar triangulo1 hasta 3 veces : 
 para no tener problemas si sean reconocido
@@ -777,7 +655,8 @@ def tabladibujar(identificadores):
     tabladibujar[i].append(0) #escalar
     tabladibujar[i].append(0) #trasladar x
     tabladibujar[i].append(0) #trasladar y
-    tabladibujar[i].append(0) #color
+    tabladibujar[i].append(0) #color de borde
+    tabladibujar[i].append(0) #color de fondo
     tabladibujar[i].append(k[1]) #posición
     i+=1
 
@@ -786,38 +665,45 @@ def tabladibujar(identificadores):
     min=0
     for j in range(len(Rotar)):
         if Rotar[j][0]==tabladibujar[i][0]:
-          if Rotar[j][2]>min and Rotar[j][2]<tabladibujar[i][6]:
+          if Rotar[j][2]>min and Rotar[j][2]<tabladibujar[i][7]:
             tabladibujar[i][1]=Rotar[j][1]
-            min=tabladibujar[i][6]
+            min=tabladibujar[i][7]
   min=0
   for i in range(d):
     min=0
     for j in range(len(Escalar)):
         if Escalar[j][0]==tabladibujar[i][0]:
-          if Escalar[j][2]>min and Escalar[j][2]<tabladibujar[i][6]:
+          if Escalar[j][2]>min and Escalar[j][2]<tabladibujar[i][7]:
             tabladibujar[i][2]=Escalar[j][1]
-            min=tabladibujar[i][6]
+            min=tabladibujar[i][7]
   for i in range(d):
     min=0
     for j in range(len(TrasladarX)):
         if TrasladarX[j][0]==tabladibujar[i][0]:
-          if TrasladarX[j][2]>min and TrasladarX[j][2]<tabladibujar[i][6]:
+          if TrasladarX[j][2]>min and TrasladarX[j][2]<tabladibujar[i][7]:
             tabladibujar[i][3]=TrasladarX[j][1]
-            min=tabladibujar[i][6]
+            min=tabladibujar[i][7]
   for i in range(d):
     min=0
     for j in range(len(TrasladarY)):
         if TrasladarY[j][0]==tabladibujar[i][0]:
-          if TrasladarY[j][2]>min and TrasladarY[j][2]<tabladibujar[i][6]:
+          if TrasladarY[j][2]>min and TrasladarY[j][2]<tabladibujar[i][7]:
             tabladibujar[i][4]=TrasladarY[j][1]
-            min=tabladibujar[i][6]
+            min=tabladibujar[i][7]
   for i in range(d):
     min=0
     for j in range(len(Color1)):
         if Color1[j][0]==tabladibujar[i][0]:
-          if Color1[j][2]>min and Color1[j][2]<tabladibujar[i][6]:
+          if Color1[j][2]>min and Color1[j][2]<tabladibujar[i][7]:
             tabladibujar[i][5]=Color1[j][1]
-            min=tabladibujar[i][6]
+            min=tabladibujar[i][7]
+  for i in range(d):
+    min=0
+    for j in range(len(Color2)):
+        if Color2[j][0]==tabladibujar[i][0]:
+          if Color2[j][2]>min and Color2[j][2]<tabladibujar[i][7]:
+            tabladibujar[i][6]=Color2[j][1]
+            min=tabladibujar[i][7]
 
   return tabladibujar
 
