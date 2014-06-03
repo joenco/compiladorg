@@ -17,5 +17,5 @@ for texto in archivo:
 #print lineas
 h = funcion.simbolos(data, lineas)
 n = len(h)
-for i in h[0]:
+for i in h[1]:
   print i
