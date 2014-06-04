@@ -26,6 +26,8 @@ def dibujar(simbolos):
       if (int(a[10]) == 1 ):
         # Atributos: x1, y1, x2, y2, rotar, escalar, trasladarx, trasladary, color
         recta(obtener_x(a[3], simbolos),obtener_y(a[3], simbolos),obtener_x(a[4], simbolos),obtener_y(a[4], simbolos),int(a[5]),int(a[6]),float(a[7]),float(a[8]),obtener_color(a[9]))
+    elif (a[2]=="Curva"):
+      curva()
     elif (a[2]=="Triangulo"):
       if(int(a[11])==1):
         #Atributos: simbolos, p1, p2, p3,rotar,escalar,tx,ty, color
@@ -38,6 +40,14 @@ def dibujar(simbolos):
       if (int(a[10])==1):
         #Atributo: radio, centro,tx,ty, escalar, color
         circunferencia(simbolos,int(a[3]),a[4],float(a[6]),float(a[7]),float(a[8]),obtener_color(a[9]))  
+    elif (a[2]=="Parabola"):
+      #if (int(a[10])==1):
+        #Atributos: centro
+      parabola(simbolos,a[4])
+    elif (a[2]=="Elipse"):
+      elipse()
+    elif (a[2]=="Hiperbola"):
+      hiperbola()
   turtle.exitonclick()
 
 #Dibujar plano 2D
@@ -147,6 +157,13 @@ def recta(x1, y1, x2, y2, rotar, escalar, tx, ty, color):
     turtle.lt(angulo+180)
     turtle.pendown()
     turtle.forward((distancia/2)*escalar)
+
+def curva(): 
+	turtle.color("violet")
+	turtle.penup()
+	for x in range(1,44):
+  		turtle.goto(x+(44), (x+(44))**0.5)
+  		turtle.pendown()
 
 #Plantilla triangulo
 def triangulo(simbolos,p1,p2,p3,rotar,escalar,tx,ty,color):
@@ -425,6 +442,34 @@ def circunferencia(simbolos,radio,centro,escalar,tx,ty,color):
   turtle.pendown()
   turtle.color("#00FFFF")
   turtle.circle(radio*44*escalar)
+
+#Parabola
+def parabola(simbolos,centro):
+  x1 = obtener_x(centro,simbolos)*44
+  y1 = obtener_y(centro,simbolos)*44
+  print "x1=",x1
+  print "y1=",y1  
+  turtle.color("violet")
+  turtle.penup()
+  for x in range(-44,44):
+    turtle.goto(x+(x1), 0.1*(x)**2+(y1))
+    turtle.pendown()
+
+#Elipse
+def elipse():
+  turtle.color("gray")
+  turtle.penup()
+  for x in range(0,44):
+    turtle.goto(math.degrees(0.5*math.cos(x))+(44*4), math.degrees(0.8*math.sin(x))-(44*4))
+    turtle.pendown()
+
+#Hiperbola
+def hiperbola():
+  turtle.color("pink")
+  turtle.penup()
+  for x in range(-2,3):
+    turtle.goto(math.degrees(0.5*math.cosh(x)), math.degrees(0.8*math.sinh(x)))
+    turtle.pendown()
 
 #Traducir color a Ingles
 def obtener_color(color):
