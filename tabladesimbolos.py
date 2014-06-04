@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import re
+import os
 
 #extrae los identificadores y los Tipos, tambien las lineas de rotar, escalar, trasladar y dibujar
 def tabla(data, lineas):
@@ -9,7 +10,7 @@ def tabla(data, lineas):
   lineas = lineas
   lineadibujar=10000
   nlinea=0
-  color=escalar=rotar=rotarD=trasladar=dibujar=''
+  definir=idem=color=escalar=rotar=rotarD=trasladar=dibujar=''
   c={}
   for a in lineas:
     nlinea+=1
@@ -25,6 +26,10 @@ def tabla(data, lineas):
         if re.findall('((Punto)|(Recta)|(Parabola)|(Hiperbola)|(SemiRecta)|(Segmento)|(Curva)|(Circunferencia)|(Cuadrilatero)|(Triangulo)|(Cono)|(Esfera)|(Elipse)|(Cilindro))', b):
           tipo=b
           c[id]=tipo
+        if re.findall('(Coordenada)|(vertice)|(radio)|(centro)|(extremo)|(semiEje)|(origen)|(altura)|(Rotar)|(Trasladar)|(Escalar)|(Colorear)', b):
+          idem += str(nlinea)+a+'\n'
+        if re.findall('Definir', b):
+          definir += str(nlinea)+' '+a+'\n'
         if re.findall('Rotar', b):
           rotar+= str(nlinea)+' '+a+'\n'
         if re.findall('Escalar', b):
@@ -36,7 +41,7 @@ def tabla(data, lineas):
         if re.findall('Dibujar', b):
           dibujar += str(nlinea)+' '+a+'\n'
 
-  return c, rotar, escalar, color, trasladar, dibujar
+  return c, rotar, escalar, color, trasladar, dibujar, idem, definir
   
 #función que extrae el identificador y el valor a rotar
 def rotar(lineas):
@@ -95,27 +100,38 @@ def escalar(lineas):
 def color(lineas):
   lineas=lineas
   c=[]
-  j=0
+  c1=[]
+  k=j=0
   for a in lineas:
     palabras = a.split(' ')
-    id=color=' '
+    bf=id=color=' '
     i=p=n=0
     for b in palabras:
       if re.findall('[\-]?[0-9]{1,}(\.[0-9]{1,})?', b) and p==0:
         n=b
         p=1
+      if re.findall('(borde)|(fondo)', b):
+        bf=b
       if re.findall('[a-z]+[\d]+', b):
         id=b
       if re.findall('([rR]ojo)|([aA]zul)|([aA]marillo)|([vV]erde)|([mM]orado)|([gG]ris)|([nN]egro)|([rR]osado)', b) and i==1:
         color=b
-        c.append([])
-        c[j].append(id)
-        c[j].append(color)
-        c[j].append(n)
-        j+=1
+        if bf == 'borde':
+          c.append([])
+          c[j].append(id)
+          c[j].append(color)
+          c[j].append(n)
+          j+=1
+        if bf=='fondo':
+          c1.append([])
+          c1[k].append(id)
+          c1[k].append(color)
+          c1[k].append(n)
+          k+=1
       if re.findall('de', b):
         i=1
-  return c
+
+  return c, c1
   
 #función que extrae el identificador y e valor trasladar (x, y)
 def trasladar(lineas):
@@ -200,6 +216,7 @@ def coord(lineas):
             X[id]=v
           if x=='y':
             Y[id]=v
+
   return X, Y
 
 #funciones de los valores de la recta
@@ -524,14 +541,23 @@ def simbolos(data, lineas):
     simbolos.append([])
     simbolos[i].append(i)
 
+  os.system('rm .erroresSemanticos.cg')
+  semantic(keys, identificadores[6])
   i=0
+  f = open('.erroresSemanticos.cg', 'a')
   for key in keys.keys():
     simbolos[i].append(key)
     simbolos [i].append(keys[key])
     if keys[key]=='Punto':
       coord = Atributos[0]
-      simbolos[i].append(coord[0][key])
-      simbolos[i].append(coord[1][key])
+      if coord[0].has_key(key)==True:
+        simbolos[i].append(coord[0][key])
+      else:
+        f.write('La coordenada x del '+str(key)+', no tiene valor'+'\n')
+      if coord[1].has_key(key)==True:
+        simbolos[i].append(coord[1][key])
+      else:
+        f.write('La coordenada y del '+str(key)+', no tiene valor'+'\n')
     if keys[key]=='Recta':
       sec = Atributos[1]
       simbolos[i].append(sec[0][key])
@@ -586,9 +612,11 @@ def simbolos(data, lineas):
       simbolos[i].append(cil[2][key])
     i=i+1
 
-    """
+  f.close()
+
+  """
     Se genera 2 tablas:
-    la primera tabla "simbolo" contiene los valores de las corrdenadas, aristas, secmentos, centro, radio, orign, .... y  tiene el siguiente orden:
+    la primera tabla "simbolo" contiene los valores de las corrdenadas, aristas, secmentos, centro, radio, origen, .... y  tiene el siguiente orden:
         Posición Identificador Tipo A B C D
     para el punto A=X, B=y
     para la circunferencia y la esfera radio =A, centro=B
@@ -596,11 +624,11 @@ def simbolos(data, lineas):
     para la parabola escala=A, centro = B
     para el cono y el cilindro radio=A, altura=B, centro=C 
     la segunda tabla "tabladibujar" contiene las figuras a graficar y tiene el siguiente orden:
-        identificador Rotar Escalar Trasladar X Trasladar Y Color liniea posicióndegraficar
+        identificador Rotar Escalar Trasladar X Trasladar Y Color de borde | color de fondo | liniea posicióndegraficar
 -- es importante saber que para definir Escalar debe hacerse de la siguiente forma:
 Escalar triangulo1 hasta 3 veces : 
 para no tener problemas si sean reconocido
-    """
+  """
   Tabladibujar = tabladibujar(identificadores)
   return simbolos, Tabladibujar
   
@@ -618,6 +646,8 @@ def tabladibujar(identificadores):
   TrasladarX = Trasladar[0]
   TrasladarY = Trasladar[1]
   Color = color(lcolor)
+  Color1 = Color[0]
+  Color2 = Color[1]
   Dibujar = dibujar(ldibujar)
   tabladibujar=[]
   for k in Dibujar:
@@ -627,7 +657,8 @@ def tabladibujar(identificadores):
     tabladibujar[i].append(0) #escalar
     tabladibujar[i].append(0) #trasladar x
     tabladibujar[i].append(0) #trasladar y
-    tabladibujar[i].append(0) #color
+    tabladibujar[i].append(0) #color de borde
+    tabladibujar[i].append(0) #color de fondo
     tabladibujar[i].append(k[1]) #posición
     i+=1
 
@@ -636,37 +667,95 @@ def tabladibujar(identificadores):
     min=0
     for j in range(len(Rotar)):
         if Rotar[j][0]==tabladibujar[i][0]:
-          if Rotar[j][2]>min and Rotar[j][2]<tabladibujar[i][6]:
+          if Rotar[j][2]>min and Rotar[j][2]<tabladibujar[i][7]:
             tabladibujar[i][1]=Rotar[j][1]
-            min=tabladibujar[i][6]
+            min=tabladibujar[i][7]
   min=0
   for i in range(d):
     min=0
     for j in range(len(Escalar)):
         if Escalar[j][0]==tabladibujar[i][0]:
-          if Escalar[j][2]>min and Escalar[j][2]<tabladibujar[i][6]:
+          if Escalar[j][2]>min and Escalar[j][2]<tabladibujar[i][7]:
             tabladibujar[i][2]=Escalar[j][1]
-            min=tabladibujar[i][6]
+            min=tabladibujar[i][7]
   for i in range(d):
     min=0
     for j in range(len(TrasladarX)):
         if TrasladarX[j][0]==tabladibujar[i][0]:
-          if TrasladarX[j][2]>min and TrasladarX[j][2]<tabladibujar[i][6]:
+          if TrasladarX[j][2]>min and TrasladarX[j][2]<tabladibujar[i][7]:
             tabladibujar[i][3]=TrasladarX[j][1]
-            min=tabladibujar[i][6]
+            min=tabladibujar[i][7]
   for i in range(d):
     min=0
     for j in range(len(TrasladarY)):
         if TrasladarY[j][0]==tabladibujar[i][0]:
-          if TrasladarY[j][2]>min and TrasladarY[j][2]<tabladibujar[i][6]:
+          if TrasladarY[j][2]>min and TrasladarY[j][2]<tabladibujar[i][7]:
             tabladibujar[i][4]=TrasladarY[j][1]
-            min=tabladibujar[i][6]
+            min=tabladibujar[i][7]
   for i in range(d):
     min=0
-    for j in range(len(Color)):
-        if Color[j][0]==tabladibujar[i][0]:
-          if Color[j][2]>min and Color[j][2]<tabladibujar[i][6]:
-            tabladibujar[i][5]=Color[j][1]
-            min=tabladibujar[i][6]
+    for j in range(len(Color1)):
+        if Color1[j][0]==tabladibujar[i][0]:
+          if Color1[j][2]>min and Color1[j][2]<tabladibujar[i][7]:
+            tabladibujar[i][5]=Color1[j][1]
+            min=tabladibujar[i][7]
+  for i in range(d):
+    min=0
+    for j in range(len(Color2)):
+        if Color2[j][0]==tabladibujar[i][0]:
+          if Color2[j][2]>min and Color2[j][2]<tabladibujar[i][7]:
+            tabladibujar[i][6]=Color2[j][1]
+            min=tabladibujar[i][7]
 
   return tabladibujar
+
+def nombre(self, label):
+    label = label
+    palabras = label.split('/')
+    archivo=' '
+    for a in palabras:
+      print a
+      if re.findall('[\W]+[.CG]', a):
+        archivo=a
+
+    return archivo
+    
+def preferencias(self):
+    atributos = []
+    archivo = ['.preferencias.dat']
+    lineas=' '
+    for texto in archivo:
+      f = open(texto, 'r')
+      data = f.read()
+      lineas = data.splitlines()
+      f.close()
+
+    for line in lineas:
+      atributos = line.split(' ')
+      
+    return atributos
+
+def semantic(identificadores, idem):
+    identificadores = identificadores
+    idem = idem
+    declarado={}
+    id=' '
+    idem = idem.splitlines()
+
+    for a in idem:
+      palabras = a.split(' ')
+      n=0
+      for b in palabras:
+        if re.findall('[a-z]+[\d]+', b):
+          id = b
+      for key in identificadores.keys():
+        if key==id:
+          n=n+1
+      declarado[id]=n
+
+    for key in declarado.keys():
+      l=0
+      if declarado[key] == 0:
+        f = open('.erroresSemanticos.cg', 'a')
+        f.write('El identificador '+str(key)+', no esta declarado.'+'\n')
+        f.close()

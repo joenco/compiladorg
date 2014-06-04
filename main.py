@@ -8,6 +8,7 @@ import os
 import lexico
 import parserCG
 import funtions as funtion
+import  tabladesimbolos as funtion1
 
 class Interfaz:
     ui = '''<ui>
@@ -36,19 +37,13 @@ class Interfaz:
         <menuitem action="Tutor"/>
       </menu>
     </menubar>
-    <toolbar name="Toolbar">
-      <toolitem action="New"/>
-      <separator/>
-      <toolitem action="Open"/>
-      <separator/>
-      <toolitem action="Save"/>
-      <separator/>
-      <toolitem action="Convert"/>
-      <separator/>
-    </toolbar>
     </ui>'''
 
     def __init__(self): 
+    
+        atributos = funtion1.preferencias(self)
+        if atributos[0] == str(0):
+          funtion.bienvenida(self)
         window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         window.set_resizable(True)  
         window.connect('destroy', lambda w: gtk.main_quit())
@@ -81,7 +76,7 @@ class Interfaz:
             textview[i].show()
 
         label = gtk.Label("Codigo Fuente")
-        label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('blue'))
+        label.modify_fg(gtk.STATE_NORMAL,gtk.gdk.color_parse('blue'))
         label.show()
         vistas.append_page(sw[0], label)
 
@@ -135,25 +130,32 @@ class Interfaz:
         actiongroup.get_action('Close').connect('activate', funtion.close, sw, textbuffer, vistas)
         actiongroup.get_action('Quit').connect('activate', funtion.quit, sw, textbuffer, vistas, window)
         actiongroup.get_action('Find_line').connect('activate', funtion.findline, textbuffer, vistas)
-        actiongroup.get_action('Lexico').connect('activate', funtion.ejecute, textbuffer, textbufferl, swl, statusbar, context_id, vistas)
-        actiongroup.get_action('Syntactic').connect('activate', funtion.ejecute2, textbuffer, textbufferl, swl, statusbar, context_id, vistas)
+        actiongroup.get_action('Lexico').connect('activate', funtion.ejecute, textbuffer, textbufferl, swl, statusbar, context_id, vistas, 1)
+        actiongroup.get_action('Syntactic').connect('activate', funtion.ejecute, textbuffer, textbufferl, swl, statusbar, context_id, vistas, 2)
         actiongroup.get_action('Convert').connect('activate', funtion.ejecute3, textbuffer, vistas)
         actiongroup.get_action('About').connect('activate', funtion.about)
 
         uimanager.insert_action_group(actiongroup, 0)
         uimanager.add_ui_from_string(self.ui)
         menubar = uimanager.get_widget('/MenuBar')
+        handlebox = gtk.HandleBox()
+        toolbar = funtion.toolbar(self, sw, vistas, textbuffer)
+        handlebox.add(toolbar)
+        handlebox.show()
 
+        #imageanime = gtk.gdk.PixbufAnimation("imagenes/banerCG.gif")
+        #image = gtk.Image()
+        #self.image.set_from_animation(imageanime)
         image = gtk.Image()
-        image.set_from_file('banerCG.png')
+        image.set_from_file('imagenes/banerCG.png')
         image.show()
         tabla.attach(image, 0, 700, 0, 3)
         tabla.attach(menubar, 0, 700, 4, 6)
 
         separator = gtk.HSeparator()
-        toolbar = uimanager.get_widget('/Toolbar')
+        #toolbar = uimanager.get_widget('/Toolbar')
         toolbar.show()
-        tabla.attach(toolbar, 0, 700, 7, 9)
+        tabla.attach(handlebox, 0, 700, 7, 9)
         separator.show()
 
         tabla.attach(vistas, 0, 700, 10, 200)

@@ -1,7 +1,7 @@
 INICIAR
   Definir punto1 como Punto : 
   a coordenada x de punto1 asignar 2 : 
-  a coordenada y de punto1 asignar 3 : 
+  #a coordenada y de punto1 asignar 3 : 
 
   Definir punto2 como Punto : 
   a coordenada x de punto2 asignar 1 : 

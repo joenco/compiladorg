@@ -9,6 +9,7 @@ import lexico
 import parserCG
 import funtiontable as funtion
 import figuras
+import tabladesimbolos as funtion1
 
 #abrir pestañas para los nuevos archivos
 def openfiles(self, sw, textbuffer, vistas, filename):
@@ -121,7 +122,8 @@ gtk.STOCK_OPEN, gtk.RESPONSE_OK))
               textbuffer[0].set_text(string)
             textbuffer[0].set_modified(False)
             nfiles(self, dialog.get_filename(), 3)
-            label = gtk.Label(dialog.get_filename())
+            narchivo = funtion1.nombre(self, dialog.get_filename())
+            label = gtk.Label(narchivo)
             label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('blue'))
             vistas.remove_page(page)
             vistas.insert_page(sw[page], label, page)
@@ -172,7 +174,8 @@ gtk.STOCK_SAVE, gtk.RESPONSE_OK))
             file.close()
             textbuffer[page].set_modified(False)
             texto.close()
-            label = gtk.Label(dialog.get_filename())
+            narchivo = funtion1.nombre(self, dialog.get_filename())
+            label = gtk.Label(narchivo)
             label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('blue'))
             if remove==1:
               vistas.remove_page(page)
@@ -351,7 +354,7 @@ def result(self, textbuffer, sw1, statusbar, context_id):
           f.close()
         except IOError :
           print "El Analizador Lexico no encontro errores"    
-         
+
         try:
             #for codigo in resultado1:
             f = open(".erroresLexico.cg", 'r')
@@ -380,6 +383,7 @@ def result(self, textbuffer, sw1, statusbar, context_id):
                 print "Error al leer .tokens.cg"
         statusbar.push(context_id, label.get_text())
 
+
 #Analisis sintactico
 def result2(self, textbuffer, sw1, statusbar, context_id):
         textbuffer = textbuffer
@@ -389,14 +393,14 @@ def result2(self, textbuffer, sw1, statusbar, context_id):
 
         textbuffer.delete(textbuffer.get_start_iter(), textbuffer.get_end_iter())
 
-        resultado2 = ['.erroresSintaxis.cg']
+        resultado2 = ['.erroresLexico.cg']
         label = gtk.Label()
         
         primero = True
 
         try:
             f = open (".errorSintaxis.cg",'r')
-            errores=open('.erroresSintaxis.cg', 'a')
+            errores=open('.erroresLexico.cg', 'a')
             for line in f.readlines():
                 separados = line.split(':',2)
                 actual = str(separados[0])
@@ -434,7 +438,6 @@ def result2(self, textbuffer, sw1, statusbar, context_id):
 
         statusbar.push(context_id, label.get_text())
 
-        
 def Text(self, textbuffer):
         textbuffer = textbuffer
         nline = textbuffer.get_line_count()
@@ -464,21 +467,29 @@ def Draw(self, textbuffer):
 
         return texto
 
-def ejecute(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas):
+def ejecute(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas, opc):
         textbuffer = textbuffer
         textbuffer1 = textbuffer1
         sw1 = sw1
         statusbar = statusbar
         context_id = context_id
         vistas = vistas
+        opc = opc
+        n=0
 
         os.system('rm .*.cg')
         os.system('clear')
         page = vistas.get_current_page()
         texto = Text(self, textbuffer[page])
         if texto:
+          if n==0:
             lexico.lexico(texto)
-        result(self, textbuffer1, sw1, statusbar, context_id)
+            if opc==2:
+              n=1
+          result(self, textbuffer1, sw1, statusbar, context_id)
+          if n==1:
+            parserCG.parse(texto)
+          result2(self, textbuffer1, sw1, statusbar, context_id)
 
 def ejecute2(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas):
         textbuffer = textbuffer
@@ -510,7 +521,7 @@ def ejecute3(self, textbuffer, vistas):
 def about(self):
         aboutdialog = gtk.AboutDialog()
         authors = ["Jorge Ortega", "Jesús Pérez"]
-        logo = gtk.gdk.pixbuf_new_from_file_at_size('logoCG.png', 100, 100)
+        logo = gtk.gdk.pixbuf_new_from_file_at_size('imagenes/logoCG.png', 100, 100)
         comments = "Programa que permite dibujar figuras geométricas.\nMediante sentencias de programación.\nEs un proyecto de Compiladores."
         aboutdialog.set_program_name("CG: Compilador Geométrico")
         aboutdialog.set_logo(logo)
@@ -526,3 +537,72 @@ def about(self):
 # cerrar la ventana de acerca
 def on_close(self, parameter):
         self.destroy()
+
+def icon(self, icons):
+    icons = icons
+    icon = gtk.Image()
+    icon.set_from_file(icons)
+
+    return icon
+
+def toolbar(self, sw, vistas, textbuffer):
+        sw = sw
+        vistas = vistas
+        textbuffer = textbuffer
+        toolbar = gtk.Toolbar()
+        toolbar.set_orientation(gtk.ORIENTATION_HORIZONTAL)
+        toolbar.set_style(gtk.TOOLBAR_ICONS)
+        toolbar.set_border_width(5)
+
+
+        iconnew = icon(self, 'imagenes/nuevo.xpm')
+        bnew = toolbar.append_item("Nuevo", "Nuevo archivo","Private", iconnew, None)
+        bnew.connect('activate', new, sw, textbuffer, vistas)
+        toolbar.append_space()
+        iconopen = icon(self, 'imagenes/abrir.xpm')
+        bopen = toolbar.append_item("Abrir", "Abrir archivo", "Private", iconopen, None)
+        bopen.connect('activate', openfile, sw, textbuffer, vistas)
+        toolbar.append_space()
+        iconsave = icon(self, 'imagenes/guardar.xpm')
+        bsave = toolbar.append_item("Guardar", "Guardar el archivo", "Private", iconsave, None)
+        bsave.connect('activate', savefile, sw, textbuffer, vistas, 1)
+        toolbar.append_space()
+        icondraw = icon(self, 'imagenes/dibujar.xpm')
+        bdraw = toolbar.append_item("Dibujar", "Dibujar el archivo", "Private", icondraw, None)
+        bdraw.connect('activate', ejecute3, textbuffer, vistas)
+        toolbar.append_space()
+
+        return toolbar
+        
+def bienvenida(self):
+        dialog = gtk.Dialog("Bienvenid@ Compilador CG", None, 0, (gtk.STOCK_OK, gtk.RESPONSE_OK))
+        dialog.set_default_response(gtk.RESPONSE_OK)
+        label = gtk.Label("Bienvenid@ al Compilador Geométrico!'!")
+        label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('red'))
+        dialog.vbox.pack_start(label, True, True, 0)
+        imageanime = gtk.gdk.PixbufAnimation("imagenes/banerCG.gif")
+        image = gtk.Image()
+        image.set_from_animation(imageanime)
+        dialog.vbox.pack_start(image, True, True, 0)
+        label1 = gtk.Label("Jesús Peréz & Jorge Ortega'!")
+        label1.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('red'))
+        dialog.vbox.pack_start(label1, True, True, 0)
+        activar = gtk.CheckButton("No volver a mostrar esta ventana")
+        dialog.vbox.pack_start(activar, True, True, 0)
+        label.show()
+        label1.show()
+        activar.show()
+        image.show()
+        response = dialog.run()
+        if response == gtk.RESPONSE_OK:
+            if activar.get_active()==True:
+              preferencias(self, 1)
+            print "se ha presionado aceptar"
+        dialog.destroy()
+
+def preferencias(self, valor):
+    valor = valor
+    
+    f = open('.preferencias.dat', 'w')
+    f.write(str(valor))
+    f.close()
