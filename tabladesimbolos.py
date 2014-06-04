@@ -10,7 +10,7 @@ def tabla(data, lineas):
   lineas = lineas
   lineadibujar=10000
   nlinea=0
-  idem=color=escalar=rotar=rotarD=trasladar=dibujar=''
+  definir=idem=color=escalar=rotar=rotarD=trasladar=dibujar=''
   c={}
   for a in lineas:
     nlinea+=1
@@ -26,8 +26,10 @@ def tabla(data, lineas):
         if re.findall('((Punto)|(Recta)|(Parabola)|(Hiperbola)|(SemiRecta)|(Segmento)|(Curva)|(Circunferencia)|(Cuadrilatero)|(Triangulo)|(Cono)|(Esfera)|(Elipse)|(Cilindro))', b):
           tipo=b
           c[id]=tipo
-        if re.findall('(Coordenada)|(vertice)|(radio)|(centro)|(extremo)|(semiEje)|(origen)|(altura)|(Rotar)|(Trasladar)|(Escalar)|(Colorear)|(Definir)', b):
+        if re.findall('(Coordenada)|(vertice)|(radio)|(centro)|(extremo)|(semiEje)|(origen)|(altura)|(Rotar)|(Trasladar)|(Escalar)|(Colorear)', b):
           idem += str(nlinea)+a+'\n'
+        if re.findall('Definir', b):
+          definir += str(nlinea)+' '+a+'\n'
         if re.findall('Rotar', b):
           rotar+= str(nlinea)+' '+a+'\n'
         if re.findall('Escalar', b):
@@ -39,7 +41,7 @@ def tabla(data, lineas):
         if re.findall('Dibujar', b):
           dibujar += str(nlinea)+' '+a+'\n'
 
-  return c, rotar, escalar, color, trasladar, dibujar, idem
+  return c, rotar, escalar, color, trasladar, dibujar, idem, definir
   
 #función que extrae el identificador y el valor a rotar
 def rotar(lineas):
@@ -754,18 +756,6 @@ def semantic(identificadores, idem):
     for key in declarado.keys():
       l=0
       if declarado[key] == 0:
-        #for a in idem:
-          #palabras = a.split(' ')
-          #i=0
-          #id=' '
-          #for b in palabras:
-            #if re.findall(key, b):
-              #id = b
-            #if i==0:
-              #if re.findall('[\d]', b):
-                #l=b
-                #i=1
-          #if key == id:
         f = open('.erroresSemanticos.cg', 'a')
         f.write('El identificador '+str(key)+', no esta declarado.'+'\n')
         f.close()
