@@ -15,6 +15,8 @@ INICIAR
   a vertice A de triangulo1 asignar punto1 : 
   a vertice B de triangulo1 asignar punto2 : 
   a vertice C de triangulo1 asignar punto3 :
+
+  Definir punto1 como Recta :
  
   Rotar triangulo1 hasta 90 grados : 
   Trasladar en x triangulo1 hasta -3 unidades : 
