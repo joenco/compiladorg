@@ -887,11 +887,17 @@ def semantic(identificadores, idem, definir):
           t[j].append(id)
           j+=1
 
+    d={}
     n=len(t)
     for a in range(n-1):
-      for b in range(n):
-        if t[a][2]==t[a+1][2]:
-          print "El identificador "+str(t[a][2])+", fue declarado mas de 1 vez"
+      for b in range(a+1, n-1):
+        if t[a][2]==t[b][2]:
+          d[str(t[a][2])] = str(t[b][0])
+
+    f = open('.erroresSemanticos.cg', 'a')
+    for key in d.keys():
+      f.write("El identificador "+str(key)+", fue declarado mas de una vez"+"\n")
+    f.close()
 
     for a in idem:
       palabras = a.split(' ')
