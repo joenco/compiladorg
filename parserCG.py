@@ -68,7 +68,7 @@ def p_traslacion(p):
 	pass
 
 def p_coloreado(p):
-	'coloreado : Accion Identificador Reservado Color Delimitador'
+	'coloreado : Accion Atributo Reservado Identificador Reservado Color Delimitador'
 	pass
 
 def p_escalado(p):
