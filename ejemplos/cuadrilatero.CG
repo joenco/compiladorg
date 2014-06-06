@@ -22,11 +22,13 @@ INICIAR
   a vertice C de cuadrilatero1 asignar punto3 : 
   a vertice D de cuadrilatero1 asignar punto4 :
   
-  Rotar cuadrilatero1 hasta 45 grados : 
-  Escalar cuadrilatero1 hasta 3 veces :
-  Colorear cuadrilatero1 de Morado :
+  Colorear borde de cuadrilatero1 de Morado :
+  Colorear fondo de cuadrilatero1 de Rojo :
+  Dibujar cuadrilatero1 :  
   Trasladar en x cuadrilatero1 hasta 1 unidades : 
   Trasladar en y cuadrilatero1 hasta 1 unidades : 
+  #Escalar cuadrilatero1 hasta 3 veces :
+  Rotar cuadrilatero1 hasta 45 grados :   
   Dibujar cuadrilatero1 : 
 
   Definir punto5 como Punto : 
@@ -52,11 +54,13 @@ INICIAR
   a vertice C de cuadrilatero2 asignar punto7 : 
   a vertice D de cuadrilatero2 asignar punto8 :
   
-  Rotar cuadrilatero2 hasta 15 grados : 
-  Escalar cuadrilatero2 hasta 2 veces :
-  Colorear cuadrilatero2 de Azul :
-  #Trasladar en x cuadrilatero2 hasta 1 unidades : 
-  #Trasladar en y cuadrilatero2 hasta 1 unidades : 
+  #Rotar cuadrilatero2 hasta 15 grados : 
+  Colorear borde de cuadrilaro2 de Verde :
+  Colorear fondo de cuadrilatero2 de Azul :
+  Dibujar cuadrilatero2 :  
+  Trasladar en x cuadrilatero2 hasta 1 unidades : 
+  Trasladar en y cuadrilatero2 hasta -6 unidades : 
+  Escalar cuadrilatero2 hasta 1.5 veces :  
   Dibujar cuadrilatero2 : 
 
 FINALIZAR

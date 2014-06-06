@@ -59,9 +59,11 @@ def dibujar(simbolos):
       hiperbola()
   """
   for a in simbolos[1]:
-    print "---",tipo(a[0],simbolos),"---"
-    if tipo(a[0],simbolos)=="Triangulo":
+    tip = tipo(a[0],simbolos)
+    if tip=="Triangulo":
       triangulo(simbolos,a[0],a[7])
+    elif tip=="Cuadrilatero":
+      cuadrilatero(simbolos,a[0],a[7])
     
   turtle.exitonclick()
 
@@ -232,49 +234,51 @@ def triangulo(simbolos,identificador,linea):
 
   escalar = obtener_escalar(identificador, simbolos,linea)
   #Calcular nuevos puntos para escalar
-  turtle.setposition(incentro_x, incentro_y)
-  turtle.setheading(0)
-  turtle.lt(a1)
-  turtle.forward(d1*escalar)
-  x1 = turtle.xcor()
-  y1 = turtle.ycor()
+  if escalar != 0:
+    turtle.setposition(incentro_x, incentro_y)
+    turtle.setheading(0)
+    turtle.lt(a1)
+    turtle.forward(d1*escalar)
+    x1 = turtle.xcor()
+    y1 = turtle.ycor()
 
-  turtle.setposition(incentro_x, incentro_y)
-  turtle.setheading(0)
-  turtle.lt(a2)
-  turtle.forward(d2*escalar)
-  x2 = turtle.xcor()
-  y2 = turtle.ycor()
+    turtle.setposition(incentro_x, incentro_y)
+    turtle.setheading(0)
+    turtle.lt(a2)
+    turtle.forward(d2*escalar)
+    x2 = turtle.xcor()
+    y2 = turtle.ycor()
    
-  turtle.setposition(incentro_x, incentro_y)
-  turtle.setheading(0)
-  turtle.lt(a3)
-  turtle.forward(d3*escalar)
-  x3 = turtle.xcor()
-  y3 = turtle.ycor()
+    turtle.setposition(incentro_x, incentro_y)
+    turtle.setheading(0)
+    turtle.lt(a3)
+    turtle.forward(d3*escalar)
+    x3 = turtle.xcor()
+    y3 = turtle.ycor()
 
   rotar = obtener_rotar(identificador, simbolos,linea)
-  #Calcular nuevos puntos para rotar
-  turtle.setposition(incentro_x, incentro_y)
-  turtle.setheading(0)
-  turtle.lt(a1+rotar)
-  turtle.forward(d1)
-  x1_ = turtle.xcor()
-  y1 = turtle.ycor()
+  if rotar != 0: 
+    #Calcular nuevos puntos para rotar
+    turtle.setposition(incentro_x, incentro_y)
+    turtle.setheading(0)
+    turtle.lt(a1+rotar)
+    turtle.forward(d1)
+    x1 = turtle.xcor()
+    y1 = turtle.ycor()
 
-  turtle.setposition(incentro_x, incentro_y)
-  turtle.setheading(0)
-  turtle.lt(a2+rotar)
-  turtle.forward(d2)
-  x2 = turtle.xcor()
-  y2 = turtle.ycor()
+    turtle.setposition(incentro_x, incentro_y)
+    turtle.setheading(0)
+    turtle.lt(a2+rotar)
+    turtle.forward(d2)
+    x2 = turtle.xcor()
+    y2 = turtle.ycor()
    
-  turtle.setposition(incentro_x, incentro_y)
-  turtle.setheading(0)
-  turtle.lt(a3+rotar)
-  turtle.forward(d3)
-  x3 = turtle.xcor()
-  y3 = turtle.ycor()
+    turtle.setposition(incentro_x, incentro_y)
+    turtle.setheading(0)
+    turtle.lt(a3+rotar)
+    turtle.forward(d3)
+    x3 = turtle.xcor()
+    y3 = turtle.ycor()
 
   #Dibujar triangulo
   turtle.penup()
@@ -290,7 +294,12 @@ def triangulo(simbolos,identificador,linea):
   turtle.end_fill()
 
 #Plantilla cuadrilatero
-def cuadrilatero(simbolos,p1,p2,p3,p4,rotar,escalar,tx,ty,color):
+#def cuadrilatero(simbolos,p1,p2,p3,p4,rotar,escalar,tx,ty,color):
+def cuadrilatero(simbolos,identificador,linea):
+  p1= obtener_punto(1,identificador,simbolos)
+  p2= obtener_punto(2,identificador,simbolos)
+  p3= obtener_punto(3,identificador,simbolos)
+  p4= obtener_punto(4,identificador,simbolos)
 
   #Obtener coordenadas
   x1 = obtener_x(p1,simbolos)*44
@@ -301,6 +310,12 @@ def cuadrilatero(simbolos,p1,p2,p3,p4,rotar,escalar,tx,ty,color):
   y3 = obtener_y(p3,simbolos)*44
   x4 = obtener_x(p4,simbolos)*44
   y4 = obtener_y(p4,simbolos)*44
+
+  tx = obtener_tx(identificador, simbolos,linea)
+  ty = obtener_ty(identificador, simbolos,linea)
+  
+  borde = obtener_color(obtener_borde(identificador,simbolos,linea))
+  relleno = obtener_color(obtener_relleno(identificador,simbolos,linea))
 
   #Trasladar cuadrilatero
   x1 = x1 + tx*44
@@ -336,101 +351,82 @@ def cuadrilatero(simbolos,p1,p2,p3,p4,rotar,escalar,tx,ty,color):
   a3 = turtle.towards(x3,y3)
   a4 = turtle.towards(x4,y4)
 
+  escalar = obtener_escalar(identificador, simbolos,linea)
   #Calcular nuevos puntos para escalar
-  turtle.setposition(punto_medio_x, punto_medio_y)
-  turtle.setheading(0)
-  turtle.lt(a1)
-  turtle.forward(d1*escalar)
-  x_1 = turtle.xcor()
-  y_1 = turtle.ycor()
+  if escalar != 0:
+    turtle.setposition(punto_medio_x, punto_medio_y)
+    turtle.setheading(0)
+    turtle.lt(a1)
+    turtle.forward(d1*escalar)
+    x1 = turtle.xcor()
+    y1 = turtle.ycor()
 
-  turtle.setposition(punto_medio_x, punto_medio_y)
-  turtle.setheading(0)
-  turtle.lt(a2)
-  turtle.forward(d2*escalar)
-  x_2 = turtle.xcor()
-  y_2 = turtle.ycor()
+    turtle.setposition(punto_medio_x, punto_medio_y)
+    turtle.setheading(0)
+    turtle.lt(a2)
+    turtle.forward(d2*escalar)
+    x2 = turtle.xcor()
+    y2 = turtle.ycor()
    
-  turtle.setposition(punto_medio_x, punto_medio_y)
-  turtle.setheading(0)
-  turtle.lt(a3)
-  turtle.forward(d3*escalar)
-  x_3 = turtle.xcor()
-  y_3 = turtle.ycor()
+    turtle.setposition(punto_medio_x, punto_medio_y)
+    turtle.setheading(0)
+    turtle.lt(a3)
+    turtle.forward(d3*escalar)
+    x3 = turtle.xcor()
+    y3 = turtle.ycor()
 
-  turtle.setposition(punto_medio_x, punto_medio_y)
-  turtle.setheading(0)
-  turtle.lt(a4)
-  turtle.forward(d4*escalar)
-  x_4 = turtle.xcor()
-  y_4 = turtle.ycor()
+    turtle.setposition(punto_medio_x, punto_medio_y)
+    turtle.setheading(0)
+    turtle.lt(a4)
+    turtle.forward(d4*escalar)
+    x4 = turtle.xcor()
+    y4 = turtle.ycor()
 
-  #Calcular nuevos puntos para rotar
-  turtle.setposition(punto_medio_x, punto_medio_y)
-  turtle.setheading(0)
-  turtle.lt(a1+rotar)
-  turtle.forward(d1)
-  x_1_ = turtle.xcor()
-  y_1_ = turtle.ycor()
+  rotar = obtener_rotar(identificador, simbolos,linea)
+  if rotar != 0:
+    #Calcular nuevos puntos para rotar
+    turtle.setposition(punto_medio_x, punto_medio_y)
+    turtle.setheading(0)
+    turtle.lt(a1+rotar)
+    turtle.forward(d1)
+    x1 = turtle.xcor()
+    y1 = turtle.ycor()
 
-  turtle.setposition(punto_medio_x, punto_medio_y)
-  turtle.setheading(0)
-  turtle.lt(a2+rotar)
-  turtle.forward(d2)
-  x_2_ = turtle.xcor()
-  y_2_ = turtle.ycor()
+    turtle.setposition(punto_medio_x, punto_medio_y)
+    turtle.setheading(0)
+    turtle.lt(a2+rotar)
+    turtle.forward(d2)
+    x2 = turtle.xcor()
+    y2 = turtle.ycor()
    
-  turtle.setposition(punto_medio_x, punto_medio_y)
-  turtle.setheading(0)
-  turtle.lt(a3+rotar)
-  turtle.forward(d3)
-  x_3_ = turtle.xcor()
-  y_3_ = turtle.ycor()
+    turtle.setposition(punto_medio_x, punto_medio_y)
+    turtle.setheading(0)
+    turtle.lt(a3+rotar)
+    turtle.forward(d3)
+    x3 = turtle.xcor()
+    y3 = turtle.ycor()
 
-  turtle.setposition(punto_medio_x, punto_medio_y)
-  turtle.setheading(0)
-  turtle.lt(a4+rotar)
-  turtle.forward(d4)
-  x_4_ = turtle.xcor()
-  y_4_ = turtle.ycor()
+    turtle.setposition(punto_medio_x, punto_medio_y)
+    turtle.setheading(0)
+    turtle.lt(a4+rotar)
+    turtle.forward(d4)
+    x4 = turtle.xcor()
+    y4 = turtle.ycor()
 
   #Dibujar cuadrilatero
-  turtle.color(color)         
+  turtle.color(borde)         
   turtle.penup()
   turtle.setposition(x1,y1)
   turtle.pendown()
   turtle.pensize(8)
-  turtle.fillcolor(color)
+  turtle.fillcolor(relleno)
   turtle.begin_fill()
   turtle.setposition(x2,y2)
   turtle.setposition(x3,y3)
   turtle.setposition(x4,y4)
   turtle.setposition(x1,y1)
   turtle.end_fill()
-  #Escalar
-  if escalar != 0:
-    print "escalar"
-    turtle.color("#00FFFF")
-    turtle.penup()
-    turtle.setposition(x_1,y_1)
-    turtle.pendown()
-    turtle.setposition(x_2,y_2)
-    turtle.setposition(x_3,y_3)
-    turtle.setposition(x_4,y_4)
-    turtle.setposition(x_1,y_1)
-
-  #Rotar
-  if rotar != 0:
-    print "rotar"
-    turtle.color("#008080")
-    turtle.penup()
-    turtle.setposition(x_1_,y_1_)
-    turtle.pendown()
-    turtle.setposition(x_2_,y_2_)
-    turtle.setposition(x_3_,y_3_)
-    turtle.setposition(x_4_,y_4_)
-    turtle.setposition(x_1_,y_1_)
-
+  
 def circunferencia(simbolos,radio,centro,escalar,tx,ty,color):
   turtle.color(color) 
   turtle.pensize(8)
@@ -575,6 +571,8 @@ def obtener_punto(numero,identificador,simbolos):
         return s[4]
       elif (int(numero) ==3):
         return s[5]
+      elif (int(numero) ==4):
+        return s[6]
 
 def obtener_tx(identificador, simbolos,linea):
   for s in simbolos[1]:
