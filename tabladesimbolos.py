@@ -107,7 +107,7 @@ def color(lineas):
     bf=id=color=' '
     i=p=n=0
     for b in palabras:
-      if re.findall('[\-]?[0-9]{1,}(\.[0-9]{1,})?', b) and p==0:
+      if re.findall('[0-9]*', b) and p==0:
         n=b
         p=1
       if re.findall('(borde)|(fondo)', b):
@@ -770,8 +770,8 @@ def tabladibujar(identificadores):
   TrasladarX = Trasladar[0]
   TrasladarY = Trasladar[1]
   Color = color(lcolor)
-  Color1 = Color[0]
-  Color2 = Color[1]
+  color1 = Color[0]
+  color2 = Color[1]
   Dibujar = dibujar(ldibujar)
   tabladibujar=[]
   for k in Dibujar:
@@ -802,33 +802,34 @@ def tabladibujar(identificadores):
           if Escalar[j][2]>min and Escalar[j][2]<tabladibujar[i][7]:
             tabladibujar[i][2]=Escalar[j][1]
             min=tabladibujar[i][7]
+  min=0
   for i in range(d):
-    min=0
     for j in range(len(TrasladarX)):
         if TrasladarX[j][0]==tabladibujar[i][0]:
           if TrasladarX[j][2]>min and TrasladarX[j][2]<tabladibujar[i][7]:
             tabladibujar[i][3]=TrasladarX[j][1]
             min=tabladibujar[i][7]
+  min=0
   for i in range(d):
-    min=0
     for j in range(len(TrasladarY)):
         if TrasladarY[j][0]==tabladibujar[i][0]:
           if TrasladarY[j][2]>min and TrasladarY[j][2]<tabladibujar[i][7]:
             tabladibujar[i][4]=TrasladarY[j][1]
             min=tabladibujar[i][7]
+  min=0
   for i in range(d):
-    min=0
-    for j in range(len(Color1)):
-        if Color1[j][0]==tabladibujar[i][0]:
-          if Color1[j][2]>min and Color1[j][2]<tabladibujar[i][7]:
-            tabladibujar[i][5]=Color1[j][1]
+    for j in range(len(color1)):
+        if color1[j][0]==tabladibujar[i][0]:
+          if color1[j][2]>min and color1[j][2]<tabladibujar[i][7]:
+            print color1[j][1]
+            tabladibujar[i][5]=color1[j][1]
             min=tabladibujar[i][7]
+  min=0
   for i in range(d):
-    min=0
-    for j in range(len(Color2)):
-        if Color2[j][0]==tabladibujar[i][0]:
-          if Color2[j][2]>min and Color2[j][2]<tabladibujar[i][7]:
-            tabladibujar[i][6]=Color2[j][1]
+    for j in range(len(color2)):
+        if color2[j][0]==tabladibujar[i][0]:
+          if color2[j][2]>min and color2[j][2]<tabladibujar[i][7]:
+            tabladibujar[i][6]=color2[j][1]
             min=tabladibujar[i][7]
 
   return tabladibujar
