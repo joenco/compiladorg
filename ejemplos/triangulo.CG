@@ -16,14 +16,22 @@ INICIAR
   a vertice B de triangulo1 asignar punto2 : 
   a vertice C de triangulo1 asignar punto3 :
  
-  Rotar triangulo1 hasta 90 grados : 
-  Trasladar en x triangulo1 hasta -3 unidades : 
-  Trasladar en y triangulo1 hasta 3 unidades : 
   Colorear borde de triangulo1 de Morado : 
   Colorear fondo de triangulo1 de Amarillo : 
-  Escalar triangulo1 hasta 3 veces : 
-  Dibujar triangulo1 : 
+  Dibujar triangulo1 :  
+  
+  Colorear borde de triangulo1 de Azul : 
+  Colorear fondo de triangulo1 de Rojo :
+  Trasladar en x triangulo1 hasta -3 unidades : 
+  Trasladar en y triangulo1 hasta 3 unidades :
+  Dibujar triangulo1 :
 
+  Colorear borde de triangulo1 de Verde : 
+  Colorear fondo de triangulo1 de Morado :
+  Rotar triangulo1 hasta 90 grados : 
+  Escalar triangulo1 hasta 2 veces :  
+  Dibujar triangulo1 :
+  
   Definir punto4 como Punto : 
   a coordenada x de punto4 asignar -1 : 
   a coordenada y de punto4 asignar -1 : 
@@ -46,10 +54,7 @@ INICIAR
   Trasladar en y triangulo2 hasta 1 unidades : 
   Colorear borde de triangulo2 de Rojo : 
   Colorear fondo de triangulo2 de Verde : 
-  Escalar triangulo2 hasta 2 veces : 
   Dibujar triangulo2 : 
 
 FINALIZAR
-
-
 

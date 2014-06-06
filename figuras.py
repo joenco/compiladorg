@@ -10,13 +10,22 @@ def dibujar(simbolos):
   turtle.speed(0)
   turtle.hideturtle()
 
+  print "Tabla 1"
+  for i in simbolos[0]:
+    print i
+
+  print "Tabla 2"
+  for i in simbolos[1]:
+    print i
+
   plano2d()
 
   #Tabla de simbolos
-  print "Tabla de Simbolos: ",simbolos
+  #print "Tabla de Simbolos: ",simbolos
   #Identificadores procesados
-  print "Indentificador\tTipo"
+  #print "Indentificador\tTipo"
   #Recorriendo la tabla de simbolos
+  """
   for a in simbolos:
     print a[1]+"\t\t"+a[2]
     if (a[2]== "Punto"):
@@ -48,6 +57,12 @@ def dibujar(simbolos):
       elipse()
     elif (a[2]=="Hiperbola"):
       hiperbola()
+  """
+  for a in simbolos[1]:
+    print "---",tipo(a[0],simbolos),"---"
+    if tipo(a[0],simbolos)=="Triangulo":
+      triangulo(simbolos,a[0],a[7])
+    
   turtle.exitonclick()
 
 #Dibujar plano 2D
@@ -166,13 +181,25 @@ def curva():
   		turtle.pendown()
 
 #Plantilla triangulo
-def triangulo(simbolos,p1,p2,p3,rotar,escalar,tx,ty,color):
+#def triangulo(simbolos,p1,p2,p3,rotar,escalar,tx,ty,color):
+def triangulo(simbolos,identificador,linea):
+  
+  p1= obtener_punto(1,identificador,simbolos)
+  p2= obtener_punto(2,identificador,simbolos)
+  p3= obtener_punto(3,identificador,simbolos)
+
   x1 = obtener_x(p1,simbolos)
   y1 = obtener_y(p1,simbolos)
   x2 = obtener_x(p2,simbolos)
   y2 = obtener_y(p2,simbolos)
   x3 = obtener_x(p3,simbolos)
   y3 = obtener_y(p3,simbolos)
+
+  tx = obtener_tx(identificador, simbolos,linea)
+  ty = obtener_ty(identificador, simbolos,linea)
+  
+  borde = obtener_color(obtener_borde(identificador,simbolos,linea))
+  relleno = obtener_color(obtener_relleno(identificador,simbolos,linea))
 
   #Trasladar triangulo
   x1 = x1*44 + tx*44
@@ -182,18 +209,6 @@ def triangulo(simbolos,p1,p2,p3,rotar,escalar,tx,ty,color):
   x3 = x3*44 + tx*44
   y3 = y3*44 + ty*44
 
-  #Dibujar triangulo
-  turtle.penup()
-  turtle.setposition(x1,y1)
-  turtle.pendown()
-  turtle.color(color)
-  turtle.fillcolor(color)
-  turtle.begin_fill()
-  turtle.pensize(8)
-  turtle.setposition(x2,y2)
-  turtle.setposition(x3,y3)
-  turtle.setposition(x1,y1)
-  turtle.end_fill()
   #Calculos de lados
   a =  math.sqrt(((x2 -x1)**2)+((y2-y1)**2)) #Opuesto de p3
   b =  math.sqrt(((x3 -x1)**2)+((y3-y1)**2)) #Opuesto de p2
@@ -215,71 +230,64 @@ def triangulo(simbolos,p1,p2,p3,rotar,escalar,tx,ty,color):
   a2 = turtle.towards(x2,y2)
   a3 = turtle.towards(x3,y3)
 
+  escalar = obtener_escalar(identificador, simbolos,linea)
   #Calcular nuevos puntos para escalar
   turtle.setposition(incentro_x, incentro_y)
   turtle.setheading(0)
   turtle.lt(a1)
   turtle.forward(d1*escalar)
-  x_1 = turtle.xcor()
-  y_1 = turtle.ycor()
+  x1 = turtle.xcor()
+  y1 = turtle.ycor()
 
   turtle.setposition(incentro_x, incentro_y)
   turtle.setheading(0)
   turtle.lt(a2)
   turtle.forward(d2*escalar)
-  x_2 = turtle.xcor()
-  y_2 = turtle.ycor()
+  x2 = turtle.xcor()
+  y2 = turtle.ycor()
    
   turtle.setposition(incentro_x, incentro_y)
   turtle.setheading(0)
   turtle.lt(a3)
   turtle.forward(d3*escalar)
-  x_3 = turtle.xcor()
-  y_3 = turtle.ycor()
+  x3 = turtle.xcor()
+  y3 = turtle.ycor()
 
+  rotar = obtener_rotar(identificador, simbolos,linea)
   #Calcular nuevos puntos para rotar
   turtle.setposition(incentro_x, incentro_y)
   turtle.setheading(0)
   turtle.lt(a1+rotar)
   turtle.forward(d1)
-  x_1_ = turtle.xcor()
-  y_1_ = turtle.ycor()
+  x1_ = turtle.xcor()
+  y1 = turtle.ycor()
 
   turtle.setposition(incentro_x, incentro_y)
   turtle.setheading(0)
   turtle.lt(a2+rotar)
   turtle.forward(d2)
-  x_2_ = turtle.xcor()
-  y_2_ = turtle.ycor()
+  x2 = turtle.xcor()
+  y2 = turtle.ycor()
    
   turtle.setposition(incentro_x, incentro_y)
   turtle.setheading(0)
   turtle.lt(a3+rotar)
   turtle.forward(d3)
-  x_3_ = turtle.xcor()
-  y_3_ = turtle.ycor()
+  x3 = turtle.xcor()
+  y3 = turtle.ycor()
 
-  #Rotar triangulo
-  if rotar != 0:
-    print "rotar"
-    turtle.color("#008080")
-    turtle.penup()
-    turtle.setposition(x_1_,y_1_)
-    turtle.pendown()
-    turtle.setposition(x_2_,y_2_)
-    turtle.setposition(x_3_,y_3_)
-    turtle.setposition(x_1_,y_1_)
-     
-  #Escalar recta
-  if escalar != 0:
-    print "escalar"
-    turtle.color("#00FFFF")
-    turtle.penup()
-    turtle.setposition(x_1,y_1)
-    turtle.pendown()
-    turtle.setposition(x_2,y_2)
-    turtle.setposition(x_3,y_3)
-    turtle.setposition(x_1,y_1)
+  #Dibujar triangulo
+  turtle.penup()
+  turtle.setposition(x1,y1)
+  turtle.pendown()
+  turtle.color(relleno)
+  turtle.fillcolor(borde)
+  turtle.begin_fill()
+  turtle.pensize(8)
+  turtle.setposition(x2,y2)
+  turtle.setposition(x3,y3)
+  turtle.setposition(x1,y1)
+  turtle.end_fill()
 
 #Plantilla cuadrilatero
 def cuadrilatero(simbolos,p1,p2,p3,p4,rotar,escalar,tx,ty,color):
@@ -507,18 +515,14 @@ def obtener_color(color):
 
 #Extraer coordenada x de un punto
 def obtener_x(punto, simbolos):
-  simbolos = simbolos
-  punto = punto
-  for a in simbolos:
+  for a in simbolos[0]:
     if (a[1]== punto):
       return float(a[3])
   return 0
 
 #Extraer coordenada y de un punto
 def obtener_y(punto, simbolos):
-  simbolos = simbolos
-  punto = punto
-  for a in simbolos:
+  for a in simbolos[0]:
     if (a[1]== punto):
       return float(a[4])
   return 0
@@ -557,3 +561,47 @@ def superior_derecho(x1,x2,x3,x4,y1,y2,y3,y4,c):
   elif c == 1:
     return superior_y
 
+def tipo (identificador,simbolos):
+  for s in simbolos[0]:
+    if (s[1]==identificador):
+      return s[2]
+
+def obtener_punto(numero,identificador,simbolos):
+  for s in simbolos[0]:
+    if (s[1]==identificador):
+      if (int(numero) == 1):
+        return s[3] 
+      elif (int(numero) ==2):
+        return s[4]
+      elif (int(numero) ==3):
+        return s[5]
+
+def obtener_tx(identificador, simbolos,linea):
+  for s in simbolos[1]:
+    if ((s[0]==identificador)and(linea==s[7])):
+      return float(s[3])
+
+def obtener_ty(identificador, simbolos,linea):
+  for s in simbolos[1]:
+    if ((s[0]==identificador)and(linea==s[7])):
+      return float(s[4])
+
+def obtener_borde(identificador, simbolos,linea):
+  for s in simbolos[1]:
+    if ((s[0]==identificador)and(linea==s[7])):
+      return s[5]
+
+def obtener_relleno(identificador, simbolos,linea):
+  for s in simbolos[1]:
+    if ((s[0]==identificador)and(linea==s[7])):
+      return s[6]
+
+def obtener_escalar(identificador, simbolos,linea):
+  for s in simbolos[1]:
+    if ((s[0]==identificador)and(linea==s[7])):
+      return float(s[2])
+
+def obtener_rotar(identificador, simbolos,linea):
+  for s in simbolos[1]:
+    if ((s[0]==identificador)and(linea==s[7])):
+      return float(s[1])

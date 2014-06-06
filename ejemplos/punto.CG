@@ -5,7 +5,7 @@ INICIAR
   Trasladar en x punto1 hasta -1 unidades :
   Trasladar en y punto1 hasta 2 unidades :
   Colorear punto1 de rosado :
-  Dibujar punto1 :
+  #Dibujar punto1 :
   
   Definir punto2 como Punto :
   a coordenada x de punto2 asignar -1 :
@@ -25,6 +25,7 @@ INICIAR
   Colorear punto4 de verde :
   Dibujar punto4 :
 FINALIZAR
+
 
 
 

@@ -461,7 +461,7 @@ def Draw(self, textbuffer):
         texto = textbuffer.get_text(self.inicio, self.fin, True)
         for i in range(nline):
           lineas = texto.splitlines()
-        simbolos = funtion.simbolos(texto, lineas)
+        simbolos = funtion1.simbolos(texto, lineas)
         #print simbolos
 	figuras.dibujar(simbolos)
 
