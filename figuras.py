@@ -392,11 +392,13 @@ def cuadrilatero(simbolos,p1,p2,p3,p4,rotar,escalar,tx,ty,color):
   turtle.setposition(x1,y1)
   turtle.pendown()
   turtle.pensize(8)
+  turtle.fillcolor(color)
+  turtle.begin_fill()
   turtle.setposition(x2,y2)
   turtle.setposition(x3,y3)
   turtle.setposition(x4,y4)
   turtle.setposition(x1,y1)
-
+  turtle.end_fill()
   #Escalar
   if escalar != 0:
     print "escalar"
@@ -443,7 +445,10 @@ def circunferencia(simbolos,radio,centro,escalar,tx,ty,color):
   turtle.setposition(x1, y1-(radio*44*escalar))
   turtle.pendown()
   turtle.color("#00FFFF")
+  turtle.fillcolor(color)
+  turtle.begin_fill()
   turtle.circle(radio*44*escalar)
+  turtle.end_fill()
 
 #Parabola
 def parabola(simbolos,centro):
@@ -461,9 +466,13 @@ def parabola(simbolos,centro):
 def elipse():
   turtle.color("gray")
   turtle.penup()
-  for x in range(0,44):
+  turtle.goto(math.degrees(0.5*math.cos(0))+(44*4), math.degrees(0.8*math.sin(0))-(44*4))
+  turtle.pendown()
+  turtle.fillcolor("red")
+  turtle.begin_fill()  
+  for x in range(1,44):
     turtle.goto(math.degrees(0.5*math.cos(x))+(44*4), math.degrees(0.8*math.sin(x))-(44*4))
-    turtle.pendown()
+  turtle.end_fill()  
 
 #Hiperbola
 def hiperbola():
