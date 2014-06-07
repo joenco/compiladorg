@@ -2,32 +2,28 @@ INICIAR
   Definir punto1 como Punto :
   a coordenada x de punto1 asignar 3 :
   a coordenada y de punto1 asignar 3 :
+  Dibujar punto1 :  
   Trasladar en x punto1 hasta -1 unidades :
   Trasladar en y punto1 hasta 2 unidades :
-  Colorear punto1 de rosado :
-  #Dibujar punto1 :
+  Colorear fondo de punto1 de rosado :
+  Dibujar punto1 :
   
   Definir punto2 como Punto :
   a coordenada x de punto2 asignar -1 :
   a coordenada y de punto2 asignar 2.5 :
-  Colorear punto2 de Amarillo :
+  Colorear fondo de punto2 de Amarillo :
   Dibujar punto2 :
   
   Definir punto3 como Punto :
   a coordenada x de punto3 asignar -3 :
   a coordenada y de punto3 asignar -2 :
-  Colorear punto3 de Gris :
+  Colorear fondo de punto3 de Gris :
   Dibujar punto3 :
   
   Definir punto4 como Punto :
   a coordenada x de punto4 asignar 3 :
   a coordenada y de punto4 asignar -3.5 :
-  Colorear punto4 de verde :
+  Colorear fondo de punto4 de verde :
   Dibujar punto4 :
 FINALIZAR
-
-
-
-
-
 
