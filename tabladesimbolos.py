@@ -542,8 +542,8 @@ def simbolos(data, lineas):
     simbolos[i].append(i)
 
   os.system('rm .erroresSemanticos.cg')
-  semantic(keys, identificadores[6], identificadores[7])
-  e=i=0
+  e = semantic(identificadores[6], identificadores[7])
+  i=0
   f = open('.erroresSemanticos.cg', 'a')
   for key in keys.keys():
     simbolos[i].append(key)
@@ -821,7 +821,6 @@ def tabladibujar(identificadores):
     for j in range(len(color1)):
         if color1[j][0]==tabladibujar[i][0]:
           if color1[j][2]>min and color1[j][2]<tabladibujar[i][7]:
-            print color1[j][1]
             tabladibujar[i][5]=color1[j][1]
             min=tabladibujar[i][7]
   min=0
@@ -860,12 +859,12 @@ def preferencias(self):
       
     return atributos
 
-def semantic(identificadores, idem, definir):
-    identificadores = identificadores
+def semantic(idem, definir):
     idem = idem
     definir = definir
     declarado={}
     id=' '
+    e=0
     idem = idem.splitlines()
     definir = definir.splitlines()
     t=[]
@@ -895,25 +894,52 @@ def semantic(identificadores, idem, definir):
         if t[a][2]==t[b][2]:
           d[str(t[a][2])] = str(t[b][0])
 
-    f = open('.erroresSemanticos.cg', 'a')
-    for key in d.keys():
-      f.write("El identificador "+str(key)+", fue declarado mas de una vez"+"\n")
-    f.close()
-
+    A=[]
+    j=0
     for a in idem:
       palabras = a.split(' ')
-      n=0
+      r=p=q=n=0
+      id=atri=' '
       for b in palabras:
+        if re.findall('[0-9]*', b) and p==0:
+          n=b
+          p=1
+        if re.findall('(Coordenada)|(vertice)|(radio)|(centro)|(extremo)|(semiEje)|(origen)|(altura)', b) and q==0:
+          atri=b
         if re.findall('[a-z]+[\d]+', b):
           id = b
-      for key in identificadores.keys():
-        if key==id:
-          n=n+1
-      declarado[id]=n
+        if re.findall('de', b):
+          q=1
+      for c in t:
+        if c[2]==id and c[0]<n:
+          r=r+1
+        elif c[1]=='Punto' and atri=='vertice':
+          print "Por aquí pase!!"
+          A.append([])
+          A[j].append(j)
+          A[j].append(id)
+          A[j].append(n)
+          j += 1
+      declarado[id]=r
 
     for key in declarado.keys():
-      l=0
       if declarado[key] == 0:
         f = open('.erroresSemanticos.cg', 'a')
         f.write('El identificador '+str(key)+', no esta declarado.'+'\n')
         f.close()
+        e=1
+
+    for key in d.keys():
+      f = open('.erroresSemanticos.cg', 'a')
+      f.write("El identificador "+str(key)+", fue declarado mas de una vez"+"\n")
+      f.close()
+      e=1
+
+
+    for k in A:
+      f = open('.erroresSemanticos.cg', 'a')
+      f.write('El identificador '+str(k[1])+', se le asignó un atributo que no corresponde a su tipo'+', en la linea '+str(k[2])+'\n')
+      f.close()
+      e=1
+
+    return e
