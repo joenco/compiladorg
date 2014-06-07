@@ -60,6 +60,8 @@ def dibujar(simbolos):
   """
   for a in simbolos[1]:
     tip = tipo(a[0],simbolos)
+    if tip == "Punto" :
+      punto(simbolos,a[0],a[7])
     if tip=="Triangulo":
       triangulo(simbolos,a[0],a[7])
     elif tip=="Cuadrilatero":
@@ -100,15 +102,22 @@ def plano2d():
     turtle.forward(264) 
   
 #Plantilla punto
-def punto(x,y,tx,ty,color):
-  x = x
-  y = y
+#def punto(x,y,tx,ty,color):
+def punto(simbolos,identificador,linea):
+  x = obtener_x(identificador,simbolos)
+  y = obtener_y(identificador,simbolos)  
+
+  tx = obtener_tx(identificador, simbolos,linea)
+  ty = obtener_ty(identificador, simbolos,linea)
+  relleno = obtener_color(obtener_relleno(identificador,simbolos,linea))
+
   x = x*44 + tx*44
   y = y*44 + ty*44
+
   turtle.penup() #levantar lapiz
   turtle.setposition(x,y) #ir a posicion
   turtle.pendown() #bajar lapiz
-  turtle.dot(20,color) #dibujar punto
+  turtle.dot(20,relleno) #dibujar punto
 
 #Plantilla recta
 def recta(x1, y1, x2, y2, rotar, escalar, tx, ty, color):
