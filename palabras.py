@@ -3,7 +3,7 @@
 import tabladesimbolos as funcion
 
 palabras = ' '
-archivo = ['ejemplos/triangulo.CG']
+archivo = ['ejemplos/punto1.CG']
 tipo=' '
 for texto in archivo:
     f = open(texto, 'r')
@@ -23,7 +23,7 @@ print "Tabla 1"
 for i in h[0]:
   print i
 
-#print "Tabla 2"
-#for i in h[1]:
-  #print i
+print "Tabla 2"
+for i in h[1]:
+  print i
 
