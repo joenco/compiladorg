@@ -476,6 +476,7 @@ def ejecute(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas, o
         vistas = vistas
         opc = opc
         n=0
+        label = gtk.Label()
 
         os.system('rm .*.cg')
         os.system('clear')
@@ -484,13 +485,13 @@ def ejecute(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas, o
         if texto:
           if n==0:
             lexico.lexico(texto)
-            if opc==2:
+            if opc==2 or opc==3:
               n=1
-            if opc==3:
-              n=2
           result(self, textbuffer1, sw1, statusbar, context_id)
           if n==1:
             parserCG.parse(texto)
+            if opc==3:
+              n=2
           result2(self, textbuffer1, sw1, statusbar, context_id)
           if n==2:
             try:
