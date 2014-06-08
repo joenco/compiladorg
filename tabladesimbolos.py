@@ -541,10 +541,10 @@ def simbolos(data, lineas):
     simbolos.append([])
     simbolos[i].append(i)
 
-  os.system('rm .erroresSemanticos.cg')
+  os.system('rm .erroresLexico.cg')
   e = semantic(keys, identificadores[6], identificadores[7])
   i=0
-  f = open('.erroresSemanticos.cg', 'a')
+  f = open('.erroresLexico.cg', 'a')
   for key in keys.keys():
     simbolos[i].append(key)
     simbolos [i].append(keys[key])
@@ -736,7 +736,7 @@ def simbolos(data, lineas):
 
   f.close()
   if e==0:
-    os.system('rm .erroresSemanticos.cg')
+    os.system('rm .erroresLexico.cg')
 
   """
     Se genera 2 tablas:
@@ -955,20 +955,20 @@ def semantic(key, idem, definir):
     for key in declarado.keys():
       if declarado[key] == 0:
         if key!=' ':
-          f = open('.erroresSemanticos.cg', 'a')
+          f = open('.erroresLexico.cg', 'a')
           f.write('El identificador '+str(key)+', no esta declarado.'+'\n')
           f.close()
           e=1
 
     for key in d.keys():
-      f = open('.erroresSemanticos.cg', 'a')
+      f = open('.erroresLexico.cg', 'a')
       f.write("El identificador "+str(key)+", fue declarado mas de una vez"+"\n")
       f.close()
       e=1
 
     for k in A:
-      f = open('.erroresSemanticos.cg', 'a')
-      f.write('El identificador '+str(k[0])+', en la linea '+str(k[2])+', se le asignó un atributo que no corresponde a su tipo')
+      f = open('.erroresLexico.cg', 'a')
+      f.write('El identificador '+str(k[0])+', en la linea '+str(k[2])+', se le asignó un atributo que no corresponde a su tipo'+'\n')
       f.close()
       e=1
 
