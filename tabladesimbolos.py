@@ -26,7 +26,7 @@ def tabla(data, lineas):
         if re.findall('((Punto)|(Recta)|(Parabola)|(Hiperbola)|(SemiRecta)|(Segmento)|(Curva)|(Circunferencia)|(Cuadrilatero)|(Triangulo)|(Cono)|(Esfera)|(Elipse)|(Cilindro))', b):
           tipo=b
           c[id]=tipo
-        if re.findall('(Coordenada)|(vertice)|(radio)|(centro)|(extremo)|(semiEje)|(origen)|(altura)|(Rotar)|(Trasladar)|(Escalar)|(Colorear)|(Dibujar)', b):
+        if re.findall('(coordenada)|(extremo)|(vertice)|(semiEje)|(potencia)|(origen)|(escala)|(centro)|(altura)|(radio)', b):
           idem += str(nlinea)+a+'\n'
         if re.findall('Definir', b):
           definir += str(nlinea)+' '+a+'\n'
@@ -542,7 +542,7 @@ def simbolos(data, lineas):
     simbolos[i].append(i)
 
   os.system('rm .erroresSemanticos.cg')
-  e = semantic(identificadores[6], identificadores[7])
+  e = semantic(keys, identificadores[6], identificadores[7])
   i=0
   f = open('.erroresSemanticos.cg', 'a')
   for key in keys.keys():
@@ -759,6 +759,7 @@ para no tener problemas si sean reconocido
 def tabladibujar(identificadores):
   identificadores = identificadores
   i=0
+  tipo = identificadores[0]
   lrotar = identificadores[1].splitlines()
   lescalar = identificadores[2].splitlines()
   lcolor = identificadores[3].splitlines()
@@ -787,6 +788,7 @@ def tabladibujar(identificadores):
     i+=1
 
   d=len(Dibujar)
+  min=0
   for i in range(d):
     min=0
     for j in range(len(Rotar)):
@@ -804,6 +806,7 @@ def tabladibujar(identificadores):
             min=tabladibujar[i][7]
   min=0
   for i in range(d):
+    min=0
     for j in range(len(TrasladarX)):
         if TrasladarX[j][0]==tabladibujar[i][0]:
           if TrasladarX[j][2]>min and TrasladarX[j][2]<tabladibujar[i][7]:
@@ -811,13 +814,16 @@ def tabladibujar(identificadores):
             min=tabladibujar[i][7]
   min=0
   for i in range(d):
+    min=0
     for j in range(len(TrasladarY)):
         if TrasladarY[j][0]==tabladibujar[i][0]:
           if TrasladarY[j][2]>min and TrasladarY[j][2]<tabladibujar[i][7]:
             tabladibujar[i][4]=TrasladarY[j][1]
             min=tabladibujar[i][7]
+
   min=0
   for i in range(d):
+    #min=0
     for j in range(len(color1)):
         if color1[j][0]==tabladibujar[i][0]:
           if color1[j][2]>min and color1[j][2]<tabladibujar[i][7]:
@@ -825,6 +831,7 @@ def tabladibujar(identificadores):
             min=tabladibujar[i][7]
   min=0
   for i in range(d):
+    #min=0
     for j in range(len(color2)):
         if color2[j][0]==tabladibujar[i][0]:
           if color2[j][2]>min and color2[j][2]<tabladibujar[i][7]:
@@ -859,7 +866,8 @@ def preferencias(self):
       
     return atributos
 
-def semantic(idem, definir):
+def semantic(key, idem, definir):
+    key = key
     idem = idem
     definir = definir
     declarado={}
@@ -897,37 +905,60 @@ def semantic(idem, definir):
     A=[]
     j=0
     for a in idem:
-      palabras = a.split(' ')
-      r=p=q=n=0
+      pala = a.split(' ')
+      r=p=q=s=n=0
       id=atri=' '
-      for b in palabras:
-        if re.findall('[0-9]*', b) and p==0:
-          n=b
-          p=1
-        if re.findall('(Coordenada)|(vertice)|(radio)|(centro)|(extremo)|(semiEje)|(origen)|(altura)', b) and q==0:
-          atri=b
-        if re.findall('[a-z]+[\d]+', b):
-          id = b
-        if re.findall('de', b):
-          q=1
-      for c in t:
-        if c[2]==id and c[0]<n:
-          r=r+1
-        elif c[1]=='Punto' and atri=='vertice':
-          print "Por aquí pase!!"
+      for b in pala:
+        if s==0:
+          if re.findall('[0-9]*', b) and p==0:
+            n=b
+            p=1
+          if re.findall('(coordenada)|(extremo)|(vertice)|(semiEje)|(potencia)|(origen)|(escala)|(centro)|(altura)|(radio)', b):
+            atri=b
+          if re.findall('[a-z]+[\d]+', b):
+            id = b
+          if re.findall('de', b):
+            q = 1
+          if re.findall('asignar', b):
+            s=1
+        for c in t:
+          if c[2]==id and c[0]<n:
+            r=r+1
+        declarado[id]=r
+      if key.has_key(id)==True:
+        if (key[id]=='Punto' and atri!='coordenada') or (key[id]=='Recta' and atri!='extremo') or (key[id]=='Triangulo' and atri!='vertice'):
           A.append([])
-          A[j].append(j)
           A[j].append(id)
+          A[j].append(atri)
           A[j].append(n)
           j += 1
-      declarado[id]=r
 
+    """
+    for a in idem:
+      pala = a.split(' ')
+      r=p=q=s=n=0
+      id=atri=' '
+      for b in pala:
+        if s==0:
+          if re.findall('[0-9]*', b) and p==0:
+            n=b
+            p=1
+          if re.findall('(coordenada)|(extremo)|(vertice)|(semiEje)|(potencia)|(origen)|(escala)|(centro)|(altura)|(radio)', b):
+            atri=b
+          if re.findall('[a-z]+[\d]+', b):
+            id = b
+          if re.findall('de', b):
+            q = 1
+          if re.findall('asignar', b):
+            s = 1
+    """
     for key in declarado.keys():
       if declarado[key] == 0:
-        f = open('.erroresSemanticos.cg', 'a')
-        f.write('El identificador '+str(key)+', no esta declarado.'+'\n')
-        f.close()
-        e=1
+        if key!=' ':
+          f = open('.erroresSemanticos.cg', 'a')
+          f.write('El identificador '+str(key)+', no esta declarado.'+'\n')
+          f.close()
+          e=1
 
     for key in d.keys():
       f = open('.erroresSemanticos.cg', 'a')
@@ -935,10 +966,9 @@ def semantic(idem, definir):
       f.close()
       e=1
 
-
     for k in A:
       f = open('.erroresSemanticos.cg', 'a')
-      f.write('El identificador '+str(k[1])+', se le asignó un atributo que no corresponde a su tipo'+', en la linea '+str(k[2])+'\n')
+      f.write('El identificador '+str(k[0])+', en la linea '+str(k[2])+', se le asignó un atributo que no corresponde a su tipo')
       f.close()
       e=1
 
