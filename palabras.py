@@ -23,23 +23,7 @@ print "Tabla 1"
 for i in h[0]:
   print i
 
-print "Tabla 2"
-
-for i in h[1]:
-  print i
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#print "Tabla 2"
+#for i in h[1]:
+  #print i
 
