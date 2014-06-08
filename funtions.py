@@ -447,7 +447,7 @@ def Text(self, textbuffer):
         texto = textbuffer.get_text(self.inicio, self.fin, True)
         for i in range(nline):
           lineas = texto.splitlines()
-        #simbolos =funtion.simbolos(texto, lineas)
+        simbolos =funtion1.simbolos(texto, lineas)
         #print simbolos
 
         return texto
@@ -486,26 +486,29 @@ def ejecute(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas, o
             lexico.lexico(texto)
             if opc==2:
               n=1
+            if opc==3:
+              n=2
           result(self, textbuffer1, sw1, statusbar, context_id)
           if n==1:
             parserCG.parse(texto)
           result2(self, textbuffer1, sw1, statusbar, context_id)
+          if n==2:
+            try:
+              f = open(".erroresLexico.cg", 'r')
+              if f:
+                string = f.read()
+                f.close()
+                textbuffer.set_text(string)
+              n_error = textbuffer.get_line_count()-1
+              if (n_error == 1):
+                label.set_text(str(n_error)+" Error")
+              else: 
+                label.set_text(str(n_error)+" Errores")
+              os.system('rm lexico.cg')
+            except IOError :
+              ejecute3(self, textbuffer, vistas)
+          statusbar.push(context_id, label.get_text())
 
-def ejecute2(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas):
-        textbuffer = textbuffer
-        textbuffer1 = textbuffer1
-        sw1 = sw1
-        statusbar = statusbar
-        context_id = context_id
-        vistas = vistas
-
-        os.system('rm .*.cg')
-        os.system('clear')
-        page = vistas.get_current_page()
-        texto = Text(self, textbuffer[page])
-        if texto:
-            parserCG.parse(texto)
-        result2(self, textbuffer1, sw1, statusbar, context_id)
 
 def ejecute3(self, textbuffer, vistas):
         textbuffer = textbuffer
@@ -557,19 +560,19 @@ def toolbar(self, sw, vistas, textbuffer):
 
         iconnew = icon(self, 'imagenes/nuevo.xpm')
         bnew = toolbar.append_item("Nuevo", "Nuevo archivo","Private", iconnew, None)
-        bnew.connect('activate', new, sw, textbuffer, vistas)
+        bnew.connect('clicked', new, sw, textbuffer, vistas)
         toolbar.append_space()
         iconopen = icon(self, 'imagenes/abrir.xpm')
         bopen = toolbar.append_item("Abrir", "Abrir archivo", "Private", iconopen, None)
-        bopen.connect('activate', openfile, sw, textbuffer, vistas)
+        bopen.connect('clicked', openfile, sw, textbuffer, vistas)
         toolbar.append_space()
         iconsave = icon(self, 'imagenes/guardar.xpm')
         bsave = toolbar.append_item("Guardar", "Guardar el archivo", "Private", iconsave, None)
-        bsave.connect('activate', savefile, sw, textbuffer, vistas, 1)
+        bsave.connect('clicked', savefile, sw, textbuffer, vistas, 1)
         toolbar.append_space()
         icondraw = icon(self, 'imagenes/dibujar.xpm')
         bdraw = toolbar.append_item("Dibujar", "Dibujar el archivo", "Private", icondraw, None)
-        bdraw.connect('activate', ejecute3, textbuffer, vistas)
+        bdraw.connect('clicked', ejecute3, textbuffer, vistas)
         toolbar.append_space()
 
         return toolbar
