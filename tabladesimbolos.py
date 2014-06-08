@@ -926,32 +926,13 @@ def semantic(key, idem, definir):
             r=r+1
         declarado[id]=r
       if key.has_key(id)==True:
-        if (key[id]=='Punto' and atri!='coordenada') or (key[id]=='Recta' and atri!='extremo') or (key[id]=='Triangulo' and atri!='vertice'):
+        if (key[id]=='Punto' and atri!='coordenada') or (key[id]=='Recta' and atri!='extremo') or (key[id]=='Triangulo' and atri!='vertice') or (key[id]=='Cuadrilatero' and atri!='vertice') or (key[id]=='Circunferencia' and atri!='centro') or (key[id]=='Circunferencia' and atri!='radio') or (key[id]=='hiperbola' and atri!='semiEje') or (key[id]=='hiperbola' and atri!='centro') or (key[id]=='Parabola' and atri!='origen') or (key[id]=='Parabola' and atri!='escala') or (key[id]=='Curva' and atri!='coordenada') or (key[id]=='Curva' and atri!='potencia') or (key[id]=='Cono' and atri!='radio') or (key[id]=='Cono' and atri!='centro') or (key[id]=='Cono' and atri!='altura') or (key[id]=='Cilindro' and atri!='altura') or (key[id]=='Cilindro' and atri!='centro') or (key[id]=='Cilindro' and atri!='radio') or (key[id]=='Elipse' and atri!='semiEje') or (key[id]=='Elipse' and atri!='centro') or (key[id]=='Esfera' and atri!='centro') or (key[id]=='Esfera' and atri!='radio'):
           A.append([])
           A[j].append(id)
           A[j].append(atri)
           A[j].append(n)
           j += 1
 
-    """
-    for a in idem:
-      pala = a.split(' ')
-      r=p=q=s=n=0
-      id=atri=' '
-      for b in pala:
-        if s==0:
-          if re.findall('[0-9]*', b) and p==0:
-            n=b
-            p=1
-          if re.findall('(coordenada)|(extremo)|(vertice)|(semiEje)|(potencia)|(origen)|(escala)|(centro)|(altura)|(radio)', b):
-            atri=b
-          if re.findall('[a-z]+[\d]+', b):
-            id = b
-          if re.findall('de', b):
-            q = 1
-          if re.findall('asignar', b):
-            s = 1
-    """
     for key in declarado.keys():
       if declarado[key] == 0:
         if key!=' ':
