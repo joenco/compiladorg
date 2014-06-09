@@ -139,7 +139,7 @@ class Interfaz:
         uimanager.add_ui_from_string(self.ui)
         menubar = uimanager.get_widget('/MenuBar')
         handlebox = gtk.HandleBox()
-        toolbar = funtion.toolbar(self, sw, vistas, textbuffer)
+        toolbar = funtion.toolbar(self, sw, swl, vistas, textbuffer, textbufferl, statusbar, context_id)
         handlebox.add(toolbar)
         handlebox.show()
 
