@@ -26,7 +26,7 @@ def tabla(data, lineas):
         if re.findall('((Punto)|(Recta)|(Parabola)|(Hiperbola)|(SemiRecta)|(Segmento)|(Curva)|(Circunferencia)|(Cuadrilatero)|(Triangulo)|(Cono)|(Esfera)|(Elipse)|(Cilindro))', b):
           tipo=b
           c[id]=tipo
-        if re.findall('(Coordenada)|(vertice)|(radio)|(centro)|(extremo)|(semiEje)|(origen)|(altura)|(Rotar)|(Trasladar)|(Escalar)|(Colorear)|(Dibujar)', b):
+        if re.findall('(coordenada)|(extremo)|(vertice)|(semiEje)|(potencia)|(origen)|(escala)|(centro)|(altura)|(radio)', b):
           idem += str(nlinea)+a+'\n'
         if re.findall('Definir', b):
           definir += str(nlinea)+' '+a+'\n'
@@ -541,10 +541,10 @@ def simbolos(data, lineas):
     simbolos.append([])
     simbolos[i].append(i)
 
-  os.system('rm .erroresSemanticos.cg')
-  semantic(keys, identificadores[6], identificadores[7])
-  e=i=0
-  f = open('.erroresSemanticos.cg', 'a')
+  os.system('rm .erroresLexico.cg')
+  e = semantic(keys, identificadores[6], identificadores[7])
+  i=0
+  f = open('.erroresLexico.cg', 'a')
   for key in keys.keys():
     simbolos[i].append(key)
     simbolos [i].append(keys[key])
@@ -736,7 +736,7 @@ def simbolos(data, lineas):
 
   f.close()
   if e==0:
-    os.system('rm .erroresSemanticos.cg')
+    os.system('rm .erroresLexico.cg')
 
   """
     Se genera 2 tablas:
@@ -759,6 +759,7 @@ para no tener problemas si sean reconocido
 def tabladibujar(identificadores):
   identificadores = identificadores
   i=0
+  tipo = identificadores[0]
   lrotar = identificadores[1].splitlines()
   lescalar = identificadores[2].splitlines()
   lcolor = identificadores[3].splitlines()
@@ -787,6 +788,7 @@ def tabladibujar(identificadores):
     i+=1
 
   d=len(Dibujar)
+  min=0
   for i in range(d):
     min=0
     for j in range(len(Rotar)):
@@ -804,6 +806,7 @@ def tabladibujar(identificadores):
             min=tabladibujar[i][7]
   min=0
   for i in range(d):
+    min=0
     for j in range(len(TrasladarX)):
         if TrasladarX[j][0]==tabladibujar[i][0]:
           if TrasladarX[j][2]>min and TrasladarX[j][2]<tabladibujar[i][7]:
@@ -811,21 +814,24 @@ def tabladibujar(identificadores):
             min=tabladibujar[i][7]
   min=0
   for i in range(d):
+    min=0
     for j in range(len(TrasladarY)):
         if TrasladarY[j][0]==tabladibujar[i][0]:
           if TrasladarY[j][2]>min and TrasladarY[j][2]<tabladibujar[i][7]:
             tabladibujar[i][4]=TrasladarY[j][1]
             min=tabladibujar[i][7]
+
   min=0
   for i in range(d):
+    #min=0
     for j in range(len(color1)):
         if color1[j][0]==tabladibujar[i][0]:
           if color1[j][2]>min and color1[j][2]<tabladibujar[i][7]:
-            print color1[j][1]
             tabladibujar[i][5]=color1[j][1]
             min=tabladibujar[i][7]
   min=0
   for i in range(d):
+    #min=0
     for j in range(len(color2)):
         if color2[j][0]==tabladibujar[i][0]:
           if color2[j][2]>min and color2[j][2]<tabladibujar[i][7]:
@@ -860,12 +866,13 @@ def preferencias(self):
       
     return atributos
 
-def semantic(identificadores, idem, definir):
-    identificadores = identificadores
+def semantic(key, idem, definir):
+    key = key
     idem = idem
     definir = definir
     declarado={}
     id=' '
+    e=0
     idem = idem.splitlines()
     definir = definir.splitlines()
     t=[]
@@ -895,25 +902,55 @@ def semantic(identificadores, idem, definir):
         if t[a][2]==t[b][2]:
           d[str(t[a][2])] = str(t[b][0])
 
-    f = open('.erroresSemanticos.cg', 'a')
-    for key in d.keys():
-      f.write("El identificador "+str(key)+", fue declarado mas de una vez"+"\n")
-    f.close()
-
+    A=[]
+    j=0
     for a in idem:
-      palabras = a.split(' ')
-      n=0
-      for b in palabras:
-        if re.findall('[a-z]+[\d]+', b):
-          id = b
-      for key in identificadores.keys():
-        if key==id:
-          n=n+1
-      declarado[id]=n
+      pala = a.split(' ')
+      r=p=q=s=n=0
+      id=atri=' '
+      for b in pala:
+        if s==0:
+          if re.findall('[0-9]*', b) and p==0:
+            n=b
+            p=1
+          if re.findall('(coordenada)|(extremo)|(vertice)|(semiEje)|(potencia)|(origen)|(escala)|(centro)|(altura)|(radio)', b):
+            atri=b
+          if re.findall('[a-z]+[\d]+', b):
+            id = b
+          if re.findall('de', b):
+            q = 1
+          if re.findall('asignar', b):
+            s=1
+        for c in t:
+          if c[2]==id and c[0]<n:
+            r=r+1
+        declarado[id]=r
+      if key.has_key(id)==True:
+        if (key[id]=='Punto' and atri!='coordenada') or (key[id]=='Recta' and atri!='extremo') or (key[id]=='Triangulo' and atri!='vertice') or (key[id]=='Cuadrilatero' and atri!='vertice') or (key[id]=='Circunferencia' and atri!='centro') or (key[id]=='Circunferencia' and atri!='radio') or (key[id]=='hiperbola' and atri!='semiEje') or (key[id]=='hiperbola' and atri!='centro') or (key[id]=='Parabola' and atri!='origen') or (key[id]=='Parabola' and atri!='escala') or (key[id]=='Curva' and atri!='coordenada') or (key[id]=='Curva' and atri!='potencia') or (key[id]=='Cono' and atri!='radio') or (key[id]=='Cono' and atri!='centro') or (key[id]=='Cono' and atri!='altura') or (key[id]=='Cilindro' and atri!='altura') or (key[id]=='Cilindro' and atri!='centro') or (key[id]=='Cilindro' and atri!='radio') or (key[id]=='Elipse' and atri!='semiEje') or (key[id]=='Elipse' and atri!='centro') or (key[id]=='Esfera' and atri!='centro') or (key[id]=='Esfera' and atri!='radio'):
+          A.append([])
+          A[j].append(id)
+          A[j].append(atri)
+          A[j].append(n)
+          j += 1
 
     for key in declarado.keys():
-      l=0
       if declarado[key] == 0:
-        f = open('.erroresSemanticos.cg', 'a')
-        f.write('El identificador '+str(key)+', no esta declarado.'+'\n')
-        f.close()
+        if key!=' ':
+          f = open('.erroresLexico.cg', 'a')
+          f.write('El identificador '+str(key)+', no esta declarado.'+'\n')
+          f.close()
+          e=1
+
+    for key in d.keys():
+      f = open('.erroresLexico.cg', 'a')
+      f.write("El identificador "+str(key)+", fue declarado mas de una vez"+"\n")
+      f.close()
+      e=1
+
+    for k in A:
+      f = open('.erroresLexico.cg', 'a')
+      f.write('El identificador '+str(k[0])+', en la linea '+str(k[2])+', se le asignó un atributo que no corresponde a su tipo'+'\n')
+      f.close()
+      e=1
+
+    return e

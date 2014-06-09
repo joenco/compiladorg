@@ -1,5 +1,5 @@
 INICIAR
-  Definir punto1 como Punto : 
+  #Definir punto1 como Punto : 
   a coordenada x de punto1 asignar 0 : 
   a coordenada y de punto1 asignar 0 : 
 
@@ -12,9 +12,14 @@ INICIAR
   a coordenada y de punto3 asignar 0 : 
 
   Definir triangulo1 como Triangulo : 
+
+  #Definir punto2 como Recta :
   a vertice A de triangulo1 asignar punto1 : 
   a vertice B de triangulo1 asignar punto2 : 
   a vertice C de triangulo1 asignar punto3 :
+
+  a coordenada x de triangulo1 asignar 3 :
+  #Definir punto1 como Punto :
 
   #Definir punto1 como Recta :
  
@@ -57,6 +62,11 @@ INICIAR
   Colorear borde de triangulo2 de Rojo : 
   Colorear fondo de triangulo2 de Verde : 
   Dibujar triangulo2 : 
+
+Colorear fondo de punto1 de Verde :
+Dibujar punto1 :
+Colorear fondo de punto1 de Azul :
+Dibujar punto1 :
 
 FINALIZAR
 

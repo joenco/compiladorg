@@ -132,7 +132,7 @@ class Interfaz:
         actiongroup.get_action('Find_line').connect('activate', funtion.findline, textbuffer, vistas)
         actiongroup.get_action('Lexico').connect('activate', funtion.ejecute, textbuffer, textbufferl, swl, statusbar, context_id, vistas, 1)
         actiongroup.get_action('Syntactic').connect('activate', funtion.ejecute, textbuffer, textbufferl, swl, statusbar, context_id, vistas, 2)
-        actiongroup.get_action('Convert').connect('activate', funtion.ejecute3, textbuffer, vistas)
+        actiongroup.get_action('Convert').connect('activate', funtion.ejecute, textbuffer, textbufferl, swl, statusbar, context_id, vistas, 3)
         actiongroup.get_action('About').connect('activate', funtion.about)
 
         uimanager.insert_action_group(actiongroup, 0)
