@@ -431,10 +431,14 @@ def result2(self, textbuffer, sw1, statusbar, context_id):
                 	string = f.read()
                		f.close()
                 	textbuffer.set_text(string)
-            	label.set_text("Errores de sintaxis")
+            	n_error = textbuffer.get_line_count()-1
+                if (n_error == 1):
+                  label.set_text(str(n_error)+" Error")
+                else: 
+                  label.set_text(str(n_error)+" Errores")
             except IOError :
                 #print "Error al abrir .erroresSintaxis.cg"
-		label.set_text("No hay errores de sintaxis")
+		label.set_text("No se encontraron errores")
 
         statusbar.push(context_id, label.get_text())
 
@@ -501,25 +505,18 @@ def ejecute(self, textbuffer, textbuffer1, sw1, statusbar, context_id, vistas, o
                 f.close()
                 textbuffer.set_text(string)
               n_error = textbuffer.get_line_count()-1
+              label = gtk.Label()
               if (n_error == 1):
                 label.set_text(str(n_error)+" Error")
               else: 
                 label.set_text(str(n_error)+" Errores")
               os.system('rm lexico.cg')
+              statusbar.push(context_id, label.get_text())
             except IOError :
-              ejecute3(self, textbuffer, vistas)
-          statusbar.push(context_id, label.get_text())
-
-
-def ejecute3(self, textbuffer, vistas):
-        textbuffer = textbuffer
-        vistas = vistas
-
-        os.system('rm .*.cg')
-        os.system('clear')
-
-        page = vistas.get_current_page()
-        texto = Draw(self, textbuffer[page])
+              page = vistas.get_current_page()
+              texto = Draw(self, textbuffer[page])
+              label = gtk.Label("No se encontraron errores")
+              statusbar.push(context_id, label.get_text())
 
 #acerca de
 def about(self):
@@ -549,10 +546,14 @@ def icon(self, icons):
 
     return icon
 
-def toolbar(self, sw, vistas, textbuffer):
+def toolbar(self, sw, swl, vistas, textbuffer, textbufferl, statusbar, context_id):
         sw = sw
+        swl = swl
         vistas = vistas
         textbuffer = textbuffer
+        textbufferl = textbufferl
+        statusbar = statusbar
+        context_id = context_id
         toolbar = gtk.Toolbar()
         toolbar.set_orientation(gtk.ORIENTATION_HORIZONTAL)
         toolbar.set_style(gtk.TOOLBAR_ICONS)
@@ -573,7 +574,7 @@ def toolbar(self, sw, vistas, textbuffer):
         toolbar.append_space()
         icondraw = icon(self, 'imagenes/dibujar.xpm')
         bdraw = toolbar.append_item("Dibujar", "Dibujar el archivo", "Private", icondraw, None)
-        bdraw.connect('clicked', ejecute3, textbuffer, vistas)
+        bdraw.connect('clicked', ejecute, textbuffer, textbufferl, swl, statusbar, context_id, vistas, 3)
         toolbar.append_space()
 
         return toolbar
@@ -601,7 +602,6 @@ def bienvenida(self):
         if response == gtk.RESPONSE_OK:
             if activar.get_active()==True:
               preferencias(self, 1)
-            print "se ha presionado aceptar"
         dialog.destroy()
 
 def preferencias(self, valor):
