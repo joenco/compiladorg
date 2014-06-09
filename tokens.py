@@ -36,7 +36,7 @@ t_Reservado = r'((como)|(en)|(de)|(hasta)|(a))[\s]'
 t_Atributo = r'((origen)|(escala)|(centro)|(altura)|(radio)|(x)|(y)|(A)|(B)|(C)|(D))[\s]'
 t_Tipo = r'((Punto)|(Recta)|(Parabola)|(Hiperbola)|(SemiRecta)|(Segmento)|(Curva)|(Circunferencia)|(Cuadrilatero)|(Triangulo)|(Cono)|(Esfera)|(Elipse)|(Cilindro))[\s]'
 t_Unidad = r'((grados)|(unidades)|(veces))[\s]'
-t_Color = r'(([rR]ojo)|([aA]zul)|([aA]marillo)|([vV]erde)|([mM]orado)|([gG]ris)|([nN]egro)|([rR]osado))[\s]'
+t_Color = r'(([rR]ojo)|([aA]zul)|([aA]marillo)|([vV]erde)|([mM]orado)|([gG]ris)|([nN]egro)|([mM]arron)|([nN]aranja)|([rR]osado))[\s]'
 t_Valor = r'[\-]?[0-9]{1,}(\.[0-9]{1,})?[\s]'
 
 def t_comentarios(t):

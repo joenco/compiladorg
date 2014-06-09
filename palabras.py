@@ -3,7 +3,7 @@
 import tabladesimbolos as funcion
 
 palabras = ' '
-archivo = ['ejemplos/triangulo.CG']
+archivo = ['ejemplos/punto.CG']
 tipo=' '
 for texto in archivo:
     f = open(texto, 'r')

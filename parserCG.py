@@ -51,6 +51,10 @@ def p_asignacion_4(p):
 	'asignacion : Reservado Atributo Reservado Identificador Asignacion Identificador Delimitador'
 	pass
 
+def p_asignacion_5(p):
+	'asignacion : Reservado Propiedad Reservado Identificador Asignacion Valor Delimitador'
+	pass
+
 def p_accion(p):
 	'''accion : rotacion 
 				  | traslacion

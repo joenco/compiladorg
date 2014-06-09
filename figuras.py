@@ -62,7 +62,11 @@ def dibujar(simbolos):
     tip = tipo(a[0],simbolos)
     if tip == "Punto" :
       punto(simbolos,a[0],a[7])
-    if tip=="Triangulo":
+    elif tip == "Recta":
+      recta(simbolos,a[0],a[7])
+    elif tip == "Curva" :
+      curva(simbolos,a[0],a[7])
+    elif tip=="Triangulo":
       triangulo(simbolos,a[0],a[7])
     elif tip=="Cuadrilatero":
       cuadrilatero(simbolos,a[0],a[7])
@@ -120,14 +124,24 @@ def punto(simbolos,identificador,linea):
   turtle.dot(20,relleno) #dibujar punto
 
 #Plantilla recta
-def recta(x1, y1, x2, y2, rotar, escalar, tx, ty, color):
-  x1 = x1
-  y1 = y1
-  x2 = x2 
-  y2 = y2
-  rotar = rotar
-  escalar = escalar
+#def recta(x1, y1, x2, y2, rotar, escalar, tx, ty, color):
+def recta(simbolos,identificador,linea):
+  p1= obtener_punto(1,identificador,simbolos)
+  p2= obtener_punto(2,identificador,simbolos)
+  
+  x1 = obtener_x(p1,simbolos)
+  y1 = obtener_y(p1,simbolos)
+  x2 = obtener_x(p2,simbolos)
+  y2 = obtener_y(p2,simbolos)  
 
+  rotar = obtener_rotar(identificador, simbolos,linea)
+  escalar = obtener_escalar(identificador, simbolos,linea)
+  relleno = obtener_color(obtener_relleno(identificador,simbolos,linea))  
+  turtle.color(relleno)
+
+  tx = obtener_tx(identificador, simbolos,linea)
+  ty = obtener_ty(identificador, simbolos,linea)
+  
   #Trasladar recta
   x1 = x1*44 + tx*44
   x2 = x2*44 + tx*44
@@ -140,21 +154,7 @@ def recta(x1, y1, x2, y2, rotar, escalar, tx, ty, color):
   punto_medio_y = (y1 + y2) / 2
   distancia = int (math.sqrt(((x2 -x1)**2)+((y2-y1)**2)))
 
-  print "x1, y1, x2, y2: ",x1,y1,x2,y2
-  print "Angulo: ",angulo 
-  print "Distancia",distancia
-
-  #Dibujar recta
-  turtle.penup()
-  turtle.setposition(x1,y1)
-  turtle.pendown()
-  turtle.color(color)
-  turtle.pensize(8)
-  turtle.setposition(x2,y2)
-
-  #Rotar recta
   if rotar != 0:
-    turtle.color("#008080")
     turtle.penup()
     turtle.setposition(punto_medio_x,punto_medio_y)
     turtle.setheading(0)
@@ -167,10 +167,7 @@ def recta(x1, y1, x2, y2, rotar, escalar, tx, ty, color):
     turtle.lt(angulo+rotar+180)
     turtle.pendown()
     turtle.forward(distancia/2)
-
-  #Escalar recta
-  if escalar != 0:
-    turtle.color("#00FFFF")
+  elif escalar != 0:
     turtle.penup()
     turtle.setposition(punto_medio_x,punto_medio_y)
     turtle.setheading(0)
@@ -183,13 +180,41 @@ def recta(x1, y1, x2, y2, rotar, escalar, tx, ty, color):
     turtle.lt(angulo+180)
     turtle.pendown()
     turtle.forward((distancia/2)*escalar)
+  else:
+    turtle.penup()
+    turtle.setposition(x1,y1)
+    turtle.pendown()
+    turtle.pensize(8)
+    turtle.setposition(x2,y2)
 
-def curva(): 
-	turtle.color("violet")
-	turtle.penup()
-	for x in range(1,44):
-  		turtle.goto(x+(44), (x+(44))**0.5)
-  		turtle.pendown()
+#def curva():
+def curva(simbolos,identificador,linea):
+  p1= obtener_punto(1,identificador,simbolos)
+  p2= obtener_punto(2,identificador,simbolos)
+  
+  x1 = int (obtener_x(p1,simbolos))
+  y1 = int (obtener_y(p1,simbolos))
+  x2 = obtener_x(p2,simbolos)
+  y2 = obtener_y(p2,simbolos)  
+
+  rotar = obtener_rotar(identificador, simbolos,linea)
+  escalar = obtener_escalar(identificador, simbolos,linea)
+  relleno = obtener_color(obtener_relleno(identificador,simbolos,linea))  
+  turtle.color(relleno)
+
+  tx = obtener_tx(identificador, simbolos,linea)
+  ty = obtener_ty(identificador, simbolos,linea)
+  potencia = obtener_potencia(identificador,simbolos)
+  
+  #Trasladar recta
+  x1 = int(x1*44 + tx*44)
+  x2 = int(x2*44 + tx*44)
+  y1 = y1*44 + ty*44
+  y2 = y2*44 + ty*44  
+  turtle.penup()
+  for x in range(x1,x2):
+  	turtle.goto(x+(44), (x+(44))**potencia)
+  	turtle.pendown()
 
 #Plantilla triangulo
 #def triangulo(simbolos,p1,p2,p3,rotar,escalar,tx,ty,color):
@@ -293,8 +318,8 @@ def triangulo(simbolos,identificador,linea):
   turtle.penup()
   turtle.setposition(x1,y1)
   turtle.pendown()
-  turtle.color(relleno)
-  turtle.fillcolor(borde)
+  turtle.color(borde)
+  turtle.fillcolor(relleno)
   turtle.begin_fill()
   turtle.pensize(8)
   turtle.setposition(x2,y2)
@@ -502,6 +527,10 @@ def obtener_color(color):
     color = "blue"
   elif color == "rojo" or color == "Rojo":
     color = "red"
+  elif color == "naranja" or color == "Naranja":
+    color = "orange"
+  elif color == "marron" or color == "Marron":
+    color = "brown"
   elif color == "amarillo" or color == "Amarillo":
     color = "yellow"
   elif color == "verde" or color == "Verde":
@@ -612,3 +641,8 @@ def obtener_rotar(identificador, simbolos,linea):
   for s in simbolos[1]:
     if ((s[0]==identificador)and(linea==s[7])):
       return float(s[1])
+
+def obtener_potencia(identificador, simbolos):
+  for s in simbolos[0]:
+    if (s[1]==identificador):
+      return float(s[5])

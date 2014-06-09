@@ -114,7 +114,7 @@ def color(lineas):
         bf=b
       if re.findall('[a-z]+[\d]+', b):
         id=b
-      if re.findall('([rR]ojo)|([aA]zul)|([aA]marillo)|([vV]erde)|([mM]orado)|([gG]ris)|([nN]egro)|([rR]osado)', b) and i==1:
+      if re.findall('([rR]ojo)|([aA]zul)|([aA]marillo)|([vV]erde)|([mM]orado)|([gG]ris)|([nN]egro)|([nN]aranja)|([mM]arron)|([rR]osado)', b) and i==1:
         color=b
         if bf == 'borde':
           c.append([])
