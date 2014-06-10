@@ -1,0 +1,157 @@
+INICIAR
+  Definir punto1 como Punto : 
+  a coordenada x de punto1 asignar -2.5 : 
+  a coordenada y de punto1 asignar 3 : 
+
+  Definir punto2 como Punto : 
+  a coordenada x de punto2 asignar 2.5 : 
+  a coordenada y de punto2 asignar 3 : 
+
+  Definir punto3 como Punto : 
+  a coordenada x de punto3 asignar 0 : 
+  a coordenada y de punto3 asignar 5 : 
+
+  Definir triangulo1 como Triangulo : 
+  a vertice A de triangulo1 asignar punto1 : 
+  a vertice B de triangulo1 asignar punto2 : 
+  a vertice C de triangulo1 asignar punto3 :
+ 
+  Colorear borde de triangulo1 de negro : 
+  Colorear fondo de triangulo1 de naranja : 
+  Dibujar triangulo1 :
+
+  Definir punto20 como Punto : 
+  a coordenada x de punto20 asignar 4 : 
+  a coordenada y de punto20 asignar 2 : 
+
+  Definir punto21 como Punto : 
+  a coordenada x de punto21 asignar 5.5 : 
+  a coordenada y de punto21 asignar 2 : 
+
+  Definir punto22 como Punto : 
+  a coordenada x de punto22 asignar 4.75 : 
+  a coordenada y de punto22 asignar 3.5 : 
+
+  Definir triangulo2 como Triangulo : 
+  a vertice A de triangulo2 asignar punto20 : 
+  a vertice B de triangulo2 asignar punto21 : 
+  a vertice C de triangulo2 asignar punto22 :
+ 
+  Colorear borde de triangulo2 de verde : 
+  Colorear fondo de triangulo2 de verde : 
+  Dibujar triangulo2 :
+
+
+  Definir punto4 como Punto : 
+  a coordenada x de punto4 asignar -2 : 
+  a coordenada y de punto4 asignar 0 : 
+
+  Definir punto5 como Punto : 
+  a coordenada x de punto5 asignar 2 : 
+  a coordenada y de punto5 asignar 0 : 
+
+  Definir punto6 como Punto : 
+  a coordenada x de punto6 asignar 2 : 
+  a coordenada y de punto6 asignar 3 : 
+
+  Definir punto7 como Punto : 
+  a coordenada x de punto7 asignar -2 : 
+  a coordenada y de punto7 asignar 3 : 
+
+  Definir cuadrilatero1 como Cuadrilatero : 
+  a vertice A de cuadrilatero1 asignar punto4 : 
+  a vertice B de cuadrilatero1 asignar punto5 : 
+  a vertice C de cuadrilatero1 asignar punto6 : 
+  a vertice D de cuadrilatero1 asignar punto7 :
+  
+  Colorear borde de cuadrilatero1 de negro :
+  Colorear fondo de cuadrilatero1 de azul :
+  Dibujar cuadrilatero1 :  
+
+  Definir punto8 como Punto : 
+  a coordenada x de punto8 asignar 0.5 : 
+  a coordenada y de punto8 asignar 0 : 
+
+  Definir punto9 como Punto : 
+  a coordenada x de punto9 asignar 1.5 : 
+  a coordenada y de punto9 asignar 0 : 
+
+  Definir punto10 como Punto : 
+  a coordenada x de punto10 asignar 1.5 : 
+  a coordenada y de punto10 asignar 2 : 
+
+  Definir punto11 como Punto : 
+  a coordenada x de punto11 asignar 0.5 : 
+  a coordenada y de punto11 asignar 2 : 
+
+  Definir cuadrilatero2 como Cuadrilatero : 
+  a vertice A de cuadrilatero2 asignar punto8 : 
+  a vertice B de cuadrilatero2 asignar punto9 : 
+  a vertice C de cuadrilatero2 asignar punto10 : 
+  a vertice D de cuadrilatero2 asignar punto11 :
+  
+  Colorear borde de cuadrilatero2 de negro :
+  Colorear fondo de cuadrilatero2 de gris :
+  Dibujar cuadrilatero2 :  
+
+ Definir punto16 como Punto : 
+  a coordenada x de punto16 asignar 4.5 : 
+  a coordenada y de punto16 asignar 0 : 
+
+  Definir punto17 como Punto : 
+  a coordenada x de punto17 asignar 5 : 
+  a coordenada y de punto17 asignar 0 : 
+	
+  Definir punto18 como Punto : 
+  a coordenada x de punto18 asignar 5 : 
+  a coordenada y de punto18 asignar 2 : 
+
+  Definir punto19 como Punto : 
+  a coordenada x de punto19 asignar 4.5 : 
+  a coordenada y de punto19 asignar 2 : 
+
+  Definir cuadrilatero4 como Cuadrilatero : 
+  a vertice A de cuadrilatero4 asignar punto16 : 
+  a vertice B de cuadrilatero4 asignar punto17 : 
+  a vertice C de cuadrilatero4 asignar punto18 : 
+  a vertice D de cuadrilatero4 asignar punto19 :
+  
+  Colorear borde de cuadrilatero4 de Marron :
+  Colorear fondo de cuadrilatero4 de Marron :
+  Dibujar cuadrilatero4 :  
+
+
+  Definir punto12 como Punto : 
+  a coordenada x de punto12 asignar -1.5 : 
+  a coordenada y de punto12 asignar 1 : 
+
+  Definir punto13 como Punto : 
+  a coordenada x de punto13 asignar -0.5 : 
+  a coordenada y de punto13 asignar 1 : 
+
+  Definir punto14 como Punto : 
+  a coordenada x de punto14 asignar  -0.5 : 
+  a coordenada y de punto14 asignar 2 : 
+
+  Definir punto15 como Punto : 
+  a coordenada x de punto15 asignar -1.5 : 
+  a coordenada y de punto15 asignar 2 : 
+
+  Definir cuadrilatero3 como Cuadrilatero : 
+  a vertice A de cuadrilatero3 asignar punto12 : 
+  a vertice B de cuadrilatero3 asignar punto13 : 
+  a vertice C de cuadrilatero3 asignar punto14 : 
+  a vertice D de cuadrilatero3 asignar punto15 :
+  
+  Colorear borde de cuadrilatero3 de negro :
+  Colorear fondo de cuadrilatero3 de gris :
+  Dibujar cuadrilatero3 :
+ 
+FINALIZAR
+
+
+
+
+
+
+
