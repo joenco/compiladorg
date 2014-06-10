@@ -70,6 +70,8 @@ def dibujar(simbolos):
       triangulo(simbolos,a[0],a[7])
     elif tip=="Cuadrilatero":
       cuadrilatero(simbolos,a[0],a[7])
+    elif tip=="Circunferencia":
+      circunferencia(simbolos,a[0],a[7])
     
   turtle.exitonclick()
 
@@ -461,15 +463,26 @@ def cuadrilatero(simbolos,identificador,linea):
   turtle.setposition(x1,y1)
   turtle.end_fill()
   
-def circunferencia(simbolos,radio,centro,escalar,tx,ty,color):
-  turtle.color(color) 
+#def circunferencia(simbolos,radio,centro,escalar,tx,ty,color):
+def circunferencia(simbolos,identificador,linea):
+  p1= obtener_punto(2,identificador,simbolos)
+  radio = obtener_radio(identificador,simbolos)
+    
+  x1 = obtener_x(p1,simbolos)
+  y1 = obtener_y(p1,simbolos)
+  
+  escalar = obtener_escalar(identificador, simbolos,linea)
+  relleno = obtener_color(obtener_relleno(identificador,simbolos,linea))
+  borde = obtener_color(obtener_borde(identificador,simbolos,linea))  
+  turtle.color(borde)
+
+  tx = obtener_tx(identificador, simbolos,linea)
+  ty = obtener_ty(identificador, simbolos,linea)
+ 
   turtle.pensize(8)
   turtle.penup()
 
-  #Centro
-  x1 = obtener_x(centro,simbolos)*44
-  y1 = obtener_y(centro,simbolos)*44
-
+  
   #Trasladar circunferencia
   x1 = x1 + tx*44
   y1 = y1 + ty*44
@@ -482,8 +495,7 @@ def circunferencia(simbolos,radio,centro,escalar,tx,ty,color):
   turtle.penup()
   turtle.setposition(x1, y1-(radio*44*escalar))
   turtle.pendown()
-  turtle.color("#00FFFF")
-  turtle.fillcolor(color)
+  turtle.fillcolor(relleno)
   turtle.begin_fill()
   turtle.circle(radio*44*escalar)
   turtle.end_fill()
@@ -646,3 +658,8 @@ def obtener_potencia(identificador, simbolos):
   for s in simbolos[0]:
     if (s[1]==identificador):
       return float(s[5])
+
+def obtener_radio(identificador, simbolos):
+  for s in simbolos[0]:
+    if (s[1]==identificador):
+      return float(s[3])
