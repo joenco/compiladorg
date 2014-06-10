@@ -1,0 +1,51 @@
+INICIAR
+
+ Definir punto1 como Punto :
+ a coordenada x de punto1 asignar 2 :
+ a coordenada y de punto1 asignar 2 :
+ 
+ Definir punto2 como Punto :
+ a coordenada x de punto2 asignar 2 :
+ a coordenada y de punto2 asignar 3.5 :
+ 
+ Definir punto3 como Punto :
+ a coordenada x de punto3 asignar 11 :
+ a coordenada y de punto3 asignar 3.5 :
+ 
+ Definir punto4 como Punto :
+ a coordenada x de punto4 asignar 11 :
+ a coordenada y de punto4 asignar 2 :
+ 
+ Definir rectangulo1 como Cuadrilatero :
+ a vertice A de rectangulo1 asignar punto1 :
+ a vertice B de rectangulo1 asignar punto2 :
+ a vertice C de rectangulo1 asignar punto3 :
+ a vertice D de rectangulo1 asignar punto4 :
+ 
+ Definir punto8 como Punto :
+ a coordenada x de punto8 asignar 6 :
+ a coordenada y de punto8 asignar 2 :
+
+ Definir punto5 como Punto :
+ a coordenada x de punto5 asignar 6 :
+ a coordenada y de punto5 asignar 6 :
+ 
+ Definir punto6 como Punto :
+ a coordenada x de punto6 asignar 8.5 :
+ a coordenada y de punto6 asignar 6 :
+ 
+ Definir punto7 como Punto :
+ a coordenada x de punto7 asignar 8.5 :
+ a coordenada y de punto7 asignar 2 :
+ 
+ Definir rectangulo2 como Cuadrilatero :
+ a vertice A de rectangulo2 asignar punto8 :
+ a vertice B de rectangulo2 asignar punto5 :
+ a vertice C de rectangulo2 asignar punto6 :
+ a vertice D de rectangulo2 asignar punto7 :
+ 
+ Dibujar rectangulo1 :
+ Dibujar rectangulo2 :
+
+FINALIZAR
+
