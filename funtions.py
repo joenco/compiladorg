@@ -114,6 +114,12 @@ gtk.STOCK_OPEN, gtk.RESPONSE_OK))
             openfiles(self, sw[n+1], textbuffer[n+1], vistas, dialog.get_filename())
             textbuffer[n+1].set_modified(False)
             nfiles(self, dialog.get_filename(), 1)
+            narchivo = funtion1.nombre(self, dialog.get_filename())
+            print "por aquí pase"
+            label = gtk.Label(narchivo)
+            label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('blue'))
+            vistas.remove_page(n+1)
+            vistas.insert_page(sw[n+1], label, n+1)
           else:
             infiles=open(dialog.get_filename(),'r')
             if infiles:
