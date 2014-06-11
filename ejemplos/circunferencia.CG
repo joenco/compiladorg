@@ -1,7 +1,7 @@
 INICIAR
   Definir punto1 como Punto : 
-  a coordenada x de punto1 asignar 1 : 
-  a coordenada y de punto1 asignar 1 : 
+  a coordenada x de punto1 asignar 5 : 
+  a coordenada y de punto1 asignar -3 : 
 
   Definir circunferencia1 como Circunferencia : 
   a centro de circunferencia1 asignar punto1 : 
@@ -9,11 +9,13 @@ INICIAR
  
   Colorear fondo  de circunferencia1 de Amarillo :
   Colorear borde de circunferencia1 de Azul : 
-  Trasladar en x circunferencia1 hasta 1 unidades : 
-  Trasladar en y circunferencia1 hasta 2 unidades :
-  Escalar circunferencia1 hasta 3 veces :
+  #Trasladar en x circunferencia1 hasta 1 unidades : 
+  #Trasladar en y circunferencia1 hasta 2 unidades :
+  #Escalar circunferencia1 hasta 3 veces :
   Dibujar circunferencia1 : 
 FINALIZAR
+
+
 
 
 

@@ -467,18 +467,17 @@ def cuadrilatero(simbolos,identificador,linea):
 def circunferencia(simbolos,identificador,linea):
   p1= obtener_punto(2,identificador,simbolos)
   radio = obtener_radio(identificador,simbolos)
-    
   x1 = obtener_x(p1,simbolos)
   y1 = obtener_y(p1,simbolos)
-  
+ 
   escalar = obtener_escalar(identificador, simbolos,linea)
   relleno = obtener_color(obtener_relleno(identificador,simbolos,linea))
   borde = obtener_color(obtener_borde(identificador,simbolos,linea))  
   turtle.color(borde)
-
+  if escalar == 0:
+    escalar=1
   tx = obtener_tx(identificador, simbolos,linea)
   ty = obtener_ty(identificador, simbolos,linea)
- 
   turtle.pensize(8)
   turtle.penup()
 
@@ -487,13 +486,14 @@ def circunferencia(simbolos,identificador,linea):
   x1 = x1 + tx*44
   y1 = y1 + ty*44
 
-  turtle.setposition(x1, y1-(radio*44))
-  turtle.pendown()
-  turtle.circle(radio*44)
+  #turtle.setposition(x1, y1-(radio*44))
+  #turtle.pendown()
+  #turtle.circle(radio*44)
 
   #Escalar circunferencia
   turtle.penup()
-  turtle.setposition(x1, y1-(radio*44*escalar))
+  #turtle.setposition(x1, y1-(radio*44*escalar))
+  turtle.setposition(x1*44, (y1*44)-(radio*44*escalar))
   turtle.pendown()
   turtle.fillcolor(relleno)
   turtle.begin_fill()
