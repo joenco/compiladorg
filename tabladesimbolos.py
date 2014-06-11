@@ -786,8 +786,12 @@ def tabladibujar(identificadores):
     tabladibujar[i].append(0) #color de fondo
     tabladibujar[i].append(k[1]) #posición
     i+=1
-
   d=len(Dibujar)
+  tam={}
+  for i in range(d-1):
+    tam[tabladibujar[i][0]]='1'
+
+  print len(tam)
   min=0
   for i in range(d):
     min=0
@@ -820,10 +824,10 @@ def tabladibujar(identificadores):
           if TrasladarY[j][2]>min and TrasladarY[j][2]<tabladibujar[i][7]:
             tabladibujar[i][4]=TrasladarY[j][1]
             min=tabladibujar[i][7]
-
   min=0
   for i in range(d):
-    #min=0
+    if len(tam)>3:
+      min=0
     for j in range(len(color1)):
         if color1[j][0]==tabladibujar[i][0]:
           if color1[j][2]>min and color1[j][2]<tabladibujar[i][7]:
@@ -831,7 +835,8 @@ def tabladibujar(identificadores):
             min=tabladibujar[i][7]
   min=0
   for i in range(d):
-    #min=0
+    if len(tam)>3:
+      min=0
     for j in range(len(color2)):
         if color2[j][0]==tabladibujar[i][0]:
           if color2[j][2]>min and color2[j][2]<tabladibujar[i][7]:
