@@ -483,8 +483,8 @@ def circunferencia(simbolos,identificador,linea):
 
   
   #Trasladar circunferencia
-  x1 = x1 + tx*44
-  y1 = y1 + ty*44
+  x1 = x1 + tx
+  y1 = y1 + ty
 
   #turtle.setposition(x1, y1-(radio*44))
   #turtle.pendown()
