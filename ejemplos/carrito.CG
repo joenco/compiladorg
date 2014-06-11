@@ -1,20 +1,20 @@
 INICIAR
 
  Definir punto1 como Punto :
- a coordenada x de punto1 asignar 2 :
- a coordenada y de punto1 asignar 2 :
+ a coordenada x de punto1 asignar -5 :
+ a coordenada y de punto1 asignar 0 :
  
  Definir punto2 como Punto :
- a coordenada x de punto2 asignar 2 :
- a coordenada y de punto2 asignar 3.5 :
+ a coordenada x de punto2 asignar -5 :
+ a coordenada y de punto2 asignar 2 :
  
  Definir punto3 como Punto :
- a coordenada x de punto3 asignar 11 :
- a coordenada y de punto3 asignar 3.5 :
+ a coordenada x de punto3 asignar 6 :
+ a coordenada y de punto3 asignar 2 :
  
  Definir punto4 como Punto :
- a coordenada x de punto4 asignar 11 :
- a coordenada y de punto4 asignar 2 :
+ a coordenada x de punto4 asignar 6 :
+ a coordenada y de punto4 asignar 0 :
  
  Definir rectangulo1 como Cuadrilatero :
  a vertice A de rectangulo1 asignar punto1 :
@@ -23,29 +23,64 @@ INICIAR
  a vertice D de rectangulo1 asignar punto4 :
  
  Definir punto8 como Punto :
- a coordenada x de punto8 asignar 6 :
- a coordenada y de punto8 asignar 2 :
+ a coordenada x de punto8 asignar 0 :
+ a coordenada y de punto8 asignar 0 :
 
  Definir punto5 como Punto :
- a coordenada x de punto5 asignar 6 :
- a coordenada y de punto5 asignar 6 :
+ a coordenada x de punto5 asignar 0 :
+ a coordenada y de punto5 asignar 3.5 :
  
  Definir punto6 como Punto :
- a coordenada x de punto6 asignar 8.5 :
- a coordenada y de punto6 asignar 6 :
+ a coordenada x de punto6 asignar 2.5 :
+ a coordenada y de punto6 asignar 3.5 :
  
  Definir punto7 como Punto :
- a coordenada x de punto7 asignar 8.5 :
- a coordenada y de punto7 asignar 2 :
+ a coordenada x de punto7 asignar 2.5 :
+ a coordenada y de punto7 asignar 0 :
  
  Definir rectangulo2 como Cuadrilatero :
  a vertice A de rectangulo2 asignar punto8 :
  a vertice B de rectangulo2 asignar punto5 :
  a vertice C de rectangulo2 asignar punto6 :
  a vertice D de rectangulo2 asignar punto7 :
- 
+
+ Definir punto9 como Punto :
+ a coordenada x de punto9 asignar 2.5 :
+ a coordenada y de punto9 asignar 2 :
+
+ Definir triangulo1 como Triangulo :
+ a vertice A de triangulo1 asignar punto9 :
+ a vertice B de triangulo1 asignar punto6 :
+ a vertice C de triangulo1 asignar punto3 :
+
+ Definir punto10 como Punto :
+ a coordenada x de punto10 asignar -2.5 :
+ a coordenada y de punto10 asignar 1 :
+
+ Definir cir1 como Circunferencia :
+ a radio de cir1 asignar 0.5 :
+ a centro de cir1 asignar punto10 :
+
+ Definir punto11 como Punto :
+ a coordenada x de punto11 asignar 3.5 :
+ a coordenada y de punto11 asignar 1 :
+
+ Definir cir2 como Circunferencia :
+ a radio de cir2 asignar 0.5 :
+ a centro de cir2 asignar punto11 :
+
+ Colorear borde de rectangulo1 de Amarillo :
+ Colorear fondo de rectangulo1 de Rojo :
+ Colorear borde de rectangulo2 de Amarillo :
+ Colorear fondo de rectangulo2 de Rojo :
+ Colorear borde de triangulo1 de Amarillo :
+ Colorear fondo de triangulo1 de Rojo :
+
  Dibujar rectangulo1 :
+ Dibujar cir1 :
  Dibujar rectangulo2 :
+ Dibujar cir2 :
+ Dibujar triangulo1 :
 
 FINALIZAR
 
