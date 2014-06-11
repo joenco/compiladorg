@@ -54,33 +54,48 @@ INICIAR
  a vertice C de triangulo1 asignar punto3 :
 
  Definir punto10 como Punto :
- a coordenada x de punto10 asignar -2.5 :
- a coordenada y de punto10 asignar 1 :
+ a coordenada x de punto10 asignar -3.5 :
+ a coordenada y de punto10 asignar 0 :
 
  Definir cir1 como Circunferencia :
- a radio de cir1 asignar 0.5 :
+ a radio de cir1 asignar 1 :
  a centro de cir1 asignar punto10 :
 
  Definir punto11 como Punto :
- a coordenada x de punto11 asignar 3.5 :
- a coordenada y de punto11 asignar 1 :
+ a coordenada x de punto11 asignar 4.5 :
+ a coordenada y de punto11 asignar 0 :
 
  Definir cir2 como Circunferencia :
- a radio de cir2 asignar 0.5 :
+ a radio de cir2 asignar 1 :
  a centro de cir2 asignar punto11 :
 
+ Definir cir3 como Circunferencia :
+ a radio de cir3 asignar 0.7 :
+ a centro de cir3 asignar punto10 :
+
+ Definir cir4 como Circunferencia :
+ a radio de cir4 asignar 0.7 :
+ a centro de cir4 asignar punto10 :
  Colorear borde de rectangulo1 de Amarillo :
  Colorear fondo de rectangulo1 de Rojo :
  Colorear borde de rectangulo2 de Amarillo :
  Colorear fondo de rectangulo2 de Rojo :
  Colorear borde de triangulo1 de Amarillo :
  Colorear fondo de triangulo1 de Rojo :
+ Colorear borde de cir3 de Rojo :
+ Colorear fondo de cir3 de Gris :
+ Colorear borde de cir4 de Rojo :
+ Colorear fondo de cir4 de Gris :
 
  Dibujar rectangulo1 :
  Dibujar cir1 :
+ Dibujar cir3 :
  Dibujar rectangulo2 :
  Dibujar cir2 :
+ Dibujar cir4 :
  Dibujar triangulo1 :
 
 FINALIZAR
+
+
 
