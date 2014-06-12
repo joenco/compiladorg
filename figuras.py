@@ -72,7 +72,12 @@ def dibujar(simbolos):
       cuadrilatero(simbolos,a[0],a[7])
     elif tip=="Circunferencia":
       circunferencia(simbolos,a[0],a[7])
-    
+    elif tip=='Parabola':
+      parabola(simbolos,a[0],a[7])
+    elif tip=='Elipse':
+      elipse(simbolos,a[0],a[7])
+    elif tip=='Hiperbola':
+      hiperbola(simbolos,a[0],a[7])
   turtle.exitonclick()
 
 #Dibujar plano 2D
@@ -501,32 +506,53 @@ def circunferencia(simbolos,identificador,linea):
   turtle.end_fill()
 
 #Parabola
-def parabola(simbolos,centro):
+#def parabola(simbolos,centro):
+def parabola(simbolos,identificador,linea):
+  centro = obtener_punto(2,identificador,simbolos)
+  
   x1 = obtener_x(centro,simbolos)*44
   y1 = obtener_y(centro,simbolos)*44
-  print "x1=",x1
-  print "y1=",y1  
-  turtle.color("violet")
+
+  borde = obtener_color(obtener_borde(identificador,simbolos,linea))  
+
+  turtle.color(borde)
   turtle.penup()
   for x in range(-44,44):
     turtle.goto(x+(x1), 0.1*(x)**2+(y1))
     turtle.pendown()
 
 #Elipse
-def elipse():
-  turtle.color("gray")
+#def elipse():
+def elipse(simbolos,identificador,linea):
+  centro = obtener_punto(3,identificador,simbolos)
+  
+  x1 = obtener_x(centro,simbolos)
+  y1 = obtener_y(centro,simbolos)
+
+  borde = obtener_color(obtener_borde(identificador,simbolos,linea))
+  relleno = obtener_color(obtener_relleno(identificador,simbolos,linea))
+  turtle.color(borde)
   turtle.penup()
-  turtle.goto(math.degrees(0.5*math.cos(0))+(44*4), math.degrees(0.8*math.sin(0))-(44*4))
+  turtle.goto(math.degrees(0.5*math.cos(0))+(44*x1), math.degrees(0.8*math.sin(0))+(44*y1))
   turtle.pendown()
-  turtle.fillcolor("red")
+  turtle.fillcolor(relleno)
   turtle.begin_fill()  
   for x in range(1,44):
-    turtle.goto(math.degrees(0.5*math.cos(x))+(44*4), math.degrees(0.8*math.sin(x))-(44*4))
+    turtle.goto(math.degrees(0.5*math.cos(x))+(44*x1), math.degrees(0.8*math.sin(x))+(44*y1))
   turtle.end_fill()  
 
 #Hiperbola
-def hiperbola():
-  turtle.color("pink")
+#def hiperbola():
+def hiperbola(simbolos,identificador,linea):
+  centro = obtener_punto(3,identificador,simbolos)
+  
+  x1 = obtener_x(centro,simbolos)
+  y1 = obtener_y(centro,simbolos)
+
+  borde = obtener_color(obtener_borde(identificador,simbolos,linea))
+  relleno = obtener_color(obtener_relleno(identificador,simbolos,linea))
+  
+  turtle.color(borde)
   turtle.penup()
   for x in range(-2,3):
     turtle.goto(math.degrees(0.5*math.cosh(x)), math.degrees(0.8*math.sinh(x)))

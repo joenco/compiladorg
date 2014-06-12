@@ -1,5 +1,5 @@
 INICIAR
-  #Definir punto1 como Punto : 
+  Definir punto1 como Punto : 
   a coordenada x de punto1 asignar 0 : 
   a coordenada y de punto1 asignar 0 : 
 
@@ -18,7 +18,7 @@ INICIAR
   a vertice B de triangulo1 asignar punto2 : 
   a vertice C de triangulo1 asignar punto3 :
 
-  a coordenada x de triangulo1 asignar 3 :
+ # a coordenada x de triangulo1 asignar 3 :
   #Definir punto1 como Punto :
 
   #Definir punto1 como Recta :
@@ -69,5 +69,6 @@ Colorear fondo de punto1 de Azul :
 Dibujar punto1 :
 
 FINALIZAR
+
 
 
