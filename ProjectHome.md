@@ -1,0 +1,1 @@
+Compilador geometrico hecho en python y gtk
